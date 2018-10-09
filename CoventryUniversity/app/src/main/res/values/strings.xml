@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Coventry University</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="twitter_key">wKryyRLBbfLsZg3a1NrPUiP2f</string>
+    <string name="twitter_secret">GmzxZSbQ9oMOnIsDs8l6AfVfL5BzXEqCeYPIzhqqOZ72tpBwqV</string>
+</resources>
