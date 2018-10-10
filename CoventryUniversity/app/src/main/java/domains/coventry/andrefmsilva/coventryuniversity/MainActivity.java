@@ -51,7 +51,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // When the previous state should maintain the same (the selected option from the drawer)
         // The same when opening several apps and the device tries to free memory but after the user  wants to get back to the app
         if(savedInstanceState == null) {
+            // Set toolbar title and subtitle first
+            toolbar.setTitle(R.string.nav_dashboard);
+            toolbar.setSubtitle(R.string.app_name);
+
+            // Load the given fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+
+            // Show selected item to user
             navigationView.setCheckedItem(R.id.nav_dashboard);
         }
 
@@ -72,11 +79,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // With clicked menu item as input, returns true for handled click and false otherwise
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
-        // Fiind wich button was pressed
+        // Set toolbar title and subtitle
+        // Always set subtitle because when user chooses news the subtutle changes, all the other is the same
+        toolbar.setTitle(menuItem.getTitle());
+        toolbar.setSubtitle(R.string.app_name);
+
+
+        // Fiind wich button was pressed and load the respective fragment
         switch(menuItem.getItemId()){
             case R.id.nav_news:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
+
+                // Update subtitle info
+                toolbar.setSubtitle(menuItem.getTitle());
                 break;
             case R.id.nav_dashboard:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();

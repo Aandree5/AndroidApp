@@ -3,39 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_news"
-            android:title="News" />
+            android:title="@string/nav_news" />
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard"
-            android:title="Dashboard" />
+            android:title="@string/nav_dashboard" />
         <item
             android:id="@+id/nav_timetable"
             android:icon="@drawable/ic_timetable"
-            android:title="Timetable" />
+            android:title="@string/nav_timetable" />
         <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_library"
-            android:title="Library" />
+            android:title="@string/nav_library" />
 
     </group>
 
-    <item android:title="Settings">
+    <item android:title="">
         <menu>
 
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_settings"
-                android:title="Settings" />
+                android:title="@string/nav_settings" />
 
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_about"
-                android:title="About" />
+                android:title="@string/nav_about" />
 
         </menu>
     </item>

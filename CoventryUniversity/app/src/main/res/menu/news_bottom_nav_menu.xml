@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/news_bottom_nav_moodle"
+            android:icon="@drawable/ic_moodle"
+            android:title="@string/news_bottom_nav_moodle"/>
+        <item
+            android:id="@+id/news_bottom_nav_twitter"
+            android:icon="@drawable/ic_twitter"
+            android:title="@string/news_bottom_nav_twitter"/>
+        <item
+            android:id="@+id/news_bottom_nav_faculty"
+            android:icon="@drawable/ic_faculty"
+            android:title="@string/news_bottom_nav_faculty"/>
+
+    </group>
+
+
+</menu>
