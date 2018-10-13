@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -57,6 +58,9 @@ public class NewsFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     ActionBar toolbar;
+    BottomNavigationView bottomNav;
+
+    int bottomNavSelectdID;
 
     @Nullable
     @Override
@@ -66,7 +70,7 @@ public class NewsFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.news_recyclerview);
         progressBar = view.findViewById(R.id.news_progressbar);
-        BottomNavigationView bottomNav = view.findViewById(R.id.news_bottom_nav);
+        bottomNav = view.findViewById(R.id.news_bottom_nav);
 
         // As getSupportActionBar can be null a check is made first
         toolbar = ((AppCompatActivity) Objects.requireNonNull(getActivity(), "Activity must not be null.")).getSupportActionBar();
@@ -79,8 +83,9 @@ public class NewsFragment extends Fragment {
         // Lambda function
         bottomNav.setOnNavigationItemSelectedListener(menuItem -> {
             recyclerView.removeAllViews();
+            bottomNavSelectdID = menuItem.getItemId();
 
-            switch (menuItem.getItemId()) {
+            switch (bottomNavSelectdID) {
                 case R.id.news_bottom_nav_moodle:
                     toolbar.setTitle(R.string.news_bottom_nav_moodle);
                     showMoodleNews();
@@ -108,14 +113,15 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
-    //TODO: Finish restoring state
+
+    //TODO: Improve restoring state (TEMP solution, now saving choosen bottom navigation id and selecting it on restore state to trigger a refresh)
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
-            //Restore the fragment's state here
-
+            bottomNavSelectdID = savedInstanceState.getInt("bottomNavSelectdID");
+            bottomNav.setSelectedItemId(bottomNavSelectdID);
         }
     }
 
@@ -123,7 +129,7 @@ public class NewsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        //Save the fragment's state here
+        outState.putInt("bottomNavSelectdID", bottomNavSelectdID);
     }
 
 
