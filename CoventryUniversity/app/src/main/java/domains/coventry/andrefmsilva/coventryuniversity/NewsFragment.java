@@ -3,6 +3,7 @@ package domains.coventry.andrefmsilva.coventryuniversity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.Timeline;
 import com.twitter.sdk.android.tweetui.TweetTimelineRecyclerViewAdapter;
@@ -37,7 +37,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -108,18 +108,19 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
+    //TODO: Finish restoring state
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         if (savedInstanceState != null) {
             //Restore the fragment's state here
-            
+
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's state here
@@ -132,7 +133,18 @@ public class NewsFragment extends Fragment {
 
         RSSAdapter adapter = new RSSAdapter();
 
-        progressBar.setVisibility(View.INVISIBLE);
+        // On first data change (the recycler view has data) hide the loading progress bar and unregister observer
+        // because no more changes need to be detected
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+
+                progressBar.setVisibility(View.INVISIBLE);
+
+                adapter.unregisterAdapterDataObserver(this);
+            }
+        });
 
         // Set the new adapter
         recyclerView.setAdapter(adapter);
@@ -190,21 +202,24 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-
-
-
-    public class RSSAdapter extends RecyclerView.Adapter<RSSAdapter.RSSViewHolder> implements Html.ImageGetter {
+    private class RSSAdapter extends RecyclerView.Adapter<RSSAdapter.RSSViewHolder>  {
 
         private ArrayList<HashMap<String, String>> rssFeed;
-        private String imgSrc; // Link for the first image found when reading moodle rss description
+        private RecyclerView rView;
+        private readRSS reader; // If user clicks several times on the buttom it just creates a new instance overriding the old one
 
         RSSAdapter() {
-            rssFeed = readRSS();
+            reader = new readRSS();
+            reader.execute(this);
+            setHasStableIds(true);
         }
 
         @Override
         public int getItemCount() {
-            return rssFeed.size();
+            if (rssFeed != null)
+                return rssFeed.size();
+            else
+                return 0;
         }
 
         @NonNull
@@ -226,7 +241,7 @@ public class NewsFragment extends Fragment {
 
 
 
-            if (!post.get("image").isEmpty())
+            if (!Objects.requireNonNull(post.get("image")).isEmpty())
             {
                 CompletableFuture<Bitmap> completableFuture = new CompletableFuture<>();
 
@@ -254,12 +269,43 @@ public class NewsFragment extends Fragment {
             }
         }
 
-        public class RSSViewHolder extends RecyclerView.ViewHolder {
-            public TextView title;
-            public TextView date;
-            public TextView author;
-            public TextView description;
-            public ImageView image;
+        @Override
+        public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+            rView = recyclerView;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return super.getItemId(position);
+        }
+
+        private String shortenDate(String date){
+            String shortDate = "";
+
+            SimpleDateFormat dFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.UK);
+
+            try {
+                Date d = dFormat.parse(date);
+
+                dFormat.applyPattern("dd MMM ''yy");
+
+                shortDate = dFormat.format(d);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return shortDate;
+        }
+
+
+        class RSSViewHolder extends RecyclerView.ViewHolder {
+            private TextView title;
+            private TextView date;
+            private TextView author;
+            private TextView description;
+            private ImageView image;
 
             RSSViewHolder(View view) {
                 super(view);
@@ -272,44 +318,41 @@ public class NewsFragment extends Fragment {
             }
         }
 
-        @NonNull
-        private ArrayList<HashMap<String, String>> readRSS() {
-            CompletableFuture<ArrayList<HashMap<String, String>>> completableFuture = new CompletableFuture<>();
+    }
 
-            Executors.newCachedThreadPool().submit(() -> {
-                try {
-                    URL url = new URL("https://cumoodle.coventry.ac.uk/rss/file.php/27/d824761bf8f70ac9f828581198537265/mod_forum/1/rss.xml");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    private static class readRSS extends AsyncTask<RSSAdapter, Void, Boolean> implements Html.ImageGetter {
+        private String imgSrc; // Link for the first image found when reading moodle rss description
+        private WeakReference<RSSAdapter> rssAdapter;
 
-                    conn.setReadTimeout(10000 /* milliseconds */);
-                    conn.setConnectTimeout(15000 /* milliseconds */);
-                    conn.setRequestMethod("GET");
-                    conn.setDoInput(true);
+        @Override
+        protected Boolean doInBackground(RSSAdapter... params) {
+            rssAdapter = new WeakReference<>(params[0]);
 
-                    // Starts the query
-                    conn.connect();
-                    InputStream iStream = conn.getInputStream();
-
-
-                    completableFuture.complete(parseFeed(iStream));
-
-                } catch (IOException | XmlPullParserException e) {
-                    Log.e(TAG, "readRSS: " + e.getMessage(), e);
-                }
-
-                return null;
-            });
-
-
-            ArrayList<HashMap<String, String>> rss = new ArrayList<>();
             try {
-                rss = completableFuture.get();
+                URL url = new URL("https://cumoodle.coventry.ac.uk/rss/file.php/27/d824761bf8f70ac9f828581198537265/mod_forum/1/rss.xml");
 
-            } catch (InterruptedException | ExecutionException e) {
-                Log.e(TAG, "Error", e);
+                rssAdapter.get().rssFeed = parseFeed(url.openConnection().getInputStream());
+
+                return true;
+
+            } catch (IOException | XmlPullParserException e) {
+                Log.e(TAG, "readRSS: " + e.getMessage(), e);
             }
 
-            return rss;
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            RSSAdapter adapter = rssAdapter.get();
+            RecyclerView rView = adapter.rView;
+
+            if (aBoolean && rView != null)
+            {
+                adapter.notifyDataSetChanged();
+                rView.scheduleLayoutAnimation();
+            }
         }
 
         @NonNull
@@ -317,10 +360,11 @@ public class NewsFragment extends Fragment {
             ArrayList<HashMap<String, String>> rss = new ArrayList<>();
 
             try {
-                XmlPullParser xpp = XmlPullParserFactory.newInstance().newPullParser();
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(false);
+                XmlPullParser xpp = factory.newPullParser();
 
-                xpp.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-                xpp.setInput(iStream, null);
+                xpp.setInput(iStream, "UTF_8");
 
                 int eventType = xpp.getEventType();
                 String text = "";
@@ -379,29 +423,11 @@ public class NewsFragment extends Fragment {
             return rss;
         }
 
+
         @Override
         public Drawable getDrawable(String source) {
             imgSrc = source;
             return null;
-        }
-
-        private String shortenDate(String date){
-            String shortDate = "";
-
-            SimpleDateFormat dFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.UK);
-
-            try {
-                Date d = dFormat.parse(date);
-
-                dFormat.applyPattern("dd MMM ''yy");
-
-                shortDate = dFormat.format(d);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            return shortDate;
         }
     }
 }
