@@ -1,7 +1,9 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +20,8 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 import com.twitter.sdk.android.tweetui.TweetUi;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Set a new status bar, as a toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Set toolbar title and subtitle first
+        toolbar.setTitle(R.string.nav_dashboard);
+        toolbar.setSubtitle(R.string.app_name);
 
         // Find the draier view and store a reference
         drawer = findViewById(R.id.drawer_layout);
@@ -51,17 +59,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // When the previous state should maintain the same (the selected option from the drawer)
         // The same when opening several apps and the device tries to free memory but after the user  wants to get back to the app
         if(savedInstanceState == null) {
-            // Set toolbar title and subtitle first
-            toolbar.setTitle(R.string.nav_dashboard);
-            toolbar.setSubtitle(R.string.app_name);
-
             // Load the given fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
 
             // Show selected item to user
             navigationView.setCheckedItem(R.id.nav_dashboard);
         }
-
+        else
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    Objects.requireNonNull(getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment"))).commit();
 
         // Initialize twitter api to get data for the news section
         TwitterConfig config = new TwitterConfig.Builder(this)
@@ -73,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         Twitter.initialize(config);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "currentFragment", Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment_container)));
     }
 
     // Called when an item is pressed inside the drawer
