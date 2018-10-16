@@ -1,11 +1,15 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -18,6 +22,7 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +41,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -45,13 +51,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-
-import static android.content.ContentValues.TAG;
 
 //TODO: Add scroll up to refresh news
 public class NewsFragment extends Fragment {
@@ -212,10 +214,11 @@ public class NewsFragment extends Fragment {
 
         private ArrayList<HashMap<String, String>> rssFeed;
         private RecyclerView rView;
-        private readRSS reader; // If user clicks several times on the buttom it just creates a new instance overriding the old one
+        private ReadRSS reader; // If user clicks several times on the buttom it just creates a new instance overriding the old one
+        private LoadImageURL imageLoader;
 
         RSSAdapter() {
-            reader = new readRSS();
+            reader = new ReadRSS();
             reader.execute(this);
             setHasStableIds(true);
         }
@@ -245,33 +248,37 @@ public class NewsFragment extends Fragment {
             viewHolder.author.setText(post.get("author"));
             viewHolder.description.setText(post.get("description"));
 
-
-
-            if (!Objects.requireNonNull(post.get("image")).isEmpty())
+            if (post.containsKey("image") && !Objects.requireNonNull(post.get("image")).isEmpty())
             {
-                CompletableFuture<Bitmap> completableFuture = new CompletableFuture<>();
+                imageLoader = new LoadImageURL(new Pair<ImageView, String>(viewHolder.image, post.get("image")));
+                imageLoader.execute();
 
-                Executors.newCachedThreadPool().submit(() -> {
-                    try {
-                        URL url = new URL(post.get("image"));
+                viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            //Write file
+                            String filename = "bitmap.png";
+                            FileOutputStream fOutStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
+                            Bitmap bmp = ((BitmapDrawable)viewHolder.image.getDrawable()).getBitmap();
+                            bmp.compress(Bitmap.CompressFormat.PNG, 100, fOutStream);
 
-                        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            fOutStream.close();
 
-                        completableFuture.complete(bmp);
+                            final Intent intent = new Intent(getContext(), ZoomImageActivity.class);
+                            intent.putExtra("filename", filename);
 
-                    } catch (IOException e) {
-                        Log.e(TAG, "onBindViewHolder: " + e.getMessage(), e);
+                            // Check if activity can be started
+                            final PackageManager packageManager = getContext().getPackageManager();
+                            final List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+                            if (!activities.isEmpty())
+                                getContext().startActivity(intent);
+
+                        } catch (Exception e) {
+                            Log.e("viewHolder.image.setOnClickListener", e.getMessage(), e);
+                        }
                     }
-
-                    return null;
                 });
-
-                try {
-                    viewHolder.image.setImageBitmap(completableFuture.get());
-
-                } catch (ExecutionException | InterruptedException e) {
-                    Log.e(TAG, "onBindViewHolder: " + e.getMessage(), e);
-                }
             }
         }
 
@@ -326,7 +333,7 @@ public class NewsFragment extends Fragment {
 
     }
 
-    private static class readRSS extends AsyncTask<RSSAdapter, Void, Boolean> implements Html.ImageGetter {
+    private static class ReadRSS extends AsyncTask<RSSAdapter, Void, Boolean> implements Html.ImageGetter {
         private String imgSrc; // Link for the first image found when reading moodle rss description
         private WeakReference<RSSAdapter> rssAdapter;
 
@@ -342,7 +349,7 @@ public class NewsFragment extends Fragment {
                 return true;
 
             } catch (IOException | XmlPullParserException e) {
-                Log.e(TAG, "readRSS: " + e.getMessage(), e);
+                Log.e("ReadRSS", e.getMessage(), e);
             }
 
             return false;
@@ -411,7 +418,7 @@ public class NewsFragment extends Fragment {
                                 item.put("author", author);
                                 item.put(xpp.getName(), des);
 
-                                if (!imgSrc.isEmpty())
+                                if (imgSrc != null && !imgSrc.isEmpty())
                                     item.put("image", imgSrc);
                             }
                             else
@@ -434,6 +441,44 @@ public class NewsFragment extends Fragment {
         public Drawable getDrawable(String source) {
             imgSrc = source;
             return null;
+        }
+    }
+
+    private static class LoadImageURL extends AsyncTask<Void, Void, Boolean>{
+        private WeakReference<ImageView> imageView;
+        private String urlLink;
+        private Bitmap bmp;
+
+        private LoadImageURL(Pair<ImageView, String> info){
+            imageView = new WeakReference<>(info.first);
+            urlLink = info.second;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if (imageView.get() == null || urlLink.isEmpty())
+                cancel(true);
+
+            try {
+                URL url = new URL(urlLink);
+
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+            } catch (IOException e) {
+                Log.e("LoadImageURL", e.getMessage(), e);
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            ImageView iView = imageView.get();
+
+            if (aBoolean && iView != null && bmp != null)
+                iView.setImageBitmap(bmp);
         }
     }
 }

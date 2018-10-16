@@ -22,11 +22,13 @@ import com.twitter.sdk.android.tweetui.TweetUi;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+{
     private DrawerLayout drawer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -46,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         // Add the toggle butto to the top of the app, to open and close the app
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         // Add and sync toggle button with drawer
         drawer.addDrawerListener(toggle);
@@ -58,31 +59,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Used because when de device is rotated the activity gets destroyd and its redrawn
         // When the previous state should maintain the same (the selected option from the drawer)
         // The same when opening several apps and the device tries to free memory but after the user  wants to get back to the app
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             // Load the given fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
 
             // Show selected item to user
             navigationView.setCheckedItem(R.id.nav_dashboard);
-        }
-        else
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    Objects.requireNonNull(getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment"))).commit();
+        } else
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Objects.requireNonNull(getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment"))).commit();
 
         // Initialize twitter api to get data for the news section
-        TwitterConfig config = new TwitterConfig.Builder(this)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.twitter_key),
-                        getResources().getString(R.string.twitter_secret)))
-                .debug(true)
-                .build();
+        TwitterConfig config = new TwitterConfig.Builder(this).logger(new DefaultLogger(Log.DEBUG)).twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.twitter_key), getResources().getString(R.string.twitter_secret))).debug(true).build();
 
 
         Twitter.initialize(config);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
@@ -92,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Called when an item is pressed inside the drawer
     // With clicked menu item as input, returns true for handled click and false otherwise
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem)
+    {
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         // Set toolbar title and subtitle
@@ -102,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // Fiind wich button was pressed and load the respective fragment
-        switch(menuItem.getItemId()){
+        switch (menuItem.getItemId())
+        {
             case R.id.nav_news:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
 
@@ -135,11 +133,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Called when back button is pressed
     // If drawer is open then closes it, otherwise fallback to the back button action
     @Override
-    public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
+    public void onBackPressed()
+    {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else
+        {
             super.onBackPressed();
         }
     }

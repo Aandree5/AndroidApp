@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_recyclerview"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutAnimation="@anim/layout_slide_bottom" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layoutAnimation="@anim/layout_slide_bottom" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/news_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/windowBackground"
+            android:clickable="true"
+            android:focusable="true"
+            app:elevation="8dp"
+            app:itemIconTint="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/news_bottom_nav_menu" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/news_progressbar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/colorAccent"
         android:progressTint="@color/colorAccent"
         android:visibility="visible"
-        app:layout_anchor="@+id/news_recyclerview"
-        app:layout_anchorGravity="center" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:id="@+id/tets"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/news_bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        android:clickable="true"
-        android:focusable="true"
-        app:elevation="8dp"
-        app:itemIconTint="@color/colorPrimary"
-        app:itemTextColor="@color/colorPrimary"
-        app:labelVisibilityMode="selected"
-        app:menu="@menu/news_bottom_nav_menu" />
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>
 
