@@ -1,44 +1,52 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 
 
 public class ZoomImageActivity extends Activity
 {
-    String filename;
+    String fileName;
 
-    //TODO: Check the possibility of passing a bitmap reference to the preaviously loaded bitmap
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_zoom_image);
 
-
         ZoomImageView imageView = findViewById(R.id.zoom_imageview);
+        FileInputStream fInpStream = null;
 
         try
         {
-            filename = getIntent().getStringExtra("filename");
-            FileInputStream fInpStream = this.openFileInput(filename);
+            // Getting the file name from the previous activity
+            fileName = getIntent().getStringExtra("fileName");
+            fInpStream = this.openFileInput(fileName);
 
-            Bitmap bmp = BitmapFactory.decodeStream(fInpStream);
-
-            imageView.setImageBitmap(bmp);
-
-            // Close file stream
-            fInpStream.close();
-
-        } catch (Exception e)
+            imageView.setImageBitmap(BitmapFactory.decodeStream(fInpStream));
+        }
+        catch (Exception e)
         {
             Log.e("onCreate", e.getMessage(), e);
+        }
+        finally
+        {
+            if (fInpStream != null)
+            {
+                try
+                {
+                    fInpStream.close();
+                }
+                catch (IOException e)
+                {
+                    Log.e("onCreate.close", e.getMessage(), e);
+                }
+            }
         }
     }
 
@@ -46,7 +54,7 @@ public class ZoomImageActivity extends Activity
     public void onBackPressed()
     {
         super.onBackPressed();
-        if (!filename.isEmpty())
-            deleteFile(filename);
+        if (!fileName.isEmpty())
+            deleteFile(fileName);
     }
 }

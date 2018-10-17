@@ -2,8 +2,6 @@ package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,7 +20,6 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +48,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
 //TODO: Add scroll up to refresh news
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment
+{
     RecyclerView recyclerView;
     ProgressBar progressBar;
     ActionBar toolbar;
@@ -66,7 +63,8 @@ public class NewsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
 
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
@@ -74,20 +72,21 @@ public class NewsFragment extends Fragment {
         progressBar = view.findViewById(R.id.news_progressbar);
         bottomNav = view.findViewById(R.id.news_bottom_nav);
 
+        // Set the recycler view layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
         // As getSupportActionBar can be null a check is made first
         toolbar = ((AppCompatActivity) Objects.requireNonNull(getActivity(), "Activity must not be null.")).getSupportActionBar();
 
-
-        // Set the recycler view layout to vertical
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
         // Set listener that gets called when a new item is selected
         // Lambda function
-        bottomNav.setOnNavigationItemSelectedListener(menuItem -> {
+        bottomNav.setOnNavigationItemSelectedListener(menuItem ->
+        {
             recyclerView.removeAllViews();
             bottomNavSelectdID = menuItem.getItemId();
 
-            switch (bottomNavSelectdID) {
+            switch (bottomNavSelectdID)
+            {
                 case R.id.news_bottom_nav_moodle:
                     toolbar.setTitle(R.string.news_bottom_nav_moodle);
                     showMoodleNews();
@@ -105,7 +104,8 @@ public class NewsFragment extends Fragment {
             return true;
         });
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null)
+        {
             // Set the action bar title, selected item and show default news
             toolbar.setTitle(R.string.news_bottom_nav_twitter);
             bottomNav.setSelectedItemId(R.id.news_bottom_nav_twitter);
@@ -118,34 +118,42 @@ public class NewsFragment extends Fragment {
 
     //TODO: Improve restoring state (TEMP solution, now saving choosen bottom navigation id and selecting it on restore state to trigger a refresh)
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
+        {
             bottomNavSelectdID = savedInstanceState.getInt("bottomNavSelectdID");
             bottomNav.setSelectedItemId(bottomNavSelectdID);
         }
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
         super.onSaveInstanceState(outState);
 
         outState.putInt("bottomNavSelectdID", bottomNavSelectdID);
     }
 
 
-    //TODO: Add moodle news
-    public void showMoodleNews() {
+    /**
+     * Show the news from moodle
+     */
+    public void showMoodleNews()
+    {
         progressBar.setVisibility(View.VISIBLE);
 
         RSSAdapter adapter = new RSSAdapter();
 
         // On first data change (the recycler view has data) hide the loading progress bar and unregister observer
         // because no more changes need to be detected
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+        {
             @Override
-            public void onChanged() {
+            public void onChanged()
+            {
                 super.onChanged();
 
                 progressBar.setVisibility(View.INVISIBLE);
@@ -158,8 +166,11 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    // Show the news for all university twitter accounts (Excluding faculty accounts)
-    public void showTwitterNews() {
+    /**
+     * Show the news for all university twitter accounts (Excluding faculty accounts)
+     */
+    public void showTwitterNews()
+    {
         progressBar.setVisibility(View.VISIBLE);
 
         // Set the twitter list for all the university twitter accounts
@@ -170,8 +181,11 @@ public class NewsFragment extends Fragment {
         attachTimeline(timeline);
     }
 
-    // Show  timeline for faculty accounts
-    public void showFacultyNews() {
+    /**
+     * Show  timeline for faculty accounts
+     */
+    public void showFacultyNews()
+    {
         progressBar.setVisibility(View.VISIBLE);
 
         // @covunieec - Faculty of Engenieering, Environment and Computing
@@ -185,8 +199,13 @@ public class NewsFragment extends Fragment {
         attachTimeline(timeline);
     }
 
-    // Create adapter and attach it to the recycler view
-    public void attachTimeline(@NonNull Timeline<Tweet> timeline) {
+    /**
+     * Create adapter and attach it to the recycler view
+     *
+     * @param timeline Tweeter timeline to get the tweets from
+     */
+    public void attachTimeline(@NonNull Timeline<Tweet> timeline)
+    {
         // Creste adapter for recycler view
         TweetTimelineRecyclerViewAdapter adapter = new TweetTimelineRecyclerViewAdapter.Builder(getContext())
                 .setTimeline(timeline)
@@ -195,9 +214,11 @@ public class NewsFragment extends Fragment {
 
         // On first data change (the recycler view has data) hide the loading progress bar and unregister observer
         // because no more changes need to be detected
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver()
+        {
             @Override
-            public void onChanged() {
+            public void onChanged()
+            {
                 super.onChanged();
 
                 progressBar.setVisibility(View.INVISIBLE);
@@ -210,145 +231,40 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private class RSSAdapter extends RecyclerView.Adapter<RSSAdapter.RSSViewHolder>  {
-
-        private ArrayList<HashMap<String, String>> rssFeed;
-        private RecyclerView rView;
-        private ReadRSS reader; // If user clicks several times on the buttom it just creates a new instance overriding the old one
-        private LoadImageURL imageLoader;
-
-        RSSAdapter() {
-            reader = new ReadRSS();
-            reader.execute(this);
-            setHasStableIds(true);
-        }
-
-        @Override
-        public int getItemCount() {
-            if (rssFeed != null)
-                return rssFeed.size();
-            else
-                return 0;
-        }
-
-        @NonNull
-        @Override
-        public RSSViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_post, parent, false);
-
-            return new RSSViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull final RSSViewHolder viewHolder, int position) {
-            HashMap<String, String> post = rssFeed.get(position);
-
-            viewHolder.title.setText(post.get("title"));
-            viewHolder.date.setText(shortenDate(post.get("pubDate")));
-            viewHolder.author.setText(post.get("author"));
-            viewHolder.description.setText(post.get("description"));
-
-            if (post.containsKey("image") && !Objects.requireNonNull(post.get("image")).isEmpty())
-            {
-                imageLoader = new LoadImageURL(new Pair<ImageView, String>(viewHolder.image, post.get("image")));
-                imageLoader.execute();
-
-                viewHolder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            //Write file
-                            String filename = "bitmap.png";
-                            FileOutputStream fOutStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                            Bitmap bmp = ((BitmapDrawable)viewHolder.image.getDrawable()).getBitmap();
-                            bmp.compress(Bitmap.CompressFormat.PNG, 100, fOutStream);
-
-                            fOutStream.close();
-
-                            final Intent intent = new Intent(getContext(), ZoomImageActivity.class);
-                            intent.putExtra("filename", filename);
-
-                            // Check if activity can be started
-                            final PackageManager packageManager = getContext().getPackageManager();
-                            final List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-                            if (!activities.isEmpty())
-                                getContext().startActivity(intent);
-
-                        } catch (Exception e) {
-                            Log.e("viewHolder.image.setOnClickListener", e.getMessage(), e);
-                        }
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-            super.onAttachedToRecyclerView(recyclerView);
-            rView = recyclerView;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return super.getItemId(position);
-        }
-
-        private String shortenDate(String date){
-            String shortDate = "";
-
-            SimpleDateFormat dFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.UK);
-
-            try {
-                Date d = dFormat.parse(date);
-
-                dFormat.applyPattern("dd MMM ''yy");
-
-                shortDate = dFormat.format(d);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            return shortDate;
-        }
-
-
-        class RSSViewHolder extends RecyclerView.ViewHolder {
-            private TextView title;
-            private TextView date;
-            private TextView author;
-            private TextView description;
-            private ImageView image;
-
-            RSSViewHolder(View view) {
-                super(view);
-
-                title = view.findViewById(R.id.news_card_title);
-                date = view.findViewById(R.id.news_card_date);
-                author = view.findViewById(R.id.news_card_author);
-                description = view.findViewById(R.id.news_card_description);
-                image = view.findViewById(R.id.news_card_image);
-            }
-        }
-
-    }
-
-    private static class ReadRSS extends AsyncTask<RSSAdapter, Void, Boolean> implements Html.ImageGetter {
+    /**
+     * Read and parse the moodle rss feed, extends AsyncTask to run in background while getting the data, doesn't hold the main thread
+     */
+    private static class ReadRSS extends AsyncTask<Void, Void, Boolean> implements Html.ImageGetter
+    {
         private String imgSrc; // Link for the first image found when reading moodle rss description
         private WeakReference<RSSAdapter> rssAdapter;
 
-        @Override
-        protected Boolean doInBackground(RSSAdapter... params) {
-            rssAdapter = new WeakReference<>(params[0]);
 
-            try {
+        /**
+         * Constructor, get reference of adapter to notify the data changed and animations play accordingly, alter adapter rss feed array directly
+         *
+         * @param rssAdapter Adaper to be notifyed the data changed, and access recycler view and rssFeed array
+         */
+        ReadRSS(WeakReference<RSSAdapter> rssAdapter)
+        {
+            this.rssAdapter = rssAdapter;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params)
+        {
+            try
+            {
                 URL url = new URL("https://cumoodle.coventry.ac.uk/rss/file.php/27/d824761bf8f70ac9f828581198537265/mod_forum/1/rss.xml");
+
 
                 rssAdapter.get().rssFeed = parseFeed(url.openConnection().getInputStream());
 
                 return true;
 
-            } catch (IOException | XmlPullParserException e) {
+            }
+            catch (IOException | XmlPullParserException e)
+            {
                 Log.e("ReadRSS", e.getMessage(), e);
             }
 
@@ -356,7 +272,8 @@ public class NewsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onPostExecute(Boolean aBoolean)
+        {
             super.onPostExecute(aBoolean);
             RSSAdapter adapter = rssAdapter.get();
             RecyclerView rView = adapter.rView;
@@ -369,10 +286,12 @@ public class NewsFragment extends Fragment {
         }
 
         @NonNull
-        private ArrayList<HashMap<String, String>> parseFeed(@NonNull InputStream iStream) throws XmlPullParserException, IOException {
+        private ArrayList<HashMap<String, String>> parseFeed(@NonNull InputStream iStream) throws XmlPullParserException, IOException
+        {
             ArrayList<HashMap<String, String>> rss = new ArrayList<>();
 
-            try {
+            try
+            {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(false);
                 XmlPullParser xpp = factory.newPullParser();
@@ -383,17 +302,23 @@ public class NewsFragment extends Fragment {
                 String text = "";
                 boolean readingItem = false;
                 HashMap<String, String> item = new HashMap<>();
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    if (eventType == XmlPullParser.START_TAG) {
+
+                while (eventType != XmlPullParser.END_DOCUMENT)
+                {
+                    if (eventType == XmlPullParser.START_TAG)
+                    {
                         if (xpp.getName().equalsIgnoreCase("item"))
                             readingItem = true;
                     }
                     else if (eventType == XmlPullParser.TEXT && readingItem)
                     {
+                        // Remove obj character that stays inside the string when an <img> tag is removed
                         SpannableStringBuilder spanString = (SpannableStringBuilder) Html.fromHtml(xpp.getText(), Html.FROM_HTML_MODE_COMPACT, this, null);
                         Object[] spanObjects = spanString.getSpans(0, spanString.length(), Object.class);
-                        for (Object sObj : spanObjects) {
-                            if (sObj instanceof ImageSpan) {
+                        for (Object sObj : spanObjects)
+                        {
+                            if (sObj instanceof ImageSpan)
+                            {
                                 ImageSpan imgSpan = (ImageSpan) sObj;
                                 spanString.replace(spanString.getSpanStart(imgSpan), spanString.getSpanEnd(imgSpan), "");
                             }
@@ -402,7 +327,8 @@ public class NewsFragment extends Fragment {
                         text = spanString.toString();
                     }
 
-                    else if (eventType == XmlPullParser.END_TAG) {
+                    else if (eventType == XmlPullParser.END_TAG)
+                    {
                         if (xpp.getName().equalsIgnoreCase("item"))
                         {
                             readingItem = false;
@@ -411,13 +337,15 @@ public class NewsFragment extends Fragment {
                         }
                         else if (readingItem && !xpp.getName().equalsIgnoreCase("guid"))
                         {
-                            if(xpp.getName().equalsIgnoreCase("description"))
+                            if (xpp.getName().equalsIgnoreCase("description"))
                             {
+                                // Separate the author from the description
                                 String author = text.substring(2, text.indexOf('.')).trim();
                                 String des = text.substring(text.indexOf('.') + 4, text.length()).trim();
                                 item.put("author", author);
                                 item.put(xpp.getName(), des);
 
+                                // If there was an image inside the description, store it in the array
                                 if (imgSrc != null && !imgSrc.isEmpty())
                                     item.put("image", imgSrc);
                             }
@@ -429,7 +357,9 @@ public class NewsFragment extends Fragment {
 
                     eventType = xpp.next();
                 }
-            } finally {
+            }
+            finally
+            {
                 iStream.close();
             }
 
@@ -438,47 +368,262 @@ public class NewsFragment extends Fragment {
 
 
         @Override
-        public Drawable getDrawable(String source) {
+        public Drawable getDrawable(String source)
+        {
             imgSrc = source;
             return null;
         }
     }
 
-    private static class LoadImageURL extends AsyncTask<Void, Void, Boolean>{
+    /**
+     * Load image from the internet to the image view, extends AsyncTask to run in background while getting the data, doesn't hold the main thread
+     */
+    private static class LoadImageURL extends AsyncTask<Void, Void, Boolean>
+    {
         private WeakReference<ImageView> imageView;
         private String urlLink;
         private Bitmap bmp;
 
-        private LoadImageURL(Pair<ImageView, String> info){
-            imageView = new WeakReference<>(info.first);
-            urlLink = info.second;
+        /**
+         * Constructor to set imageview reference and the url
+         *
+         * @param imgView Reference for the imageView
+         * @param url     Url of the image to load
+         */
+        private LoadImageURL(WeakReference<ImageView> imgView, String url)
+        {
+            imageView = imgView;
+            urlLink = url;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params)
+        {
             if (imageView.get() == null || urlLink.isEmpty())
                 cancel(true);
 
-            try {
+            InputStream inpStream = null;
+            try
+            {
                 URL url = new URL(urlLink);
+                inpStream = url.openConnection().getInputStream();
 
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                // First get the real image width and height to after now how much to sample it for
+                // reducing the image size for lighter download from the internet and memory usage
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                BitmapFactory.decodeStream(url.openConnection().getInputStream(), null, options);
+                int maxSize = 256; // Image max size (Width or Height wich ever comes first)
 
-            } catch (IOException e) {
+                options.inSampleSize = 1;
+                if (options.outHeight > maxSize || options.outWidth > maxSize)
+                {
+
+                    final int halfHeight = options.outHeight / 2;
+                    final int halfWidth = options.outWidth / 2;
+
+                    // Check the biggest sample value that keeps the image just above the max size defined
+                    while ((halfHeight / options.inSampleSize) >= maxSize && (halfWidth / options.inSampleSize) >= maxSize)
+                        options.inSampleSize += 1;
+                }
+
+                options.inJustDecodeBounds = false;
+
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream(), null, options);
+            }
+            catch (IOException e)
+            {
                 Log.e("LoadImageURL", e.getMessage(), e);
                 return false;
+            }
+            finally
+            {
+                try
+                {
+                    if (inpStream != null)
+                        inpStream.close();
+                }
+                catch (IOException e)
+                {
+                    Log.e("LoadImageURL", e.getMessage(), e);
+                }
             }
 
             return true;
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
+        protected void onPostExecute(Boolean aBoolean)
+        {
             super.onPostExecute(aBoolean);
             ImageView iView = imageView.get();
 
             if (aBoolean && iView != null && bmp != null)
                 iView.setImageBitmap(bmp);
         }
+    }
+
+    /**
+     * Adapter for recycler view, to use the rss data
+     */
+    private class RSSAdapter extends RecyclerView.Adapter<RSSAdapter.RSSViewHolder>
+    {
+
+        private ArrayList<HashMap<String, String>> rssFeed; // Fed data by the reader
+        private RecyclerView rView; // Accessed by the reader
+        private ReadRSS reader; //If user reselects the same bottom navigation option it just creates a new instance overriding the old one
+        private LoadImageURL imageLoader;
+
+        // Start reader and get the data form moodle
+        RSSAdapter()
+        {
+            reader = new ReadRSS(new WeakReference<>(this));
+            reader.execute();
+            setHasStableIds(true);
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            if (rssFeed != null)
+                return rssFeed.size();
+            else
+                return 0;
+        }
+
+        @NonNull
+        @Override
+        public RSSViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_post, parent, false);
+
+            return new RSSViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RSSViewHolder viewHolder, int position)
+        {
+            HashMap<String, String> post = rssFeed.get(position);
+
+            viewHolder.title.setText(post.get("title"));
+            viewHolder.author.setText(post.get("author"));
+            viewHolder.description.setText(post.get("description"));
+
+            if (post.get("pubDate") != null)
+            {
+                SimpleDateFormat dFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.UK);
+
+                try
+                {
+                    Date d = dFormat.parse(post.get("pubDate"));
+
+                    dFormat.applyPattern("dd MMM ''yy");
+
+                    viewHolder.date.setText(dFormat.format(d));
+
+                }
+                catch (ParseException e)
+                {
+                    Log.e("onBindViewHolder", e.getMessage(), e);
+                }
+            }
+
+
+            if (post.containsKey("image") && !Objects.requireNonNull(post.get("image"), "rssFeed  post is null.").isEmpty())
+            {
+                //TODO: Show temporary color on imageview background while loading image
+                imageLoader = new LoadImageURL(new WeakReference<>(viewHolder.image), post.get("image"));
+                imageLoader.execute();
+
+                //TODO: Cash images to file when downloaded in the background task (Fast on click, and not running on main thread)
+                viewHolder.image.setOnClickListener(new View.OnClickListener()
+                {
+                    // Don't allow clicking twice and starting two activities
+                    boolean processingClick = false;
+
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (!processingClick)
+                        {
+                            processingClick = true;
+                            FileOutputStream fOutStream = null;
+
+                            try
+                            {
+                                // Save image to file to be loaded on the next activity
+                                String fileName = "bitmap.png";
+                                Bitmap bmp = ((BitmapDrawable) viewHolder.image.getDrawable()).getBitmap();
+                                fOutStream = Objects.requireNonNull(getContext(), "Context is null.").openFileOutput(fileName, Context.MODE_PRIVATE);
+                                bmp.compress(Bitmap.CompressFormat.PNG, 100, fOutStream);
+
+                                final Intent intent = new Intent(getContext(), ZoomImageActivity.class);
+                                intent.putExtra("fileName", fileName);
+
+                                getContext().startActivity(intent);
+                            }
+                            catch (Exception e)
+                            {
+                                Log.e("viewHolder.image.setOnClickListener", e.getMessage(), e);
+                            }
+                            finally
+                            {
+                                if (fOutStream != null)
+                                {
+                                    try
+                                    {
+                                        fOutStream.close();
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        Log.e("viewHolder.image.setOnClickListener.closingStream", e.getMessage(), e);
+                                    }
+                                }
+
+                                processingClick = false;
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
+        {
+            super.onAttachedToRecyclerView(recyclerView);
+            rView = recyclerView;
+        }
+
+        @Override
+        public long getItemId(int position)
+        {
+            return super.getItemId(position);
+        }
+
+
+        /**
+         * Specific data for each created view inside the recycler view
+         */
+        class RSSViewHolder extends RecyclerView.ViewHolder
+        {
+            private TextView title;
+            private TextView date;
+            private TextView author;
+            private TextView description;
+            private ImageView image;
+
+            RSSViewHolder(View view)
+            {
+                super(view);
+
+                title = view.findViewById(R.id.news_card_title);
+                date = view.findViewById(R.id.news_card_date);
+                author = view.findViewById(R.id.news_card_author);
+                description = view.findViewById(R.id.news_card_description);
+                image = view.findViewById(R.id.news_card_image);
+            }
+        }
+
     }
 }

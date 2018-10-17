@@ -1,5 +1,6 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -9,19 +10,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import retrofit2.http.GET;
-
 public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 {
     private float minScale = 1.f;
     private float maxScale = 4.f;
     private Matrix imageMatrix = new Matrix();
+    /* Used to copy the image matrix before changing it (Keeps the view from updating until end of function), otherwise keeps applying the changes instantly
+     * by saving also allow to continue editing the current matrix values, but check them before applying to the image */
     private Matrix savedMatrix = new Matrix();
     private PointF touchStart = new PointF();
     private PointF touchMiddle = new PointF();
     float oldDist = 1f;
 
     private EventType mode = EventType.NONE;
+
     private enum EventType
     {
         NONE,
@@ -35,20 +37,22 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         super(context, attrs);
     }
 
-
+    //TODO: Add double click to zoom in and out
+    // Visual impared own be using the part of the app, since its just scaling and moving an image to see it better
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-
-        // Handle touch events here...
         switch (event.getAction() & MotionEvent.ACTION_MASK)
         {
+            // On first touch event
             case MotionEvent.ACTION_DOWN:
                 savedMatrix.set(imageMatrix);
                 touchStart.set(event.getX(), event.getY());
                 mode = EventType.DRAG;
                 break;
 
+            //On two fingers down
             case MotionEvent.ACTION_POINTER_DOWN:
                 oldDist = getPinchDistance(event);
 
@@ -59,6 +63,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
                 break;
 
+            // On fingers up
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
                 mode = EventType.NONE;
@@ -66,6 +71,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
                 float[] matrixValues = new float[9];
                 imageMatrix.getValues(matrixValues);
 
+                // Lock image scale between min and max (when smaller than min, reset the image to the beginning)
                 if (matrixValues[Matrix.MSCALE_X] < minScale)
                     centerImageOnView();
 
@@ -74,6 +80,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
                 break;
 
+            // On fingers move
             case MotionEvent.ACTION_MOVE:
                 if (mode == EventType.DRAG)
                 {
@@ -84,12 +91,12 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
                     if (translate != null)
                         imageMatrix.postTranslate(translate.x, translate.y);
 
-                } else if (mode == EventType.ZOOM && event.getPointerCount() == 2)
+                }
+                else if (mode == EventType.ZOOM && event.getPointerCount() == 2)
                 {
                     imageMatrix.set(savedMatrix);
 
-                    float newDist = getPinchDistance(event);
-                    float scale = newDist / oldDist;
+                    float scale = getPinchDistance(event) / oldDist;
 
                     imageMatrix.postScale(scale, scale, touchMiddle.x, touchMiddle.y);
 
@@ -101,10 +108,9 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         setImageMatrix(imageMatrix);
 
         return true;
-
     }
 
-
+    // Used to center image on screen and set the min and max possible scale values
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus)
     {
@@ -122,6 +128,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
     /**
      * Get the space between two fingers (Pinch)
+     *
      * @param event The touch event to get the finger positions from
      * @return The spacing between both fingers (Pinch)
      */
@@ -135,7 +142,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
     /**
      * Center the drawable inseide the view
-     * */
+     */
     private void centerImageOnView()
     {
         Drawable drawable = getDrawable();
@@ -147,13 +154,15 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
 
             setImageMatrix(imageMatrix);
-        } else
+        }
+        else
             Log.e("centerImageOnView", "Couldn't get drawable.");
     }
 
 
     /**
      * Check if the given matrix will be inside view, centered and bound to the biggest side, if not, correct the matrix
+     *
      * @param matrix Matrix check and fix translate position
      */
     private void checkMatrixInsideView(Matrix matrix)
@@ -190,12 +199,12 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         matrix.mapRect(imageRect);
 
         /* Check if the left side of the image has passed the left side of the screen
-        *  if so, deduct the inverse of the amout that it has passed by (To reach 0)*/
+         *  if so, deduct the inverse of the amout that it has passed by (To reach 0)*/
         if (matrixValues[Matrix.MTRANS_X] + position.x >= 0)
             position.x = matrixValues[Matrix.MTRANS_X] * -1;
 
-        /* Check if the right side of the image has passed the right side of the screen
-        *  if so, deduct the inverse of the amout that it has passed by and add the screen width minus the image width (To get the image right side)*/
+            /* Check if the right side of the image has passed the right side of the screen
+             *  if so, deduct the inverse of the amout that it has passed by and add the screen width minus the image width (To get the image right side)*/
         else if (matrixValues[Matrix.MTRANS_X] + position.x + imageRect.width() <= getWidth())
             position.x = (matrixValues[Matrix.MTRANS_X] * -1) + (getWidth() - imageRect.width());
 
@@ -203,7 +212,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         if (matrixValues[Matrix.MTRANS_Y] + position.y >= 0)
             position.y = matrixValues[Matrix.MTRANS_Y] * -1;
 
-        // Same as the right side but for the bottom
+            // Same as the right side but for the bottom
         else if (matrixValues[Matrix.MTRANS_Y] + position.y + imageRect.height() <= getHeight())
             position.y = (matrixValues[Matrix.MTRANS_Y] * -1) + (getHeight() - imageRect.height());
 
