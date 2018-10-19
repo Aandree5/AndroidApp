@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0066cc</color>
-    <color name="colorPrimaryDark">#003d9a</color>
-    <color name="colorPrimaryLight">#5c93ff</color>
-    <color name="colorAccent">#f57c00</color>
-    <color name="colorAccentDark">#bb4d00</color>
-    <color name="colorAccentLight">#ffad42</color>
+    <color name="colorPrimary">#0066CC</color>
+    <color name="colorPrimaryDark">#003D9A</color>
+    <color name="colorPrimaryLight">#5C93FF</color>
+    <color name="colorAccent">#F57C00</color>
+    <color name="colorAccentDark">#BB4D00</color>
+    <color name="colorAccentLight">#FFAD42</color>
+
+    <color name="textColorPrimary">#DD000000</color>
+    <color name="textColorPrimaryInverse">#FFFFFFFF</color>
+    <color name="textColorSecondary">#89000000</color>
+    <color name="textColorSecondaryInverse">#B3FFFFFF</color>
 
     <color name="zoomImageViewBackground">#000000</color>
 </resources>

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Coventry University</string>
 
+    <string name="twitter_key">wKryyRLBbfLsZg3a1NrPUiP2f</string>
+    <string name="twitter_secret">GmzxZSbQ9oMOnIsDs8l6AfVfL5BzXEqCeYPIzhqqOZ72tpBwqV</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -12,10 +15,12 @@
     <string name="nav_about">About</string>
 
 
-    <string name="news_bottom_nav_moodle">Moodle</string>
-    <string name="news_bottom_nav_twitter">Twitter</string>
-    <string name="news_bottom_nav_faculty">Faculty</string>
+    <string name="news_tab_moodle">Moodle</string>
+    <string name="news_tab_twitter">Twitter</string>
+    <string name="news_tab_faculty">Faculty</string>
 
-    <string name="twitter_key">wKryyRLBbfLsZg3a1NrPUiP2f</string>
-    <string name="twitter_secret">GmzxZSbQ9oMOnIsDs8l6AfVfL5BzXEqCeYPIzhqqOZ72tpBwqV</string>
+    <string name="dashboard_tab_login">Login</string>
+    <string name="dashboard_tab_enrol">Enrol</string>
+    <string name="dashboard_username">Username</string>
+    <string name="dashboard_password">Password</string>
 </resources>

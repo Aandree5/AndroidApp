@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -57,9 +57,9 @@ public class NewsFragment extends Fragment
     RecyclerView recyclerView;
     ProgressBar progressBar;
     ActionBar toolbar;
-    BottomNavigationView bottomNav;
+    TabLayout tabLayout;
 
-    int bottomNavSelectdID;
+    int tabSelectedPosition;
 
     @Nullable
     @Override
@@ -70,7 +70,7 @@ public class NewsFragment extends Fragment
 
         recyclerView = view.findViewById(R.id.news_recyclerview);
         progressBar = view.findViewById(R.id.news_progressbar);
-        bottomNav = view.findViewById(R.id.news_bottom_nav);
+        tabLayout = view.findViewById(R.id.news_tab_layout);
 
         // Set the recycler view layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -79,36 +79,48 @@ public class NewsFragment extends Fragment
         toolbar = ((AppCompatActivity) Objects.requireNonNull(getActivity(), "Activity must not be null.")).getSupportActionBar();
 
         // Set listener that gets called when a new item is selected
-        // Lambda function
-        bottomNav.setOnNavigationItemSelectedListener(menuItem ->
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {
-            recyclerView.removeAllViews();
-            bottomNavSelectdID = menuItem.getItemId();
-
-            switch (bottomNavSelectdID)
+            @Override
+            public void onTabSelected(TabLayout.Tab tab)
             {
-                case R.id.news_bottom_nav_moodle:
-                    toolbar.setTitle(R.string.news_bottom_nav_moodle);
-                    showMoodleNews();
-                    break;
-                case R.id.news_bottom_nav_twitter:
-                    toolbar.setTitle(R.string.news_bottom_nav_twitter);
-                    showTwitterNews();
-                    break;
-                case R.id.news_bottom_nav_faculty:
-                    toolbar.setTitle(R.string.news_bottom_nav_faculty);
-                    showFacultyNews();
-                    break;
+                tabSelectedPosition = tab.getPosition();
+
+                switch (tabSelectedPosition)
+                {
+                    case 0:
+                        toolbar.setTitle(R.string.news_tab_moodle);
+                        showMoodleNews();
+                        break;
+                    case 1:
+                        toolbar.setTitle(R.string.news_tab_twitter);
+                        showTwitterNews();
+                        break;
+                    case 2:
+                        toolbar.setTitle(R.string.news_tab_faculty);
+                        showFacultyNews();
+                        break;
+                }
             }
 
-            return true;
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab)
+            {
+                recyclerView.removeAllViews();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab)
+            {
+
+            }
         });
 
         if (savedInstanceState == null)
         {
             // Set the action bar title, selected item and show default news
-            toolbar.setTitle(R.string.news_bottom_nav_twitter);
-            bottomNav.setSelectedItemId(R.id.news_bottom_nav_twitter);
+            toolbar.setTitle(R.string.news_tab_twitter);
+            Objects.requireNonNull(tabLayout.getTabAt(1)).select();
             showTwitterNews();
         }
 
@@ -124,8 +136,8 @@ public class NewsFragment extends Fragment
 
         if (savedInstanceState != null)
         {
-            bottomNavSelectdID = savedInstanceState.getInt("bottomNavSelectdID");
-            bottomNav.setSelectedItemId(bottomNavSelectdID);
+            tabSelectedPosition = savedInstanceState.getInt("tabSelectedPosition");
+            Objects.requireNonNull(tabLayout.getTabAt(tabSelectedPosition)).select();
         }
     }
 
@@ -134,7 +146,7 @@ public class NewsFragment extends Fragment
     {
         super.onSaveInstanceState(outState);
 
-        outState.putInt("bottomNavSelectdID", bottomNavSelectdID);
+        outState.putInt("tabSelectedPosition", tabSelectedPosition);
     }
 
 

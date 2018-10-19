@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".ZoomImageActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

@@ -5,8 +5,7 @@
     android:layout_height="176dp"
     android:background="@color/colorAccent"
     android:gravity="bottom"
-    android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:padding="16dp">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -18,11 +17,14 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="User"
+        android:textColor="@color/textColorPrimaryInverse"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.Toolbar"
+        android:textColor="@color/textColorPrimaryInverse"
         android:text="user@uni.coventry.ac.uk"/>
 
 </LinearLayout>

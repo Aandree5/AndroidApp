@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,18 +18,46 @@
             android:orientation="vertical"
             app:reverseLayout="false" />
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/news_bottom_nav"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/news_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
-            android:clickable="true"
-            android:focusable="true"
             app:elevation="8dp"
-            app:itemIconTint="@color/colorPrimary"
-            app:itemTextColor="@color/colorPrimary"
-            app:labelVisibilityMode="selected"
-            app:menu="@menu/news_bottom_nav_menu" />
+            app:tabIconTint="@color/colorPrimary"
+            app:tabIndicator="@color/colorAccent"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorGravity="top"
+            app:tabIndicatorHeight="1dp"
+            app:tabRippleColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:tabTextColor="@color/colorPrimary"
+            app:tabUnboundedRipple="true"
+            app:tabInlineLabel="true"
+            android:background="?android:attr/windowBackground">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/news_tab_moodle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_moodle"
+                android:text="@string/news_tab_moodle"/>
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/news_tab_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_twitter"
+                android:text="@string/news_tab_twitter"/>
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/news_tab_faculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/ic_faculty"
+                android:text="@string/news_tab_faculty"/>
+
+        </android.support.design.widget.TabLayout>
     </LinearLayout>
 
     <ProgressBar

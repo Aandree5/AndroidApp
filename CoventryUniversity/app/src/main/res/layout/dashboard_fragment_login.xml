@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingBottom="150dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp">
+
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/dashboard_username"
+        android:autofillHints="@string/dashboard_username"
+        android:inputType="textPersonName"
+        android:textColorHighlight="@color/colorPrimary"/>
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="@string/dashboard_password"
+        android:autofillHints="@string/dashboard_password"
+        android:inputType="textPassword"
+        android:imeOptions="actionGo"
+        android:nextFocusForward="@id/login_button" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/dashboard_tab_login"
+        android:contentDescription="@string/dashboard_tab_login"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

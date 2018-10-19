@@ -102,19 +102,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId())
         {
             case R.id.nav_news:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new NewsFragment())
+                        .addToBackStack(null)
+                        .commit();
 
                 // Update subtitle info
                 toolbar.setSubtitle(menuItem.getTitle());
                 break;
             case R.id.nav_dashboard:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new DashboardFragment())
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.nav_timetable:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TimetableFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new TimetableFragment())
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.nav_library:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LibraryFragment()).commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new LibraryFragment())
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.nav_settings:
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
