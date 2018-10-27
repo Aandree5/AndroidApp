@@ -43,13 +43,9 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
     {
         View view = inflater.inflate(R.layout.dashboard_fragment_enrolcourse, container, false);
 
-        HashMap<String, String> requestInfo = new HashMap<>();
-        requestInfo.put("type", "get_course_registration");
-        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
-
         enrolcourseLayout = view.findViewById(R.id.enrolcourse_layout);
 
-        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Registered Course").execute();
+        connectWithRetry();
 
         ttlTxtName = view.findViewById(R.id.enrolcourse_name);
         ttlTxtCode = view.findViewById(R.id.enrolcourse_code);
@@ -65,18 +61,27 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
             if (!ttlTxtName.isTextEmpty() && !ttlTxtCode.isTextEmpty() && !ttlTxtType.isTextEmpty() && !ttlTxtStudyOption.isTextEmpty()
                     && !ttlTxtYear.isTextEmpty() && !ttlTxtStart.isTextEmpty() && !ttlTxtEnd.isTextEmpty() && !ttlTxtLocation.isTextEmpty())
             {
+                HashMap<String, String> requestInfo = new HashMap<>();
                 requestInfo.put("type", "confirm_course_registration");
+                requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
 
-                new connectMySQL(new WeakReference<>(DashboardEnrolCrouseFragment.this), FILE_ENROL, requestInfo, "Confirming Course").execute();
+                new connectMySQL(new WeakReference<>(DashboardEnrolCrouseFragment.this), FILE_ENROL, requestInfo, "Confirming Course", false).execute();
             }
         });
 
-        view.findViewById(R.id.enrolcourse_cancel).setOnClickListener(v ->
-        {
-            getActivity().onBackPressed();
-        });
+        view.findViewById(R.id.enrolcourse_cancel).setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
 
         return view;
+    }
+
+    @Override
+    public void connectWithRetry()
+    {
+        HashMap<String, String> requestInfo = new HashMap<>();
+        requestInfo.put("type", "get_course_registration");
+        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+
+        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Registered Course").execute();
     }
 
     @Override
@@ -121,6 +126,7 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
     public void connectionUnsuccessful()
     {
         Toast.makeText(getContext(), "Unable to get data, please try again.", Toast.LENGTH_LONG).show();
-        Objects.requireNonNull(getActivity()).onBackPressed();
+
+        setChildsEnabled(enrolcourseLayout, true);
     }
 }

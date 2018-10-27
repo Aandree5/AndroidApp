@@ -1,7 +1,5 @@
 package domains.coventry.andrefmsilva.dashboard;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +15,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import domains.coventry.andrefmsilva.CustomViews.EnrolButton;
-import domains.coventry.andrefmsilva.CustomViews.LoadingView;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
@@ -44,14 +41,9 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
 
         ((MainActivity)Objects.requireNonNull(getActivity(), "Activity must not be null.")).setToolbarText(R.string.dashboard_enrolement);
 
-        HashMap<String, String> requestInfo = new HashMap<>();
-        requestInfo.put("type", "getState");
-        requestInfo.put("id", String.valueOf(((MainActivity)getActivity()).getUserID()));
-
-
         enrolLayout = view.findViewById(R.id.enrol_layout);
 
-        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Enrolment Status").execute();
+        connectWithRetry();
 
         enrolCourseRegistration = view.findViewById(R.id.enrol_course_registration);
         enrolItRegistration = view.findViewById(R.id.enrol_it_registration);
@@ -62,16 +54,23 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
         enrolDisabilityRegistration = view.findViewById(R.id.enrol_disability_registration);
         enrolAddressRegistration = view.findViewById(R.id.enrol_address_registration);
 
-        enrolCourseRegistration.setOnClickListener(v ->
-        {
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new DashboardEnrolCrouseFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        enrolCourseRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                                                                .beginTransaction()
+                                                                .replace(R.id.fragment_container, new DashboardEnrolCrouseFragment())
+                                                                .addToBackStack(null)
+                                                                .commit());
 
         return view;
+    }
+
+    @Override
+    public void connectWithRetry()
+    {
+        HashMap<String, String> requestInfo = new HashMap<>();
+        requestInfo.put("type", "getState");
+        requestInfo.put("id", String.valueOf(((MainActivity)Objects.requireNonNull(getActivity())).getUserID()));
+
+        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Enrolment Status").execute();
     }
 
     @Override
@@ -99,14 +98,5 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
     public void connectionUnsuccessful()
     {
         Toast.makeText(getContext(), "Unable to connect to server, please try again.", Toast.LENGTH_LONG).show();
-
-        SharedPreferences.Editor sharedPreferencesEditor = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE).edit();
-        sharedPreferencesEditor.remove("status");
-        sharedPreferencesEditor.remove("id");
-        sharedPreferencesEditor.remove("name");
-        sharedPreferencesEditor.remove("birth_date");
-        sharedPreferencesEditor.apply();
-
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
     }
 }

@@ -70,11 +70,6 @@ public class TitledTextView extends LinearLayout
         return ((TextView)findViewById(R.id.titledtextview_text)).getText().toString();
     }
 
-    public Boolean isTitleEmpty()
-    {
-        return ((TextView)findViewById(R.id.titledtextview_title)).getText().toString().equals("");
-    }
-
     public Boolean isTextEmpty()
     {
         return ((TextView)findViewById(R.id.titledtextview_text)).getText().toString().equals("");

@@ -1,10 +1,7 @@
 package domains.coventry.andrefmsilva.utils;
 
-import android.support.constraint.ConstraintLayout;
-import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

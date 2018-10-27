@@ -10,8 +10,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/dr_loadingview"
-        android:orientation="vertical"
         android:elevation="10dp">
+
+        <Button
+            android:id="@+id/loadingview_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dr_retry_button"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
 
         <ProgressBar
             android:id="@+id/loadingview_progressbar"

@@ -52,7 +52,7 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
             resquestInfo.put("username", editTxtUsername.getText().toString());
             resquestInfo.put("password", editTxtPassword.getText().toString());
 
-            new connectMySQL(new WeakReference<>(DashboardLoginFragment.this), FILE_LOGIN, resquestInfo, "Checking Login Details").execute();
+            new connectMySQL(new WeakReference<>(DashboardLoginFragment.this), FILE_LOGIN, resquestInfo, "Checking Login Details", false).execute();
         });
 
         editTxtPassword.setOnEditorActionListener((v, actionId, event) ->

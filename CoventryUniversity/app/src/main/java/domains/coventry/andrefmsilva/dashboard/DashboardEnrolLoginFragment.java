@@ -91,7 +91,9 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
             }
         });
 
-        btnEnrol.setOnClickListener(v -> {
+        btnEnrol.setOnClickListener(v ->
+        {
+
             HashMap<String, String> resquestInfo = new HashMap<>();
             resquestInfo.put("type", "login");
             resquestInfo.put("id", editTxtStudentId.getText().toString());
@@ -105,7 +107,7 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
                 Log.e("btnEnrol.setOnClickListener", e.getMessage(), e);
             }
 
-            new connectMySQL(new WeakReference<>(DashboardEnrolLoginFragment.this), FILE_ENROL, resquestInfo, "Checking Login Details").execute();
+            new connectMySQL(new WeakReference<>(DashboardEnrolLoginFragment.this), FILE_ENROL, resquestInfo, "Checking Login Details", false).execute();
         });
 
         return view;
