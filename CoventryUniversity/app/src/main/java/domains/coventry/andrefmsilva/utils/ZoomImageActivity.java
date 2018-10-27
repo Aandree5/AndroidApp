@@ -1,4 +1,4 @@
-package domains.coventry.andrefmsilva.coventryuniversity;
+package domains.coventry.andrefmsilva.utils;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
@@ -7,6 +7,9 @@ import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import domains.coventry.andrefmsilva.CustomViews.ZoomImageView;
+import domains.coventry.andrefmsilva.coventryuniversity.R;
 
 
 public class ZoomImageActivity extends Activity

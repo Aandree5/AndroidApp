@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/enrollogin_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="50dp"
+    android:paddingEnd="50dp">
+
+    <EditText
+        android:id="@+id/enrollogin_studentid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/enrollogin_birthdate"
+        android:hint="StudentID"
+        android:inputType="number"
+        android:autofillHints="StudentID"
+        android:layout_marginBottom="30dp"/>
+
+    <EditText
+        android:id="@+id/enrollogin_birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date of Birth"
+        android:inputType="date"
+        android:autofillHints="BirthDate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/enrollogin_enrol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="Enrol"
+        app:layout_constraintTop_toBottomOf="@id/enrollogin_birthdate"/>
+
+</android.support.constraint.ConstraintLayout>

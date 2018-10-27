@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <domains.coventry.andrefmsilva.coventryuniversity.ZoomImageView
+    <domains.coventry.andrefmsilva.CustomViews.ZoomImageView
         android:id="@+id/zoom_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -9,4 +9,13 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="TitledTextView">
+        <attr name="ttv_title" format="string" />
+        <attr name="ttv_text" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="LoadingView">
+        <attr name="lv_text" format="string" />
+    </declare-styleable>
+
 </resources>

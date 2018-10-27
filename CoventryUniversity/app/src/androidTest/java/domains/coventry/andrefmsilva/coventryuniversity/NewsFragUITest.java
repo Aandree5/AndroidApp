@@ -40,7 +40,7 @@ public class NewsFragUITest
         onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.LEFT))).perform(open());
 
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(R.id.nav_news));
-    }    
+    }
 
     @Test
     public void clickMoodleNewsTab_LoadsMoodleNews() throws Exception

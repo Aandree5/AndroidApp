@@ -19,11 +19,13 @@
         <item
             android:id="@+id/nav_timetable"
             android:icon="@drawable/ic_timetable"
-            android:title="@string/nav_timetable" />
+            android:title="@string/nav_timetable"
+            android:enabled="false"/>
         <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_library"
-            android:title="@string/nav_library" />
+            android:title="@string/nav_library"
+            android:enabled="false"/>
 
     </group>
 

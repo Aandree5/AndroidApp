@@ -51,6 +51,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
+import domains.coventry.andrefmsilva.utils.ZoomImageActivity;
+
 //TODO: Add scroll up to refresh news
 public class NewsFragment extends Fragment
 {

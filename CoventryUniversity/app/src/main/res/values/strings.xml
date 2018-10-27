@@ -18,9 +18,16 @@
     <string name="news_tab_moodle">Moodle</string>
     <string name="news_tab_twitter">Twitter</string>
     <string name="news_tab_faculty">Faculty</string>
+    <string name="nav_user_name_placeholder">User</string>
+    <string name="nav_user_email_placeholder">Email</string>
 
     <string name="dashboard_tab_login">Login</string>
     <string name="dashboard_tab_enrol">Enrol</string>
     <string name="dashboard_username">Username</string>
     <string name="dashboard_password">Password</string>
+    <string name="dashboard_enrolement">Enrolement</string>
+    <string name="dashboard_login_successful">Login Successful</string>
+    <string name="dashboard_incorrect_user_pass">Username or password are incorrect</string>
+    <string name="dashboard_incorrect_id_date">StudentID or date of birth are incorrect</string>
+    <string name="nav_header_user_photo">User Photo</string>
 </resources>

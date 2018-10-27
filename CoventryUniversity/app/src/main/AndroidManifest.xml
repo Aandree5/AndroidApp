@@ -21,8 +21,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ZoomImageActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name="domains.coventry.andrefmsilva.utils.ZoomImageActivity"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

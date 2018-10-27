@@ -1,4 +1,4 @@
-package domains.coventry.andrefmsilva.coventryuniversity;
+package domains.coventry.andrefmsilva.CustomViews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
 
 public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 {

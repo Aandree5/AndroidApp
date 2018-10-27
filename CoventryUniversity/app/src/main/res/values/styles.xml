@@ -5,12 +5,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:textColorPrimaryInverse">@color/textColorPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
-        <item name="android:textColorSecondaryInverse">@color/textColorSecondaryInverse</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorPrimaryInverse">@color/textPrimaryInverse</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="android:textColorSecondaryInverse">@color/textSecondaryInverse</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="editTextStyle">@style/AppTheme.EditText</item>
+        <item name="android:buttonStyleToggle">@style/AppTheme.Button</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -20,16 +22,25 @@
     </style>
 
     <style name="AppTheme.Toolbar">
-        <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/textColorSecondaryInverse</item>
+        <item name="android:textColorPrimary">@color/textPrimaryInverse</item>
+        <item name="android:textColorSecondary">@color/textSecondaryInverse</item>
     </style>
 
     <style name="AppTheme.Button">
-        <item name="android:textColorPrimary">@color/textColorPrimaryInverse</item>
+        <item name="android:textColor">@color/co_button_text</item>
         <item name="android:background">@drawable/dr_button</item>
         <item name="android:padding">10dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="AppTheme.TextView">
+        <item name="android:textColor">@color/co_primary_text</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:breakStrategy">simple</item>
+        <item name="android:hyphenationFrequency">normal</item>
+        <item name="android:textColorHighlight">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.EditText" parent="Widget.AppCompat.EditText">
