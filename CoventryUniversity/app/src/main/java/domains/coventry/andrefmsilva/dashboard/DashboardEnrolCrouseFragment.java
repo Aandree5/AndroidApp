@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,11 @@ import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.CustomViews.TitledTextView;
 
+import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.APP_DATE_FORMAT;
 import static domains.coventry.andrefmsilva.utils.Utils.SQL_DATE_FORMAT;
 import static domains.coventry.andrefmsilva.utils.Utils.formatDate;
-import static domains.coventry.andrefmsilva.utils.Utils.setChildsEnabled;
+import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConnector
 {
@@ -43,8 +45,11 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
     {
         View view = inflater.inflate(R.layout.dashboard_fragment_enrolcourse, container, false);
 
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_course, R.string.dashboard_enrolement);
+
         enrolcourseLayout = view.findViewById(R.id.enrolcourse_layout);
 
+        // Initiate connection to database
         connectWithRetry();
 
         ttlTxtName = view.findViewById(R.id.enrolcourse_name);
@@ -81,19 +86,21 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
         requestInfo.put("type", "get_course_registration");
         requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
 
-        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Registered Course").execute();
+        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Registered Course").execute();
     }
 
     @Override
     public void connectionStarted()
     {
-        setChildsEnabled(enrolcourseLayout, false);
+        // Disable all layout children
+        setChildrenEnabled(enrolcourseLayout, false);
     }
 
     @Override
     public void connectionSuccessful(HashMap<String, String> results)
     {
-        if (results.size() > 1)
+        // If not empty, it's because was trying to get info from teh database
+        if (results.size() > 0)
         {
             ttlTxtName.setText(results.get("name"));
             ttlTxtCode.setText(results.get("code"));
@@ -105,15 +112,16 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
 
             try
             {
-                ttlTxtStart.setText(formatDate(results.get("start_date"), SQL_DATE_FORMAT, APP_DATE_FORMAT));
-                ttlTxtEnd.setText(formatDate(results.get("end_date"), SQL_DATE_FORMAT, APP_DATE_FORMAT));
+                ttlTxtStart.setText(formatDate(Objects.requireNonNull(results.get("start_date")), SQL_DATE_FORMAT, APP_DATE_FORMAT));
+                ttlTxtEnd.setText(formatDate(Objects.requireNonNull(results.get("end_date")), SQL_DATE_FORMAT, APP_DATE_FORMAT));
             }
             catch (ParseException e)
             {
                 Log.e("DashboardEnrolCrouseFragment", e.getMessage(), e);
             }
 
-            setChildsEnabled(enrolcourseLayout, true);
+            // Enable all layout children
+            setChildrenEnabled(enrolcourseLayout, true);
         }
         else
         {
@@ -123,10 +131,14 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
     }
 
     @Override
-    public void connectionUnsuccessful()
+    public void connectionUnsuccessful(Boolean canRetry)
     {
-        Toast.makeText(getContext(), "Unable to get data, please try again.", Toast.LENGTH_LONG).show();
+        if (!canRetry)
+        {
+            Toast.makeText(getContext(), "Unable to connect, please try again.", Toast.LENGTH_LONG).show();
 
-        setChildsEnabled(enrolcourseLayout, true);
+            // Enable all layout children
+            setChildrenEnabled(enrolcourseLayout, true);
+        }
     }
 }

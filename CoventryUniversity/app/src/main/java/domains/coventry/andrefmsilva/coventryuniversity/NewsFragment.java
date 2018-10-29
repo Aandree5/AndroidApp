@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,15 +52,16 @@ import java.util.Objects;
 
 import domains.coventry.andrefmsilva.utils.ZoomImageActivity;
 
+import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+
 //TODO: Add scroll up to refresh news
+//TODO: Change loading state to a InfoDialog, with retry
 public class NewsFragment extends Fragment
 {
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    ActionBar toolbar;
     TabLayout tabLayout;
-
-    int tabSelectedPosition;
+    Integer tabSelectedPosition;
 
     @Nullable
     @Override
@@ -74,13 +74,8 @@ public class NewsFragment extends Fragment
         progressBar = view.findViewById(R.id.news_progressbar);
         tabLayout = view.findViewById(R.id.news_tab_layout);
 
-        // Set the recycler view layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-        // As getSupportActionBar can be null a check is made first
-        toolbar = ((AppCompatActivity) Objects.requireNonNull(getActivity(), "Activity must not be null.")).getSupportActionBar();
-
-        // Set listener that gets called when a new item is selected
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {
             @Override
@@ -91,15 +86,15 @@ public class NewsFragment extends Fragment
                 switch (tabSelectedPosition)
                 {
                     case 0:
-                        toolbar.setTitle(R.string.news_tab_moodle);
+                        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_moodle);
                         showMoodleNews();
                         break;
                     case 1:
-                        toolbar.setTitle(R.string.news_tab_twitter);
+                        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_twitter);
                         showTwitterNews();
                         break;
                     case 2:
-                        toolbar.setTitle(R.string.news_tab_faculty);
+                        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_faculty);
                         showFacultyNews();
                         break;
                 }
@@ -118,10 +113,10 @@ public class NewsFragment extends Fragment
             }
         });
 
+        // Show defaults
         if (savedInstanceState == null)
         {
-            // Set the action bar title, selected item and show default news
-            toolbar.setTitle(R.string.news_tab_twitter);
+            setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_twitter);
             Objects.requireNonNull(tabLayout.getTabAt(1)).select();
             showTwitterNews();
         }
@@ -176,7 +171,6 @@ public class NewsFragment extends Fragment
             }
         });
 
-        // Set the new adapter
         recyclerView.setAdapter(adapter);
     }
 
@@ -220,7 +214,6 @@ public class NewsFragment extends Fragment
      */
     public void attachTimeline(@NonNull Timeline<Tweet> timeline)
     {
-        // Creste adapter for recycler view
         TweetTimelineRecyclerViewAdapter adapter = new TweetTimelineRecyclerViewAdapter.Builder(getContext())
                 .setTimeline(timeline)
                 .setViewStyle(R.style.tw__TweetLightWithActionsStyle)
@@ -241,7 +234,6 @@ public class NewsFragment extends Fragment
             }
         });
 
-        // Set the new adapter
         recyclerView.setAdapter(adapter);
     }
 
@@ -250,14 +242,17 @@ public class NewsFragment extends Fragment
      */
     private static class ReadRSS extends AsyncTask<Void, Void, Boolean> implements Html.ImageGetter
     {
-        private String imgSrc; // Link for the first image found when reading moodle rss description
+        // Link for the first image found when reading moodle rss description
+        private String imgSrc;
         private WeakReference<RSSAdapter> rssAdapter;
 
+
+        //TODO: Restructure class to not change rssFeed directly
 
         /**
          * Constructor, get reference of adapter to notify the data changed and animations play accordingly, alter adapter rss feed array directly
          *
-         * @param rssAdapter Adaper to be notifyed the data changed, and access recycler view and rssFeed array
+         * @param rssAdapter Adapter to be notified the data changed, and access recycler view and rssFeed array
          */
         ReadRSS(WeakReference<RSSAdapter> rssAdapter)
         {
@@ -292,6 +287,7 @@ public class NewsFragment extends Fragment
             RSSAdapter adapter = rssAdapter.get();
             RecyclerView rView = adapter.rView;
 
+            // Notify adapter and recycler view that data was loaded
             if (aBoolean && rView != null)
             {
                 adapter.notifyDataSetChanged();
@@ -299,6 +295,15 @@ public class NewsFragment extends Fragment
             }
         }
 
+
+        /**
+         * Parses the rss feed from the input stream to return an array of hashmaps for each news
+         *
+         * @param iStream Input Stream to read the rss feed
+         * @return Array of hasmap<String, String> of each news
+         * @throws XmlPullParserException Error parsing xml file
+         * @throws IOException            Error reading from iStream
+         */
         @NonNull
         private ArrayList<HashMap<String, String>> parseFeed(@NonNull InputStream iStream) throws XmlPullParserException, IOException
         {
@@ -326,8 +331,9 @@ public class NewsFragment extends Fragment
                     }
                     else if (eventType == XmlPullParser.TEXT && readingItem)
                     {
-                        // Remove obj character that stays inside the string when an <img> tag is removed
                         SpannableStringBuilder spanString = (SpannableStringBuilder) Html.fromHtml(xpp.getText(), Html.FROM_HTML_MODE_COMPACT, this, null);
+
+                        // Remove obj character that stays inside the string when an <img> tag is removed
                         Object[] spanObjects = spanString.getSpans(0, spanString.length(), Object.class);
                         for (Object sObj : spanObjects)
                         {
@@ -356,6 +362,7 @@ public class NewsFragment extends Fragment
                                 // Separate the author from the description
                                 String author = text.substring(2, text.indexOf('.')).trim();
                                 String des = text.substring(text.indexOf('.') + 4, text.length()).trim();
+
                                 item.put("author", author);
                                 item.put(xpp.getName(), des);
 
@@ -427,7 +434,7 @@ public class NewsFragment extends Fragment
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeStream(url.openConnection().getInputStream(), null, options);
-                int maxSize = 256; // Image max size (Width or Height wich ever comes first)
+                int maxSize = 256; // Image max size (Width or Height whichever comes first)
 
                 options.inSampleSize = 1;
                 if (options.outHeight > maxSize || options.outWidth > maxSize)
@@ -488,11 +495,15 @@ public class NewsFragment extends Fragment
         private ReadRSS reader; //If user reselects the same bottom navigation option it just creates a new instance overriding the old one
         private LoadImageURL imageLoader;
 
-        // Start reader and get the data form moodle
+        /**
+         * Constructor, create and execure reader
+         */
         RSSAdapter()
         {
             reader = new ReadRSS(new WeakReference<>(this));
             reader.execute();
+
+            // Let's reycler view play animations for each view inside (They need an id)
             setHasStableIds(true);
         }
 

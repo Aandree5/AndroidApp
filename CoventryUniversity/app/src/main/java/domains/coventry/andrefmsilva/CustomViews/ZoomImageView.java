@@ -32,7 +32,12 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         ZOOM
     }
 
-
+    /**
+     * Constructor
+     *
+     * @param context Context to add the view
+     * @param attrs   View attributes set in XML
+     */
     public ZoomImageView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -130,7 +135,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
     /**
      * Get the space between two fingers (Pinch)
      *
-     * @param event The touch event to get the finger positions from
+     * @param event The touch event to get the finger positions
      * @return The spacing between both fingers (Pinch)
      */
     private float getPinchDistance(MotionEvent event)

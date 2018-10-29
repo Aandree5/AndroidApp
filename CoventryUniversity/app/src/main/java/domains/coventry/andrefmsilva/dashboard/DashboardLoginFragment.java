@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,11 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
-import static domains.coventry.andrefmsilva.utils.Utils.setChildsEnabled;
+import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 
 public class DashboardLoginFragment extends Fragment implements MySQLConnector
@@ -38,7 +39,7 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
     {
         View view = inflater.inflate(R.layout.dashboard_fragment_login, container, false);
 
-        ((MainActivity)Objects.requireNonNull(getActivity(), "Activity must not be null.")).setToolbarText(R.string.dashboard_tab_login);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.dashboard_tab_login, R.string.app_name);
 
         layoutLogin = view.findViewById(R.id.login_layout);
         editTxtUsername = view.findViewById(R.id.login_username);
@@ -52,7 +53,7 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
             resquestInfo.put("username", editTxtUsername.getText().toString());
             resquestInfo.put("password", editTxtPassword.getText().toString());
 
-            new connectMySQL(new WeakReference<>(DashboardLoginFragment.this), FILE_LOGIN, resquestInfo, "Checking Login Details", false).execute();
+            new connectMySQL(new WeakReference<>(DashboardLoginFragment.this), FILE_LOGIN, resquestInfo, "Login In", false).execute();
         });
 
         editTxtPassword.setOnEditorActionListener((v, actionId, event) ->
@@ -70,7 +71,8 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
     @Override
     public void connectionStarted()
     {
-        setChildsEnabled(layoutLogin, false);
+        // Disable all layout children
+        setChildrenEnabled(layoutLogin, false);
     }
 
     @Override
@@ -90,10 +92,11 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
     }
 
     @Override
-    public void connectionUnsuccessful()
+    public void connectionUnsuccessful(Boolean canRetry)
     {
         Toast.makeText(getContext(), R.string.dashboard_incorrect_user_pass, Toast.LENGTH_SHORT).show();
 
-        setChildsEnabled(layoutLogin, true);
+        // Enable all layout children
+        setChildrenEnabled(layoutLogin, true);
     }
 }

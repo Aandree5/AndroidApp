@@ -1,8 +1,9 @@
 package domains.coventry.andrefmsilva.utils;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,11 +18,10 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
-import static android.view.View.GONE;
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.getLoadginView;
 
 public interface MySQLConnector
 {
@@ -30,59 +30,77 @@ public interface MySQLConnector
     String FILE_ENROL = "enrol";
     String FILE_LOGIN = "login";
 
+    /**
+     * Gets called when retry button is pressed, used to write the connecting function to the database
+     */
     default void connectWithRetry()
     {
     }
 
+    /**
+     * Gets called before the async task begins
+     */
     void connectionStarted();
+
+    /**
+     * Called on successful connection, with the results from the connection
+     *
+     * @param results Hasmap with the data retreived from the databse, will be empty if succeded but no data was to be retreived
+     */
     void connectionSuccessful(HashMap<String, String> results);
-    void connectionUnsuccessful();
+
+    /**
+     * Called on unsuccessfull connection, with the information if was a "retry" type connection or not
+     *
+     * @param canRetry True is was a "retry" type connection, when true shows automatic retry dialog, if false doesn't show anything
+     */
+    default void connectionUnsuccessful(Boolean canRetry)
+    {
+    }
+
 
     class connectMySQL extends AsyncTask<Void, Void, HashMap<String, String>>
     {
         WeakReference<MySQLConnector> mySQLConnector;
         String mySQLLink;
         HashMap<String, String> requestInfo;
-        String text;
+        String title;
         Boolean canRetry;
 
-        @SuppressWarnings("unused")
-        public connectMySQL(WeakReference<MySQLConnector> mySQLConnector, String fileToConnect, HashMap<String, String> requestInfo)
-        {
-            this.mySQLConnector = mySQLConnector;
-            this.mySQLLink = String.format("%s%s.php", link, fileToConnect);
-            this.requestInfo = requestInfo;
-            this.canRetry = true;
-            this.text = null;
-        }
+        private InfoDialog infoDialog;
 
-        @SuppressWarnings("unused")
-        public connectMySQL(WeakReference<MySQLConnector> mySQLConnector, String fileToConnect, HashMap<String, String> requestInfo, Boolean canRetry)
+        /**
+         * Constructor with retry automatically set to true
+         *
+         * @param mySQLConnector Class that called the connections, implementing mySQLCOnnector
+         * @param fileToConnect  Type of file to connect to
+         * @param requestInfo    Hashmap of information to send to database
+         * @param title          Title to show on InfoDialog
+         */
+        public connectMySQL(@NonNull WeakReference<MySQLConnector> mySQLConnector, @NonNull String fileToConnect, @NonNull HashMap<String, String> requestInfo, @NonNull String title)
         {
             this.mySQLConnector = mySQLConnector;
             this.mySQLLink = String.format("%s%s.php", link, fileToConnect);
             this.requestInfo = requestInfo;
-            this.canRetry = canRetry;
-            this.text = null;
-        }
-
-        @SuppressWarnings("unused")
-        public connectMySQL(WeakReference<MySQLConnector> mySQLConnector, String fileToConnect, HashMap<String, String> requestInfo, String text)
-        {
-            this.mySQLConnector = mySQLConnector;
-            this.mySQLLink = String.format("%s%s.php", link, fileToConnect);
-            this.requestInfo = requestInfo;
-            this.text = text;
+            this.title = title;
             this.canRetry = true;
         }
 
-        @SuppressWarnings("unused")
-        public connectMySQL(WeakReference<MySQLConnector> mySQLConnector, String fileToConnect, HashMap<String, String> requestInfo, String text, Boolean canRetry)
+        /**
+         * Constructor
+         *
+         * @param mySQLConnector Class that called the connections, implementing mySQLCOnnector
+         * @param fileToConnect  Type of file to connect to
+         * @param requestInfo    Hashmap of information to send to database
+         * @param title          Title to show on InfoDialog
+         * @param canRetry       True if the user can have the option to retry the connection
+         */
+        public connectMySQL(@NonNull WeakReference<MySQLConnector> mySQLConnector, @NonNull String fileToConnect, @NonNull HashMap<String, String> requestInfo, @NonNull String title, @NonNull Boolean canRetry)
         {
             this.mySQLConnector = mySQLConnector;
             this.mySQLLink = String.format("%s%s.php", link, fileToConnect);
             this.requestInfo = requestInfo;
-            this.text = text;
+            this.title = title;
             this.canRetry = canRetry;
         }
 
@@ -92,8 +110,9 @@ public interface MySQLConnector
             super.onPreExecute();
             mySQLConnector.get().connectionStarted();
 
-            getLoadginView().setVisibility(View.VISIBLE);
-            getLoadginView().setText(text);
+            // A reference of the dialog is kept, so it can be canceled when task finishes
+            infoDialog = InfoDialog.newIntance(InfoDialog.Type.NO_ACTION, title);
+            infoDialog.show(Objects.requireNonNull(((Fragment) mySQLConnector.get()).getFragmentManager()), null);
         }
 
         @Override
@@ -103,7 +122,7 @@ public interface MySQLConnector
             try
             {
                 StringBuilder data = new StringBuilder();
-                for(String rI : requestInfo.keySet())
+                for (String rI : requestInfo.keySet())
                     data.append(URLEncoder.encode(rI, "UTF-8")).append("=").append(URLEncoder.encode(requestInfo.get(rI), "UTF-8")).append("&");
 
                 URL url = new URL(mySQLLink);
@@ -147,31 +166,32 @@ public interface MySQLConnector
         {
             super.onPostExecute(results);
 
-            if (results.size() > 0)
-            {
+            infoDialog.dismiss();
+
+            // If got information form the connection but wasn't a status response
+            if (results.size() > 0 && results.get("status") == null)
                 mySQLConnector.get().connectionSuccessful(results);
-                getLoadginView().setVisibility(GONE);
-            }
+
+                // If was a status return and was confirmed (successfull), send an empty hashmap because there was no information to be read
+            else if (Objects.equals(results.get("status"), "confirmed"))
+                mySQLConnector.get().connectionSuccessful(new HashMap<>());
+
             else
             {
                 if (canRetry)
                 {
-                    getLoadginView().findViewById(R.id.loadingview_retry).setOnClickListener(v ->
+                    infoDialog = InfoDialog.newIntance(InfoDialog.Type.RETRY, title, "Connection failed, please try again.");
+                    infoDialog.showNow(Objects.requireNonNull(((Fragment) mySQLConnector.get()).getFragmentManager()), null);
+
+                    Objects.requireNonNull(infoDialog.getDialog().getWindow()).findViewById(R.id.dialog_confirm).setOnClickListener(v ->
                     {
-                        getLoadginView().findViewById(R.id.loadingview_retry).setVisibility(GONE);
-                        getLoadginView().findViewById(R.id.loadingview_progressbar).setVisibility(View.VISIBLE);
+                        infoDialog.dismiss();
 
                         mySQLConnector.get().connectWithRetry();
                     });
-
-                    getLoadginView().findViewById(R.id.loadingview_progressbar).setVisibility(GONE);
-                    getLoadginView().findViewById(R.id.loadingview_retry).setVisibility(View.VISIBLE);
                 }
 
-                mySQLConnector.get().connectionUnsuccessful();
-
-                if(!canRetry)
-                    getLoadginView().setVisibility(GONE);
+                mySQLConnector.get().connectionUnsuccessful(canRetry);
             }
 
         }

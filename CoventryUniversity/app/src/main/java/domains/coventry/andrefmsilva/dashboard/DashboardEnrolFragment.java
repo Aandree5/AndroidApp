@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -19,7 +19,8 @@ import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
-import static domains.coventry.andrefmsilva.utils.Utils.setChildsEnabled;
+import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 public class DashboardEnrolFragment extends Fragment implements MySQLConnector
 {
@@ -39,7 +40,7 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
     {
         View view = inflater.inflate(R.layout.dashboard_fragment_enrol, container, false);
 
-        ((MainActivity)Objects.requireNonNull(getActivity(), "Activity must not be null.")).setToolbarText(R.string.dashboard_enrolement);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.dashboard_enrolement, R.string.app_name);
 
         enrolLayout = view.findViewById(R.id.enrol_layout);
 
@@ -55,10 +56,16 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
         enrolAddressRegistration = view.findViewById(R.id.enrol_address_registration);
 
         enrolCourseRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                                                                .beginTransaction()
-                                                                .replace(R.id.fragment_container, new DashboardEnrolCrouseFragment())
-                                                                .addToBackStack(null)
-                                                                .commit());
+                .beginTransaction()
+                .replace(R.id.fragment_container, new DashboardEnrolCrouseFragment())
+                .addToBackStack(null)
+                .commit());
+
+        enrolItRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new DashboardEnrolItFragment())
+                .addToBackStack(null)
+                .commit());
 
         return view;
     }
@@ -70,19 +77,21 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
         requestInfo.put("type", "getState");
         requestInfo.put("id", String.valueOf(((MainActivity)Objects.requireNonNull(getActivity())).getUserID()));
 
-        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking Enrolment Status").execute();
+        new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Enrolment Status").execute();
     }
 
     @Override
     public void connectionStarted()
     {
-        setChildsEnabled(enrolLayout, false);
+        // Disable all layout children
+        setChildrenEnabled(enrolLayout, false);
     }
 
     @Override
     public void connectionSuccessful(HashMap<String, String> results)
     {
-        setChildsEnabled(enrolLayout, true);
+        // Enable all layout children
+        setChildrenEnabled(enrolLayout, true);
 
         enrolCourseRegistration.setActivated(Objects.equals(results.get("course_registration"), "1"));
         enrolItRegistration.setActivated(Objects.equals(results.get("it_registration"), "1"));
@@ -92,11 +101,5 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
         enrolIdCardPhoto.setActivated(Objects.equals(results.get("id_card_photo"), "1"));
         enrolDisabilityRegistration.setActivated(Objects.equals(results.get("disability_registration"), "1"));
         enrolAddressRegistration.setActivated(Objects.equals(results.get("address_registration"), "1"));
-    }
-
-    @Override
-    public void connectionUnsuccessful()
-    {
-        Toast.makeText(getContext(), "Unable to connect to server, please try again.", Toast.LENGTH_LONG).show();
     }
 }

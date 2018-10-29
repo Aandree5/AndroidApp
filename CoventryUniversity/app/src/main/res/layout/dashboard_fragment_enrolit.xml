@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enrolit_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        android:id="@+id/enrolit_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ttv_title="Username" />
+
+    <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        android:id="@+id/enrolit_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ttv_title="Email"
+        app:layout_constraintTop_toBottomOf="@id/enrolit_username" />
+
+    <EditText
+        android:id="@+id/enrolit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enrolit_password"
+        android:inputType="textPassword"
+        android:autofillHints="@string/enrolit_password"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enrolit_email"
+        tools:ignore="UnusedAttribute" />
+
+    <EditText
+        android:id="@+id/enrolit_password_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enrolit_password_confirm"
+        android:inputType="textPassword"
+        android:autofillHints="@string/enrolit_password_confirm"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintStart_toStartOf="@id/enrolit_password"
+        app:layout_constraintTop_toBottomOf="@id/enrolit_password"
+        tools:ignore="UnusedAttribute" />
+
+    <Button
+        android:id="@+id/enrolit_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enrolit_confirm"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/enrolit_password_confirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/enrolit_cancel" />
+
+    <Button
+        android:id="@+id/enrolit_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enrolit_cancel"
+        app:layout_constraintBottom_toBottomOf="@id/enrolit_confirm"
+        app:layout_constraintStart_toEndOf="@id/enrolit_confirm"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

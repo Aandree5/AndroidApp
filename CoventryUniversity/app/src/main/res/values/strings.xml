@@ -14,6 +14,7 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_about">About</string>
 
+    <string name="nav_header_user_photo">User Photo</string>
 
     <string name="news_tab_moodle">Moodle</string>
     <string name="news_tab_twitter">Twitter</string>
@@ -29,5 +30,16 @@
     <string name="dashboard_login_successful">Login Successful</string>
     <string name="dashboard_incorrect_user_pass">Username or password are incorrect</string>
     <string name="dashboard_incorrect_id_date">StudentID or date of birth are incorrect</string>
-    <string name="nav_header_user_photo">User Photo</string>
+    <string name="dashboard_passwords_no_match">Passwords don\'t match, or empty</string>
+
+    <string name="enrol_course">Course</string>
+    <string name="enrol_it">IT Services</string>
+
+    <string name="infodialog_retry">Retry</string>
+    <string name="infodialog_cancel">Cancel</string>
+    <string name="infodialog_ok">OK</string>
+    <string name="enrolit_password">Password</string>
+    <string name="enrolit_password_confirm">Confirm Password</string>
+    <string name="enrolit_confirm">Confirm</string>
+    <string name="enrolit_cancel">Cancel</string>
 </resources>

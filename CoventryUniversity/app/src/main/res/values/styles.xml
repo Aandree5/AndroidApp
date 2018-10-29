@@ -9,10 +9,12 @@
         <item name="android:textColorPrimaryInverse">@color/textPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorSecondaryInverse">@color/textSecondaryInverse</item>
+
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="editTextStyle">@style/AppTheme.EditText</item>
         <item name="android:buttonStyleToggle">@style/AppTheme.Button</item>
         <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+        <item name="android:dialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -29,7 +31,10 @@
     <style name="AppTheme.Button">
         <item name="android:textColor">@color/co_button_text</item>
         <item name="android:background">@drawable/dr_button</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:clickable">true</item>
     </style>
@@ -53,6 +58,10 @@
         <item name="android:breakStrategy">simple</item>
         <item name="android:hyphenationFrequency">normal</item>
         <item name="android:textColorHighlight">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
 </resources>
