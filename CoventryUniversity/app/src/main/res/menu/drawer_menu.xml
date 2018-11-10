@@ -1,7 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
+  : Copyright 2018 Andre Silva. All rights reserved.:
+  :                                                 :
+  : Contact: mateussa@uni.coventry.ac.uk            :
+  :                                                 :
+  : Check my work at,                               :
+  : https://github.coventry.ac.uk/mateussa          :
+  : https://andrefmsilva.coventry.domains           :
+  :                                                 :
+  : drawer_menu.xml                                 :
+  : Last modified 10 Nov 2018                       :
+  :::::::::::::::::::::::::::::::::::::::::::::::::-->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group
@@ -19,19 +30,19 @@
             android:title="@string/nav_dashboard" />
         <item
             android:id="@+id/nav_timetable"
+            android:enabled="false"
             android:icon="@drawable/ic_timetable"
-            android:title="@string/nav_timetable"
-            android:enabled="false"/>
+            android:title="@string/nav_timetable" />
         <item
             android:id="@+id/nav_library"
+            android:enabled="false"
             android:icon="@drawable/ic_library"
-            android:title="@string/nav_library"
-            android:enabled="false"/>
+            android:title="@string/nav_library" />
     </group>
 
     <group
-        android:checkableBehavior="none"
-        android:id="@+id/dummy_id">
+        android:id="@+id/dummy_id"
+        android:checkableBehavior="none">
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"

@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
+  : Copyright 2018 Andre Silva. All rights reserved.:
+  :                                                 :
+  : Contact: mateussa@uni.coventry.ac.uk            :
+  :                                                 :
+  : Check my work at,                               :
+  : https://github.coventry.ac.uk/mateussa          :
+  : https://andrefmsilva.coventry.domains           :
+  :                                                 :
+  : ic_launcher.xml                                 :
+  : Last modified 10 Nov 2018                       :
+  :::::::::::::::::::::::::::::::::::::::::::::::::-->
+
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@drawable/ic_launcher_background" />
     <foreground android:drawable="@drawable/ic_launcher_foreground" />

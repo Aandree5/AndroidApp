@@ -1,3 +1,16 @@
+<!--:::::::::::::::::::::::::::::::::::::::::::::::::
+  : Copyright 2018 Andre Silva. All rights reserved.:
+  :                                                 :
+  : Contact: mateussa@uni.coventry.ac.uk            :
+  :                                                 :
+  : Check my work at,                               :
+  : https://github.coventry.ac.uk/mateussa          :
+  : https://andrefmsilva.coventry.domains           :
+  :                                                 :
+  : ic_login.xml                                    :
+  : Last modified 10 Nov 2018                       :
+  :::::::::::::::::::::::::::::::::::::::::::::::::-->
+
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"

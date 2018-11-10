@@ -1,3 +1,16 @@
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::
+ : Copyright 2018 Andre Silva. All rights reserved. :
+ :                                                  :
+ : Contact: mateussa@uni.coventry.ac.uk             :
+ :                                                  :
+ : Check my work at,                                :
+ : https://github.coventry.ac.uk/mateussa           :
+ : https://andrefmsilva.coventry.domains            :
+ :                                                  :
+ : DashboardEnrolDisabilityFragment                 :
+ : Last modified 10 Nov 2018                        :
+ :::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
 package domains.coventry.andrefmsilva.dashboard;
 
 import android.os.Bundle;

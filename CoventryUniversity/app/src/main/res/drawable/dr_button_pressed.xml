@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
+  : Copyright 2018 Andre Silva. All rights reserved.:
+  :                                                 :
+  : Contact: mateussa@uni.coventry.ac.uk            :
+  :                                                 :
+  : Check my work at,                               :
+  : https://github.coventry.ac.uk/mateussa          :
+  : https://andrefmsilva.coventry.domains           :
+  :                                                 :
+  : dr_button_pressed.xml                           :
+  : Last modified 10 Nov 2018                       :
+  :::::::::::::::::::::::::::::::::::::::::::::::::-->
+
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners android:radius="100dp" />
