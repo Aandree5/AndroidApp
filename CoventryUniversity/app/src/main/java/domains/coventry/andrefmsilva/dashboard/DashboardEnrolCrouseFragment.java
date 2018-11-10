@@ -19,7 +19,7 @@ import java.util.Objects;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
-import domains.coventry.andrefmsilva.CustomViews.TitledTextView;
+import domains.coventry.andrefmsilva.views.TitledTextView;
 
 import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.APP_DATE_FORMAT;

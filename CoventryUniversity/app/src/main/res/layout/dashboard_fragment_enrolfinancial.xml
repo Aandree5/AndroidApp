@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layoutAnimation="@anim/layout_slide_bottom">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/enrolfinancial_layout"
@@ -11,65 +12,65 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
 
-        <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        <domains.coventry.andrefmsilva.views.TitledTextView
             android:id="@+id/enrolfinancial_fees"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:minWidth="60dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:title="@string/enrolfinancial_fees"
-            android:minWidth="60dp" />
+            app:title="@string/enrolfinancial_fees" />
 
-        <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        <domains.coventry.andrefmsilva.views.TitledTextView
             android:id="@+id/enrolfinancial_instalments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:minWidth="50dp"
             app:layout_constraintBottom_toBottomOf="@id/enrolfinancial_fees"
-            app:layout_constraintStart_toEndOf="@id/enrolfinancial_fees"
             app:layout_constraintEnd_toStartOf="@id/enrolfinancial_value"
-            app:title="@string/enrolfinancial_instalments"
-            android:minWidth="50dp" />
+            app:layout_constraintStart_toEndOf="@id/enrolfinancial_fees"
+            app:title="@string/enrolfinancial_instalments" />
 
-        <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        <domains.coventry.andrefmsilva.views.TitledTextView
             android:id="@+id/enrolfinancial_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
+            android:minWidth="50dp"
             app:layout_constraintBottom_toBottomOf="@id/enrolfinancial_instalments"
-            app:layout_constraintStart_toEndOf="@id/enrolfinancial_instalments"
             app:layout_constraintEnd_toStartOf="@id/enrolfinancial_total"
-            app:title="@string/enrolfinancial_value"
-            android:minWidth="50dp" />
+            app:layout_constraintStart_toEndOf="@id/enrolfinancial_instalments"
+            app:title="@string/enrolfinancial_value" />
 
-        <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+        <domains.coventry.andrefmsilva.views.TitledTextView
             android:id="@+id/enrolfinancial_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:minWidth="60dp"
             app:layout_constraintBottom_toBottomOf="@id/enrolfinancial_value"
             app:layout_constraintEnd_toEndOf="parent"
-            app:title="@string/enrolfinancial_total"
-            android:minWidth="60dp" />
+            app:title="@string/enrolfinancial_total" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="368dp"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="147dp"
             android:layout_margin="10dp"
+            android:background="?android:attr/listDivider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/enrolfinancial_instalments" />
+            app:layout_constraintTop_toBottomOf="@id/enrolfinancial_instalments"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="147dp" />
 
         <TextView
             android:id="@+id/enrolfinancial_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/divider"
+            android:minLines="6"
             app:layout_constraintBottom_toTopOf="@id/enrolfinancial_choices"
             app:layout_constraintStart_toStartOf="parent"
-            android:minLines="6" />
+            app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <RadioGroup
             android:id="@+id/enrolfinancial_choices"
@@ -77,9 +78,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/enrolfinancial_confirm"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/enrolfinancial_confirm">
+            app:layout_constraintStart_toStartOf="parent">
 
             <RadioButton
                 android:id="@+id/enrolfinancial_slc"
@@ -115,21 +116,21 @@
             android:id="@+id/enrolfinancial_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/confirm"
             android:layout_marginTop="20dp"
+            android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/enrolfinancial_cancel" />
+            app:layout_constraintEnd_toStartOf="@id/enrolfinancial_cancel"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/enrolfinancial_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"
             android:layout_marginTop="20dp"
+            android:text="@string/cancel"
             app:layout_constraintBottom_toBottomOf="@id/enrolfinancial_confirm"
-            app:layout_constraintStart_toEndOf="@id/enrolfinancial_confirm"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/enrolfinancial_confirm" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

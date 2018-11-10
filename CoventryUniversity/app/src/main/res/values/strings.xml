@@ -32,23 +32,46 @@
     <string name="dashboard_incorrect_id_date">StudentID or date of birth are incorrect</string>
     <string name="dashboard_passwords_no_match">Passwords don\'t match, or empty</string>
 
-    <string name="enrol_course">Course</string>
-
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 
     <string name="infodialog_retry">Retry</string>
     <string name="infodialog_ok">OK</string>
 
+    <string name="settings">Settings</string>
+
+    <string name="news_image">News Image</string>
+
+    <string name="info_check_enrolment">Check Enrolment Status</string>
+    <string name="info_reset_enrolment">Reset Enrolment</string>
+
+    <string name="enrol_course">Course</string>
     <string name="enrol_it">IT Services</string>
+    <string name="enrol_financial">Financial</string>
+    <string name="enrol_emergencycontacts">Emergency Contacts</string>
+    <string name="enrol_cardphoto">Card Photo</string>
+    <string name="enrol_disability">Disability</string>
+    <string name="enrol_address">Address</string>
+    <string name="enrol_compulsory">Compulsory processes</string>
+    <string name="enrol_course_registration">Course Programme Registration</string>
+    <string name="enrol_it_registration">Register for IT Facilities</string>
+    <string name="enrol_financial_registration">Financial Registration</string>
+    <string name="enrol_emergency_registration">Emergency Contact Details</string>
+    <string name="enrol_supplementary">Supplementary processes</string>
+    <string name="enrol_id_photo">ID Card photo upload/collection</string>
+    <string name="enrol_status_letter">Student Status Letters</string>
+    <string name="enrol_status_letter_details">To request a Student Status Letters you first need to collect your card, after that you can print your own letter on your profile options.</string>
+    <string name="enrol_register_vote">Register to vote</string>
+    <string name="enrol_register_vote_details">If you are eligible to vote, you can use the buttons below.</string>
+    <string name="enrol_information">Information</string>
+
     <string name="enrolit_password">Password</string>
     <string name="enrolit_password_confirm">Confirm Password</string>
 
-    <string name="enrol_financial">Financial</string>
     <string name="enrolfinancial_desc_slc">Only for undergraduates, fees paied by the students loan company, you will require you SLC reference number.</string>
     <string name="enrolfinancial_desc_ddebit">Pay the fees before University starts.</string>
     <string name="enrolfinancial_desc_recurrent">Pay the fees split into 8 instalments, with a recurrent bank account option.</string>
-    <string name="enrolfinancial_desc_ddintalments">Pay the fees split into 8 instalments, by direct debit.</string>
+    <string name="enrolfinancial_desc_ddintalmnts">Pay the fees split into 8 instalments, by direct debit.</string>
     <string name="enrolfinancial_fees">Fees</string>
     <string name="enrolfinancial_instalments">Instalments</string>
     <string name="enrolfinancial_value">Value</string>
@@ -58,8 +81,6 @@
     <string name="enrolfinancial_recurrent">Recurrent Instalments</string>
     <string name="enrolfinancial_ddinstalments">Direct Debit Instalments</string>
 
-    <string name="enrol_modules">Modules</string>
-    <string name="enrol_emergencycontacts">Emergency Contacts</string>
     <string name="enrolemergency_firstcontact">First Contact</string>
     <string name="enrolemergency_name">Name</string>
     <string name="enrolemergency_address">Address</string>
@@ -70,10 +91,8 @@
     <string name="enrolemergency_email">Email</string>
     <string name="enrolemergency_secondcontact">Second Contact</string>
 
-    <string name="enrol_cardphoto">Card Photo</string>
     <string name="enrolcardphoto_takepicture">Take picture</string>
 
-    <string name="enrol_disability">Disability</string>
     <string name="enroldisability_handbook">To ensure relevant arrangements can be put in place for any assessment, please adhere to the deadlines detailed in your student handbook.</string>
     <string name="enroldisability_disability_1">Disability 1</string>
     <string name="enroldisability_disability_2">Disability 2</string>
@@ -82,7 +101,26 @@
     <string name="enroldisability_comment">Relevant comments about your disability</string>
     <string name="enroldisability_dsa">I am in receipt of Disabled Students\' Allowance (This is NOT the same as Disability Living Allowance (DLA)).</string>
 
-    <string name="enrol_address">Address</string>
+    <string name="enrolcourse_registered_in">Registered in the following course.</string>
+    <string name="enrolcourse_check_details">Please confirm the details above are correct, for the course you want to take this year.</string>
 
-    <string name="settings">Settings</string>
+    <string name="enroladress_home">Home</string>
+    <string name="enroladress_term">Term</string>
+    <string name="enroladress_contact">Contact</string>
+    <string name="enroladress_same_as">Same as</string>
+    <string name="enroladress_home_address">Home Address</string>
+    <string name="enroladress_term_address">Term Address</string>
+    <string name="enroladress_flat">Flat</string>
+    <string name="enroladress_house">House</string>
+    <string name="enroladress_street">Street</string>
+    <string name="enroladress_city">City</string>
+    <string name="enroladress_region">Region</string>
+    <string name="enroladress_post_code">Post Code</string>
+    <string name="enroladress_country">Country</string>
+    <string name="enroladress_phone">Phone</string>
+    <string name="enroladress_mobile">Mobile</string>
+
+    <string name="enrollogin_student_id">StudentID</string>
+    <string name="enrollogin_birth_date">Date of Birth</string>
+    <string name="enrollogin_enrol">Enrol</string>
 </resources>

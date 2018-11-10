@@ -30,7 +30,6 @@ public interface MySQLConnector
     String FILE_ENROL = "enrol";
     String FILE_LOGIN = "login";
     String FILE_RESETENROL = "resetenrol";
-    String FILE_INFO = "info";
 
     /**
      * Gets called when retry button is pressed, used to write the connecting function to the database

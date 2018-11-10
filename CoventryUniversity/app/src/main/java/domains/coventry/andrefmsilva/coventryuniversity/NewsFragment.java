@@ -70,7 +70,7 @@ public class NewsFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.nav_news, R.string.app_name);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_twitter, R.string.nav_news);
 
         recyclerView = view.findViewById(R.id.news_recyclerview);
         progressBar = view.findViewById(R.id.news_progressbar);
@@ -118,7 +118,6 @@ public class NewsFragment extends Fragment
         // Show defaults
         if (savedInstanceState == null)
         {
-            setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.news_tab_twitter);
             Objects.requireNonNull(tabLayout.getTabAt(1)).select();
             showTwitterNews();
         }
@@ -205,7 +204,6 @@ public class NewsFragment extends Fragment
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()));
         String fac = sharedPreferences.getString((sharedPreferences.getBoolean("settingsFacultyAuto", false) ? "facultyTwitter" : "settingsFacultyTwitter"), "CoventryFAH");
-
 
 
         // Set the twitter user for faculty account

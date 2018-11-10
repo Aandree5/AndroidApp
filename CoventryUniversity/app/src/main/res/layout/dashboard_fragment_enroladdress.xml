@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enroladress_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/enroladress_layout">
+    android:layoutAnimation="@anim/layout_slide_bottom"
+    android:orientation="vertical">
 
 
     <android.support.design.widget.TabLayout
@@ -29,17 +30,17 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home" />
+            android:text="@string/enroladress_home" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Term" />
+            android:text="@string/enroladress_term" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact" />
+            android:text="@string/enroladress_contact" />
     </android.support.design.widget.TabLayout>
 
     <ScrollView
@@ -66,7 +67,7 @@
                     android:layout_weight=".3"
                     android:enabled="false"
                     android:gravity="end|center_horizontal"
-                    android:text="Same as"
+                    android:text="@string/enroladress_same_as"
                     android:textAlignment="gravity"
                     android:textColor="@color/co_primary_title"
                     android:textSize="12sp" />
@@ -88,7 +89,7 @@
                     android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
                     android:enabled="false"
                     android:gravity="center"
-                    android:text="Home Address"
+                    android:text="@string/enroladress_home_address"
                     android:textSize="12sp" />
 
                 <CheckBox
@@ -100,7 +101,7 @@
                     android:drawableTop="?android:attr/listChoiceIndicatorMultiple"
                     android:enabled="false"
                     android:gravity="center"
-                    android:text="Term Address"
+                    android:text="@string/enroladress_term_address"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -129,11 +130,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.4"
                         android:autofillHints="Flat"
-                        android:hint="Flat"
-                        android:inputType="textPostalAddress"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_flat"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_house" />
+                        android:inputType="textPostalAddress"
+                        android:nextFocusForward="@id/enroladdress_house"
+                        tools:ignore="UnusedAttribute" />
 
                     <EditText
                         android:id="@+id/enroladdress_house"
@@ -141,11 +142,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.6"
                         android:autofillHints="Flat"
-                        android:hint="House"
-                        android:inputType="textPostalAddress"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_house"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_street" />
+                        android:inputType="textPostalAddress"
+                        android:nextFocusForward="@id/enroladdress_street"
+                        tools:ignore="UnusedAttribute" />
 
                 </LinearLayout>
 
@@ -155,11 +156,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:autofillHints="Flat"
-                    android:hint="Street"
-                    android:inputType="textPostalAddress"
-                    tools:ignore="UnusedAttribute"
+                    android:hint="@string/enroladress_street"
                     android:imeOptions="flagNavigateNext"
-                    android:nextFocusForward="@id/enroladdress_city" />
+                    android:inputType="textPostalAddress"
+                    android:nextFocusForward="@id/enroladdress_city"
+                    tools:ignore="UnusedAttribute" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,11 +174,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:autofillHints="Flat"
-                        android:hint="City"
-                        android:inputType="textPostalAddress"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_city"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_region" />
+                        android:inputType="textPostalAddress"
+                        android:nextFocusForward="@id/enroladdress_region"
+                        tools:ignore="UnusedAttribute" />
 
                     <EditText
                         android:id="@+id/enroladdress_region"
@@ -185,11 +186,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:autofillHints="Flat"
-                        android:hint="Region"
-                        android:inputType="textPostalAddress"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_region"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_postcode" />
+                        android:inputType="textPostalAddress"
+                        android:nextFocusForward="@id/enroladdress_postcode"
+                        tools:ignore="UnusedAttribute" />
 
                 </LinearLayout>
 
@@ -205,11 +206,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:autofillHints="Flat"
-                        android:hint="Post Code"
-                        android:inputType="textCapCharacters"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_post_code"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_country" />
+                        android:inputType="textCapCharacters"
+                        android:nextFocusForward="@id/enroladdress_country"
+                        tools:ignore="UnusedAttribute" />
 
                     <EditText
                         android:id="@+id/enroladdress_country"
@@ -217,11 +218,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:autofillHints="Flat"
-                        android:hint="Country"
-                        android:inputType="textPostalAddress"
-                        tools:ignore="UnusedAttribute"
+                        android:hint="@string/enroladress_country"
                         android:imeOptions="flagNavigateNext"
-                        android:nextFocusForward="@id/enroladdress_phone" />
+                        android:inputType="textPostalAddress"
+                        android:nextFocusForward="@id/enroladdress_phone"
+                        tools:ignore="UnusedAttribute" />
 
                 </LinearLayout>
 
@@ -231,11 +232,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:autofillHints="Flat"
-                    android:hint="Phone"
-                    android:inputType="number"
-                    tools:ignore="UnusedAttribute"
+                    android:hint="@string/enroladress_phone"
                     android:imeOptions="flagNavigateNext"
-                    android:nextFocusForward="@id/enroladdress_mobile" />
+                    android:inputType="number"
+                    android:nextFocusForward="@id/enroladdress_mobile"
+                    tools:ignore="TextFields,UnusedAttribute" />
 
                 <EditText
                     android:id="@+id/enroladdress_mobile"
@@ -243,7 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:autofillHints="Flat"
-                    android:hint="Mobile"
+                    android:hint="@string/enroladress_mobile"
                     android:inputType="number"
                     tools:ignore="UnusedAttribute" />
 

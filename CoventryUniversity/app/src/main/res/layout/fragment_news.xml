@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layoutAnimation="@anim/layout_slide_bottom">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,40 +23,40 @@
             android:id="@+id/news_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?android:attr/windowBackground"
             app:elevation="8dp"
             app:tabIconTint="@color/colorPrimary"
             app:tabIndicator="@color/colorAccent"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorGravity="top"
             app:tabIndicatorHeight="1dp"
+            app:tabInlineLabel="true"
             app:tabRippleColor="@color/colorAccent"
             app:tabSelectedTextColor="@color/colorAccent"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Caption"
             app:tabTextColor="@color/colorPrimary"
-            app:tabUnboundedRipple="true"
-            app:tabInlineLabel="true"
-            android:background="?android:attr/windowBackground">
+            app:tabUnboundedRipple="true">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/news_tab_moodle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_moodle"
-                android:text="@string/news_tab_moodle"/>
+                android:text="@string/news_tab_moodle" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/news_tab_twitter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_twitter"
-                android:text="@string/news_tab_twitter"/>
+                android:text="@string/news_tab_twitter" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/news_tab_faculty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/ic_faculty"
-                android:text="@string/news_tab_faculty"/>
+                android:text="@string/news_tab_faculty" />
 
         </android.support.design.widget.TabLayout>
     </LinearLayout>
@@ -70,10 +71,10 @@
         android:indeterminateTint="@color/colorAccent"
         android:progressTint="@color/colorAccent"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
 

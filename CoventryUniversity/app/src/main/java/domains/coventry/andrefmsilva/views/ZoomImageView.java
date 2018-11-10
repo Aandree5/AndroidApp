@@ -1,19 +1,12 @@
-package domains.coventry.andrefmsilva.CustomViews;
+package domains.coventry.andrefmsilva.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -168,12 +161,6 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
     // Used to center image on screen and set the min and max possible scale values
     @Override
-    protected void drawableStateChanged()
-    {
-        super.drawableStateChanged();
-    }
-
-    @Override
     public void setImageBitmap(Bitmap bm)
     {
         super.setImageBitmap(bm);
@@ -186,7 +173,6 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
         minScale = matrixValues[Matrix.MSCALE_X];
         maxScale = minScale * 4;
     }
-
 
 
     /**

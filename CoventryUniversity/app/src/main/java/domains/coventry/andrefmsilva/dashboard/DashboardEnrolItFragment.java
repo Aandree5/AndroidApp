@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.CustomViews.TitledTextView;
+import domains.coventry.andrefmsilva.views.TitledTextView;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.InfoDialog;

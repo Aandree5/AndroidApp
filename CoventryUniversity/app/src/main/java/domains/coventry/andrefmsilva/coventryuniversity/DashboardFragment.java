@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
-import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.dashboard.DashboardEnrolFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardEnrolLoginFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
@@ -85,7 +83,6 @@ public class DashboardFragment extends Fragment
                     fragmentManager
                             .beginTransaction()
                             .replace(R.id.dashboard_framelayout, new DashboardInfoFragment())
-                            .addToBackStack("root")
                             .commit();
 
                     tablayout.setVisibility(View.GONE);

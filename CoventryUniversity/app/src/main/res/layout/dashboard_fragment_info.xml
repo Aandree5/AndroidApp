@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutAnimation="@anim/layout_slide_bottom"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -17,7 +18,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+            <domains.coventry.andrefmsilva.views.TitledTextView
                 android:id="@+id/info_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,14 +29,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+                <domains.coventry.andrefmsilva.views.TitledTextView
                     android:id="@+id/info_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:title="ID" />
 
-                <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+                <domains.coventry.andrefmsilva.views.TitledTextView
                     android:id="@+id/info_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
                     app:title="Year" />
             </LinearLayout>
 
-            <domains.coventry.andrefmsilva.CustomViews.TitledTextView
+            <domains.coventry.andrefmsilva.views.TitledTextView
                 android:id="@+id/info_course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,21 +55,27 @@
         <android.support.v7.widget.CardView
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_gravity="center"
             android:layout_margin="10dp"
             android:clipChildren="true"
             android:elevation="0dp"
-            app:cardCornerRadius="60dp"
-            android:layout_gravity="center">
+            app:cardCornerRadius="60dp">
 
             <ImageView
                 android:id="@+id/info_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="User photo"
+                android:contentDescription="@string/nav_header_user_photo"
                 android:src="@drawable/ic_user_photo" />
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="?android:attr/listDivider" />
 
     <Button
         android:id="@+id/dashboard_enrolment"
@@ -76,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="10dp"
-        android:text="Check Enrolment Status" />
+        android:text="@string/info_check_enrolment" />
 
     <Button
         android:id="@+id/dashboard_enrolment_reset"
@@ -85,7 +92,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="10dp"
         android:background="@color/colorAccentLight"
-        android:text="Reset Enrolment"
+        android:text="@string/info_reset_enrolment"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

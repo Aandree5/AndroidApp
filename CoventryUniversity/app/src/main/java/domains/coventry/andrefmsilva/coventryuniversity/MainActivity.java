@@ -1,6 +1,5 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
@@ -31,9 +30,6 @@ import com.twitter.sdk.android.core.TwitterConfig;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
-
-import domains.coventry.andrefmsilva.dashboard.DashboardEnrolFragment;
-import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -85,6 +81,10 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setTitle(menuItem.getTitle());
                 toolbar.setSubtitle(R.string.app_name);
             }
+
+            // Clear all fragments until the root fragment without the root fragment
+            // When back button takes to another navigation category, force the user to the root of that category
+            getSupportFragmentManager().popBackStackImmediate("root", 0);
 
             switch (menuItem.getItemId())
             {
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
         {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new DashboardFragment())
+                    .addToBackStack("root")
                     .commit();
 
             navigationView.setCheckedItem(R.id.nav_dashboard);
@@ -181,13 +182,11 @@ public class MainActivity extends AppCompatActivity
         {
             super.onBackPressed();
 
-            // Clear all fragments until the root fragment without the root fragment
-            // When back button takes to another navigation category, force the user to the root of that category
-            getSupportFragmentManager().popBackStackImmediate("root", 0);
-
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-            if (fragment instanceof NewsFragment)
+            if (fragment == null)
+                finish();
+            else if (fragment instanceof NewsFragment)
                 navigationView.setCheckedItem(R.id.nav_news);
 
             else if (fragment instanceof TimetableFragment)
@@ -330,7 +329,7 @@ public class MainActivity extends AppCompatActivity
      */
     public static void setToolbarText(@NonNull AppCompatActivity activity, String title)
     {
-        Objects.requireNonNull(activity.getSupportActionBar()).setSubtitle(title);
+        Objects.requireNonNull(activity.getSupportActionBar()).setTitle(title);
     }
 
     /**
@@ -397,25 +396,5 @@ public class MainActivity extends AppCompatActivity
     public String getName()
     {
         return name;
-    }
-
-    /**
-     * Get user username
-     *
-     * @return The user username
-     */
-    public String getUsername()
-    {
-        return username;
-    }
-
-    /**
-     * Get user email
-     *
-     * @return The user email
-     */
-    public String getEmail()
-    {
-        return email;
     }
 }

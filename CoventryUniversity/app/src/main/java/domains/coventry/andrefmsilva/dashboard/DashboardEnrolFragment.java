@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.CustomViews.EnrolButton;
+import domains.coventry.andrefmsilva.views.EnrolButton;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
@@ -123,7 +123,7 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
     {
         HashMap<String, String> requestInfo = new HashMap<>();
         requestInfo.put("type", "getState");
-        requestInfo.put("id", String.valueOf(((MainActivity)Objects.requireNonNull(getActivity())).getUserID()));
+        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
 
         new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Enrolment Status").execute();
     }

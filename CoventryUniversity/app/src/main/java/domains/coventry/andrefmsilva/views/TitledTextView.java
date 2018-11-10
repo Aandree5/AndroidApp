@@ -1,4 +1,4 @@
-package domains.coventry.andrefmsilva.CustomViews;
+package domains.coventry.andrefmsilva.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -31,11 +31,11 @@ public class NewsFragUITest
 {
 
     @Rule
-    public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
 
     @Before
-    public void openNewsFragment() throws Exception
+    public void openNewsFragment()
     {
         onView(withId(R.id.drawer_layout)).check(matches(isClosed(Gravity.LEFT))).perform(open());
 
@@ -49,6 +49,8 @@ public class NewsFragUITest
 
         onView(withId(R.id.toolbar)).check(matches(toolbarHasText(R.string.news_tab_moodle, R.string.nav_news)));
 
+        Thread.sleep(1000);
+
         onView(withId(R.id.news_recyclerview)).check(matches(hasMinimumChildCount(1)));
 
         onView(withId(R.id.news_progressbar)).check(matches(withEffectiveVisibility(INVISIBLE)));
@@ -61,6 +63,8 @@ public class NewsFragUITest
 
         onView(withId(R.id.toolbar)).check(matches(toolbarHasText(R.string.news_tab_twitter, R.string.nav_news)));
 
+        Thread.sleep(1000);
+
         onView(withId(R.id.news_recyclerview)).check(matches(hasMinimumChildCount(1)));
 
         onView(withId(R.id.news_progressbar)).check(matches(withEffectiveVisibility(INVISIBLE)));
@@ -72,6 +76,8 @@ public class NewsFragUITest
         onView(withId(R.id.news_tab_layout)).perform(selectTabAtPosition(2));
 
         onView(withId(R.id.toolbar)).check(matches(toolbarHasText(R.string.news_tab_faculty, R.string.nav_news)));
+
+        Thread.sleep(1000);
 
         onView(withId(R.id.news_recyclerview)).check(matches(hasMinimumChildCount(1)));
 

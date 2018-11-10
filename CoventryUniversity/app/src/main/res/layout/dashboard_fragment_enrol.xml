@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/enrol_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutAnimation="@anim/layout_slide_bottom"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,153 +15,153 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"/>
+            android:background="?android:attr/listDivider" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Compulsory processes"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:text="@string/enrol_compulsory" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            android:elevation="4dp"/>
+            android:elevation="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:orientation="vertical"
             android:paddingStart="60dp"
-            android:paddingEnd="60dp">
+            android:paddingTop="20dp"
+            android:paddingEnd="60dp"
+            android:paddingBottom="20dp">
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_course_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Course Programme Registration"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_course_registration" />
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_it_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register for IT Facilities"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_it_registration" />
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_financial_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Financial Registration"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_financial_registration" />
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_emergency_contact_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emergency Contact Details" />
+                android:text="@string/enrol_emergency_registration" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?android:attr/listDivider"/>
+            android:background="?android:attr/listDivider" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Supplementary processes"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:text="@string/enrol_supplementary" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            android:elevation="4dp"/>
+            android:elevation="4dp" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_gravity="center"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:orientation="vertical"
             android:paddingStart="60dp"
-            android:paddingEnd="60dp">
+            android:paddingTop="20dp"
+            android:paddingEnd="60dp"
+            android:paddingBottom="20dp">
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_id_card_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ID Card photo upload/collection"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_id_photo" />
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_disability_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Disability"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_disability" />
 
-            <domains.coventry.andrefmsilva.CustomViews.EnrolButton
+            <domains.coventry.andrefmsilva.views.EnrolButton
                 android:id="@+id/enrol_address_registration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Address"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_address" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Student Status Letters"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+                android:text="@string/enrol_status_letter"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="To request a Student Status Letters you first need to collect your card, after that you can print your own letter on your profile options."
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_status_letter_details" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" Register to vote"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+                android:text="@string/enrol_register_vote"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="If you are eligible to vote, you can use the buttons below."
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:text="@string/enrol_register_vote_details" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/enrol_vote_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Register to Vote"
-                    android:textSize="12sp"
                     android:layout_marginEnd="10dp"
+                    android:text="@string/enrol_register_vote"
+                    android:textSize="12sp"
                     tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/enrol_vote_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Information"
+                    android:text="@string/enrol_information"
                     android:textSize="12sp"
                     tools:ignore="ButtonStyle" />
 

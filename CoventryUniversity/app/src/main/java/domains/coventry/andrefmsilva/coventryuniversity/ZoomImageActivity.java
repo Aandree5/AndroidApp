@@ -1,21 +1,14 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Objects;
 
-import domains.coventry.andrefmsilva.CustomViews.ZoomImageView;
-import domains.coventry.andrefmsilva.coventryuniversity.R;
+import domains.coventry.andrefmsilva.views.ZoomImageView;
 
 
 public class ZoomImageActivity extends AppCompatActivity

@@ -3,7 +3,6 @@ package domains.coventry.andrefmsilva.coventryuniversity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
 

@@ -8,13 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -23,13 +21,12 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.CustomViews.TitledTextView;
+import domains.coventry.andrefmsilva.views.TitledTextView;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 
 import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
-import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 public class DashboardInfoFragment extends Fragment implements MySQLConnector
 {

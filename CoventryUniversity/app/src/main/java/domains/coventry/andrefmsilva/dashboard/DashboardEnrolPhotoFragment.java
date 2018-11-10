@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.CustomViews.ZoomImageView;
+import domains.coventry.andrefmsilva.views.ZoomImageView;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;

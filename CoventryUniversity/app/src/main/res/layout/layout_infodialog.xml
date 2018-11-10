@@ -4,10 +4,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:layout_margin="40dp"
     android:background="@drawable/dr_dialog"
     android:elevation="10dp"
-    android:orientation="vertical"
-    android:layout_margin="40dp">
+    android:layoutAnimation="@anim/layout_slide_bottom"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -26,8 +27,8 @@
             android:id="@+id/dialog_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:indeterminate="true" />
 
     </FrameLayout>
 
@@ -41,61 +42,61 @@
             android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textPrimaryInverse"
-            android:textAlignment="textStart"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textSize="13sp"
-            android:textStyle="bold"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/dialog_cancel" />
+            android:layout_toStartOf="@id/dialog_cancel"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/textPrimaryInverse"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/dialog_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:background="@drawable/dr_dialog_cancel"
-            android:textColor="@color/textPrimaryInverse"
-            android:layout_toStartOf="@id/divider"
+            android:layout_alignTop="@id/dialog_title"
             android:layout_alignBottom="@id/dialog_title"
-            android:layout_alignTop="@id/dialog_title" />
+            android:layout_toStartOf="@id/divider"
+            android:background="@drawable/dr_dialog_cancel"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="0dp"
+            android:text="@string/cancel"
+            android:textColor="@color/textPrimaryInverse"
+            android:textSize="12sp" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
+            android:layout_alignTop="@id/dialog_title"
+            android:layout_alignBottom="@id/dialog_title"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_toStartOf="@id/dialog_confirm"
-            android:layout_alignBottom="@id/dialog_title"
-            android:layout_alignTop="@id/dialog_title" />
+            android:background="@android:color/white" />
 
         <Button
             android:id="@+id/dialog_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/infodialog_ok"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:minWidth="60dp"
-            android:gravity="center"
-            android:background="@drawable/dr_dialog_confirm"
-            android:textColor="@color/textPrimaryInverse"
-            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/dialog_title"
             android:layout_alignBottom="@id/dialog_title"
-            android:layout_alignTop="@id/dialog_title" />
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/dr_dialog_confirm"
+            android:gravity="center"
+            android:minWidth="60dp"
+            android:paddingStart="15dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="0dp"
+            android:text="@string/infodialog_ok"
+            android:textColor="@color/textPrimaryInverse" />
 
     </RelativeLayout>
 
