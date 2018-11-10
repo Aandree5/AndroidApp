@@ -1,4 +1,4 @@
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +15,10 @@ import java.util.Objects;
 
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
+import domains.coventry.andrefmsilva.dashboard.DashboardEnrolFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardEnrolLoginFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardLoginFragment;
 
 import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
 
@@ -42,10 +46,17 @@ public class DashboardFragment extends Fragment
                 switch (tab.getPosition())
                 {
                     case 0:
-                        fragmentManager.beginTransaction().replace(R.id.dashboard_framelayout, new DashboardLoginFragment()).commit();
+                        fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.dashboard_framelayout, new DashboardLoginFragment())
+                                .commit();
                         break;
+
                     case 1:
-                        fragmentManager.beginTransaction().replace(R.id.dashboard_framelayout, new DashboardEnrolLoginFragment()).commit();
+                        fragmentManager
+                                .beginTransaction()
+                                .replace(R.id.dashboard_framelayout, new DashboardEnrolLoginFragment())
+                                .commit();
                         break;
                 }
             }
@@ -63,21 +74,44 @@ public class DashboardFragment extends Fragment
             }
         });
 
+
         if (savedInstanceState == null)
         {
             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
 
-            if (((MainActivity) getActivity()).getStatus() == MainActivity.UserStatus.LOGGED)
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, new DashboardInfoFragment()).commit();
+            switch (((MainActivity) getActivity()).getStatus())
+            {
+                case LOGGED:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.dashboard_framelayout, new DashboardInfoFragment())
+                            .addToBackStack("root")
+                            .commit();
 
-            else if (((MainActivity) getActivity()).getStatus() == MainActivity.UserStatus.ENROLMENT)
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, new DashboardEnrolFragment()).commit();
+                    tablayout.setVisibility(View.GONE);
+                    break;
 
-            else
-                fragmentManager.beginTransaction().replace(R.id.dashboard_framelayout, new DashboardLoginFragment()).commit();
+                case ENROLMENT:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.dashboard_framelayout, new DashboardEnrolFragment())
+                            .addToBackStack("root")
+                            .commit();
+
+                    tablayout.setVisibility(View.GONE);
+                    break;
+
+                case NONE:
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.dashboard_framelayout, new DashboardLoginFragment())
+                            .commit();
+
+                    tablayout.setVisibility(View.VISIBLE);
+                    break;
+            }
         }
 
         return view;
     }
-
 }

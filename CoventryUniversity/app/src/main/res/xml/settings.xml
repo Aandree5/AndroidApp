@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="News"
+        android:layout="@layout/layout_preferences_category">
+        <SwitchPreference
+            android:key="settingsFacultyAuto"
+            android:title="Automatically check falculty"
+            android:summary="Automatically check user falculty to show specific news"
+            android:defaultValue="true"
+            android:layout="@layout/layout_preferences" />
+
+        <ListPreference
+            android:key="settingsFacultyTwitter"
+            android:title="Show faculty news from"
+            android:summary="Select the faculty to show the specific news from"
+            android:entries="@array/FacultyEntries"
+            android:entryValues="@array/FacultyVlues"
+            android:defaultValue="CoventryFAH"
+            android:enabled="false"
+            android:layout="@layout/layout_preferences" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Account"
+        android:layout="@layout/layout_preferences_category">
+        <Preference
+            android:key="btn_log_out"
+            android:persistent="false"
+            android:title="Log Out"
+            android:icon="@drawable/ic_log_out" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="App"
+        android:layout="@layout/layout_preferences_category">
+        <Preference
+            android:key="btn_about"
+            android:persistent="false"
+            android:title="@string/nav_about"
+            android:icon="@drawable/ic_about" />
+    </PreferenceCategory>
+</PreferenceScreen>

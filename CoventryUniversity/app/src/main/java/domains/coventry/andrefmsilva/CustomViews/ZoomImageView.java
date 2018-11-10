@@ -2,34 +2,55 @@ package domains.coventry.andrefmsilva.CustomViews;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import domains.coventry.andrefmsilva.coventryuniversity.R;
+
 
 public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 {
-    private float minScale = 1.f;
-    private float maxScale = 4.f;
-    private Matrix imageMatrix = new Matrix();
+    private float minScale;
+    private float maxScale;
+    private Matrix imageMatrix;
     /* Used to copy the image matrix before changing it (Keeps the view from updating until end of function), otherwise keeps applying the changes instantly
      * by saving also allow to continue editing the current matrix values, but check them before applying to the image */
-    private Matrix savedMatrix = new Matrix();
-    private PointF touchStart = new PointF();
-    private PointF touchMiddle = new PointF();
-    float oldDist = 1f;
+    private Matrix savedMatrix;
+    private PointF touchStart;
+    private PointF touchMiddle;
+    private float oldDist;
 
-    private EventType mode = EventType.NONE;
+    private EventType mode;
 
     private enum EventType
     {
         NONE,
         DRAG,
         ZOOM
+    }
+
+    private CenterType centerType;
+
+    private enum CenterType
+    {
+        INSIDE,
+        COVER
     }
 
     /**
@@ -41,6 +62,35 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
     public ZoomImageView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+
+        minScale = 1.f;
+        maxScale = 4.f;
+        imageMatrix = new Matrix();
+        savedMatrix = new Matrix();
+        touchStart = new PointF();
+        touchMiddle = new PointF();
+        mode = EventType.NONE;
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ZoomImageView, 0, 0);
+
+        try
+        {
+            // 0 - Inside | 1 - Cover
+            switch (a.getInteger(R.styleable.ZoomImageView_centerType, 0))
+            {
+                case 0:
+                    centerType = CenterType.INSIDE;
+                    break;
+
+                case 1:
+                    centerType = CenterType.COVER;
+                    break;
+            }
+        }
+        finally
+        {
+            a.recycle();
+        }
     }
 
     //TODO: Add double click to zoom in and out
@@ -118,9 +168,15 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
     // Used to center image on screen and set the min and max possible scale values
     @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus)
+    protected void drawableStateChanged()
     {
-        super.onWindowFocusChanged(hasWindowFocus);
+        super.drawableStateChanged();
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm)
+    {
+        super.setImageBitmap(bm);
 
         centerImageOnView();
 
@@ -132,13 +188,14 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
     }
 
 
+
     /**
      * Get the space between two fingers (Pinch)
      *
      * @param event The touch event to get the finger positions
      * @return The spacing between both fingers (Pinch)
      */
-    private float getPinchDistance(MotionEvent event)
+    private float getPinchDistance(@NonNull MotionEvent event)
     {
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
@@ -155,9 +212,32 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
 
         if (drawable != null)
         {
-            imageMatrix.setRectToRect(new RectF(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()),
-                    new RectF(0, 0, getWidth(), getHeight()), Matrix.ScaleToFit.CENTER);
+            switch (centerType)
+            {
+                case INSIDE:
+                    imageMatrix.setRectToRect(new RectF(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()),
+                            new RectF(0, 0, getWidth(), getHeight()), Matrix.ScaleToFit.CENTER);
+                    break;
+                case COVER:
+                    // Function always constrains the side with the biggest difference from the parent, so simulate the parent view samllest sideis the biggest
+                    if (drawable.getIntrinsicWidth() < drawable.getIntrinsicHeight())
+                    {
+                        imageMatrix.setRectToRect(new RectF(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()),
+                                new RectF(0, 0, getWidth(), getWidth() * 2),
+                                Matrix.ScaleToFit.CENTER);
+                    }
+                    else
+                    {
+                        imageMatrix.setRectToRect(new RectF(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()),
+                                new RectF(0, 0, getHeight() * 2, getHeight()),
+                                Matrix.ScaleToFit.CENTER);
+                    }
 
+                    break;
+            }
+
+
+            checkMatrixInsideView(imageMatrix);
 
             setImageMatrix(imageMatrix);
         }
@@ -187,7 +267,8 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
      * @param position New position to translate the matrix to
      * @return Position for the matrix to translate to (Corrected to stay inside the view, centered and the biggest side always bound to the screen side)
      */
-    private PointF checkMatrixInsideView(Matrix matrix, PointF position)
+    @Nullable
+    private PointF checkMatrixInsideView(@NonNull Matrix matrix, @NonNull PointF position)
     {
         Drawable drawable = getDrawable();
         if (drawable == null)

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/enroldisability_layout"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enroldisability_handbook" />
+
+
+        <TextView
+            android:id="@+id/enroldisability_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enroldisability_disability_1"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/co_primary_title" />
+
+        <Spinner
+            android:id="@+id/enroldisability_spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+
+        <TextView
+            android:id="@+id/enroldisability_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enroldisability_disability_2"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/co_primary_title" />
+
+        <Spinner
+            android:id="@+id/enroldisability_spinner2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+
+        <TextView
+            android:id="@+id/enroldisability_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enroldisability_disability_3"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/co_primary_title" />
+
+        <Spinner
+            android:id="@+id/enroldisability_spinner3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+
+        <TextView
+            android:id="@+id/enroldisability_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enroldisability_disability_4"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/co_primary_title" />
+
+        <Spinner
+            android:id="@+id/enroldisability_spinner4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+        <EditText
+            android:id="@+id/enroldisability_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:autofillHints="@string/enroldisability_comment"
+            android:hint="@string/enroldisability_comment"
+            android:textAlignment="gravity"
+            android:gravity="top"
+            android:padding="10dp"
+            tools:ignore="UnusedAttribute" />
+
+        <CheckBox
+            android:id="@+id/enroldisability_dsa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            android:text="@string/enroldisability_dsa" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+
+            <Button
+                android:id="@+id/enroldisability_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/enroldisability_cancel" />
+
+            <Button
+                android:id="@+id/enroldisability_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/enroldisability_confirm"
+                app:layout_constraintStart_toEndOf="@id/enroldisability_confirm"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

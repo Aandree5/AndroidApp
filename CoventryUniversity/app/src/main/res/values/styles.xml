@@ -10,25 +10,42 @@
         <item name="android:textColorSecondary">@color/textSecondary</item>
         <item name="android:textColorSecondaryInverse">@color/textSecondaryInverse</item>
 
-        <item name="buttonStyle">@style/AppTheme.Button</item>
-        <item name="editTextStyle">@style/AppTheme.EditText</item>
-        <item name="android:buttonStyleToggle">@style/AppTheme.Button</item>
-        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
-        <item name="android:dialogTheme">@style/AppTheme.Dialog</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
+        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
+        <item name="editTextStyle">@style/EditTextStyle</item>
+        <item name="android:buttonStyleToggle">@style/ButtonStyle</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:dialogTheme">@style/DialogStyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="AppTheme.NoSatusNoActionBar" parent="AppTheme.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.Toolbar">
+    <style name="ToolbarStyle">
         <item name="android:textColorPrimary">@color/textPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/textSecondaryInverse</item>
     </style>
 
-    <style name="AppTheme.Button">
+    <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse
+        </item>
+        <item name="subtitleTextStyle">
+            @style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle.Inverse
+        </item>
+    </style>
+
+    <style name="ButtonStyle">
         <item name="android:textColor">@color/co_button_text</item>
         <item name="android:background">@drawable/dr_button</item>
         <item name="android:paddingTop">10dp</item>
@@ -39,7 +56,19 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="AppTheme.TextView">
+    <style name="RadioButtonStyle">
+        <item name="android:textColor">@color/co_radiobutton_text</item>
+        <item name="android:background">@drawable/dr_radio_button</item>
+        <item name="android:button">@drawable/dr_radio_button</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="TextViewStyle">
         <item name="android:textColor">@color/co_primary_text</item>
         <item name="android:textAlignment">textStart</item>
         <item name="android:gravity">center_vertical</item>
@@ -48,8 +77,8 @@
         <item name="android:textColorHighlight">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/colorPrimary</item>
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/co_primary_title</item>
         <item name="android:textAlignment">center</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
@@ -58,10 +87,16 @@
         <item name="android:breakStrategy">simple</item>
         <item name="android:hyphenationFrequency">normal</item>
         <item name="android:textColorHighlight">@color/colorAccent</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="AppTheme.Dialog">
+    <style name="DialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="SpinnerItemStyle">
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/co_button_text</item>
     </style>
 
 </resources>

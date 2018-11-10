@@ -1,56 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/dashboard_framelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layoutAnimation="@anim/layout_slide_bottom"
+        android:orientation="vertical" />
 
-        <FrameLayout
-            android:id="@+id/dashboard_framelayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layoutAnimation="@anim/layout_slide_bottom"
-            android:orientation="vertical" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/dashboard_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:elevation="8dp"
+        app:tabIconTint="@color/colorPrimary"
+        app:tabIndicator="@color/colorAccent"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorGravity="top"
+        app:tabIndicatorHeight="1dp"
+        app:tabInlineLabel="true"
+        app:tabRippleColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:tabTextColor="@color/colorPrimary"
+        app:tabUnboundedRipple="true">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/dashboard_tab_layout"
-            android:layout_width="match_parent"
+        <android.support.design.widget.TabItem
+            android:id="@+id/dashboard_tab_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:elevation="8dp"
-            app:tabIconTint="@color/colorPrimary"
-            app:tabIndicator="@color/colorAccent"
-            app:tabIndicatorColor="@color/colorAccent"
-            app:tabIndicatorGravity="top"
-            app:tabIndicatorHeight="1dp"
-            app:tabRippleColor="@color/colorAccent"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:tabTextColor="@color/colorPrimary"
-            app:tabUnboundedRipple="true"
-            app:tabInlineLabel="true"
-            android:background="?android:attr/windowBackground">
+            android:icon="@drawable/ic_login"
+            android:text="@string/dashboard_tab_login" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/dashboard_tab_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_login"
-                android:text="@string/dashboard_tab_login"/>
+        <android.support.design.widget.TabItem
+            android:id="@+id/dashboard_tab_enrol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_enrol"
+            android:text="@string/dashboard_tab_enrol" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/dashboard_tab_enrol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/ic_enrol"
-                android:text="@string/dashboard_tab_enrol"/>
-
-        </android.support.design.widget.TabLayout>
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.TabLayout>
+</LinearLayout>

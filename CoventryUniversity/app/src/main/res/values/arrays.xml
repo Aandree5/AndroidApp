@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="FacultyEntries">
+        <item>Arts and Humanities</item>
+        <item>Engineering, Environment and Computing</item>
+        <item>Health and Life Sciences</item>
+        <item>Business and Law</item>
+    </array>
+
+    <array name="FacultyVlues">
+        <item>CoventryFAH</item>
+        <item>covunieec</item>
+        <item>CU_HLS</item>
+        <item>CovUniFBL</item>
+    </array>
+</resources>

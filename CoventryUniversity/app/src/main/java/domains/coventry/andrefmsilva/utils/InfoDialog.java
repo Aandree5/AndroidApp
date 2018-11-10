@@ -3,6 +3,7 @@ package domains.coventry.andrefmsilva.utils;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -45,6 +46,20 @@ public class InfoDialog extends DialogFragment
      */
     public static InfoDialog newIntance(@NonNull InfoDialog.Type type, String title, String message)
     {
+        return newIntance(type, title, message, -1);
+    }
+
+    /**
+     * Creates a new instance of the dialog with the given input, with message
+     *
+     * @param type     Type of the dialog
+     * @param title    String to show as the title
+     * @param message  String to show as the dialog message
+     * @param drawable Resource ID for the drawable to add to the message
+     * @return A dialog that can be started and kept as reference
+     */
+    public static InfoDialog newIntance(@NonNull InfoDialog.Type type, String title, String message, @DrawableRes int drawable)
+    {
         InfoDialog infoDialog = new InfoDialog();
         Bundle bundle = new Bundle();
 
@@ -53,6 +68,9 @@ public class InfoDialog extends DialogFragment
 
         if (message != null)
             bundle.putSerializable("message", message);
+
+        if (drawable != -1)
+            bundle.putSerializable("drawable", drawable);
 
         infoDialog.setArguments(bundle);
 
@@ -70,13 +88,19 @@ public class InfoDialog extends DialogFragment
             dialog.setContentView(R.layout.layout_infodialog);
             ((TextView) dialog.findViewById(R.id.dialog_title)).setText(getArguments().getString("title"));
 
-            String message = getArguments().getString("message");
+            String message = getArguments().getString("message", null);
             if (message != null)
                 ((TextView) dialog.findViewById(R.id.dialog_message)).setText(message);
+
+            int drawableID = getArguments().getInt("drawable", -1);
+            if (drawableID != -1)
+                ((TextView) dialog.findViewById(R.id.dialog_message)).setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawableID, 0, 0);
 
             switch ((Type) Objects.requireNonNull(getArguments().getSerializable("type")))
             {
                 case OK:
+                    dialog.findViewById(R.id.dialog_confirm).setOnClickListener(v -> dialog.dismiss());
+
                     dialog.findViewById(R.id.dialog_progressbar).setVisibility(View.GONE);
                     dialog.findViewById(R.id.dialog_cancel).setVisibility(View.GONE);
                     break;

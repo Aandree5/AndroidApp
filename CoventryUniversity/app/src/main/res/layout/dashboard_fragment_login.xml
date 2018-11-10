@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp">
+    android:layout_height="match_parent">
 
-
-    <EditText
-        android:id="@+id/login_username"
-        android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/dashboard_username"
-        android:autofillHints="@string/dashboard_username"
-        android:inputType="textAutoComplete"
-        app:layout_constraintBottom_toTopOf="@id/login_password"
-        android:layout_marginBottom="30dp"/>
-
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/dashboard_password"
-        android:autofillHints="@string/dashboard_password"
-        android:inputType="textPassword"
-        android:imeOptions="actionDone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/dashboard_tab_login"
-        android:contentDescription="@string/dashboard_tab_login"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        app:layout_constraintTop_toBottomOf="@id/login_password"/>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="20dp"
+        android:padding="50dp">
 
 
-</android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/login_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dashboard_username"
+            android:autofillHints="@string/dashboard_username"
+            android:inputType="textAutoComplete"
+            app:layout_constraintBottom_toTopOf="@id/login_password"
+            android:layout_marginBottom="30dp"
+            tools:ignore="UnusedAttribute" />
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/dashboard_password"
+            android:autofillHints="@string/dashboard_password"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="UnusedAttribute" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_tab_login"
+            android:contentDescription="@string/dashboard_tab_login"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:layout_constraintTop_toBottomOf="@id/login_password" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

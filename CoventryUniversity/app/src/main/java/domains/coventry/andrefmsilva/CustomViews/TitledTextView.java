@@ -32,8 +32,8 @@ public class TitledTextView extends LinearLayout
 
         try
         {
-            title = a.getString(R.styleable.TitledTextView_ttv_title);
-            text = a.getString(R.styleable.TitledTextView_ttv_text);
+            title = a.getString(R.styleable.TitledTextView_title);
+            text = a.getString(R.styleable.TitledTextView_text);
         }
         finally
         {

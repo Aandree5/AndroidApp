@@ -48,10 +48,6 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_course, R.string.dashboard_enrolement);
 
         enrolcourseLayout = view.findViewById(R.id.enrolcourse_layout);
-
-        // Initiate connection to database
-        connectWithRetry();
-
         ttlTxtName = view.findViewById(R.id.enrolcourse_name);
         ttlTxtCode = view.findViewById(R.id.enrolcourse_code);
         ttlTxtType = view.findViewById(R.id.enrolcourse_type);
@@ -75,6 +71,8 @@ public class DashboardEnrolCrouseFragment extends Fragment implements MySQLConne
         });
 
         view.findViewById(R.id.enrolcourse_cancel).setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
+
+        connectWithRetry();
 
         return view;
     }

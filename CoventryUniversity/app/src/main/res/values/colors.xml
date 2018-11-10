@@ -9,13 +9,15 @@
 
     <color name="buttonDisabled">#b8b3b3b3</color>
     <color name="buttonChecked">#54de47</color>
+    <color name="buttonBackground">@android:color/background_light</color>
 
     <color name="textPrimary">#DD000000</color>
     <color name="textPrimaryInverse">#FFFFFFFF</color>
     <color name="textSecondary">#89000000</color>
     <color name="textSecondaryInverse">#B3FFFFFF</color>
     <color name="textDisabled">@color/buttonDisabled</color>
-    <color name="textChecked">@color/buttonChecked</color>
+    <color name="textActivated">@color/buttonChecked</color>
 
     <color name="zoomImageViewBackground">#000000</color>
+    <color name="photo_guide">#b1eaeaea</color>
 </resources>

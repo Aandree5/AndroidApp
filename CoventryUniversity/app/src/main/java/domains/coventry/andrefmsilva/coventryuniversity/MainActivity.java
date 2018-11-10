@@ -1,18 +1,25 @@
 package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,18 +28,22 @@ import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterConfig;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.dashboard.DashboardFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardEnrolFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 
 public class MainActivity extends AppCompatActivity
 {
     private DrawerLayout drawerLayout;
-    private UserStatus status = UserStatus.NONE;
-    private int userID = 0;
-    private String name = null;
-    private String username = null;
-    private String email = null;
+    private NavigationView navigationView;
+    private UserStatus status;
+    private int userID;
+    private String name;
+    private String username;
+    private String email;
 
     // Variable can't be local, so it doesn't get garbadge collected
     @SuppressWarnings("FieldCanBeLocal")
@@ -61,13 +72,19 @@ public class MainActivity extends AppCompatActivity
 
         // Find the navigation view and set an item selected listner that is implemented in this class
         // Returns true for handled click and false otherwise
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(menuItem ->
         {
+            if (navigationView.getCheckedItem() == menuItem)
+                return false;
+
             // Set toolbar title and subtitle
             // Always set subtitle because it changes on some options
-            toolbar.setTitle(menuItem.getTitle());
-            toolbar.setSubtitle(R.string.app_name);
+            if (!menuItem.getTitle().equals("Settings"))
+            {
+                toolbar.setTitle(menuItem.getTitle());
+                toolbar.setSubtitle(R.string.app_name);
+            }
 
             switch (menuItem.getItemId())
             {
@@ -75,7 +92,7 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new NewsFragment())
-                            .addToBackStack(null)
+                            .addToBackStack("root")
                             .commit();
 
                     // Update subtitle info
@@ -85,30 +102,28 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new DashboardFragment())
-                            .addToBackStack(null)
                             .commit();
                     break;
+
                 case R.id.nav_timetable:
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new TimetableFragment())
-                            .addToBackStack(null)
+                            .addToBackStack("root")
                             .commit();
                     break;
+
                 case R.id.nav_library:
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new LibraryFragment())
-                            .addToBackStack(null)
+                            .addToBackStack("root")
                             .commit();
                     break;
+
                 case R.id.nav_settings:
-                    Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.nav_about:
-                    getPreferences(Context.MODE_PRIVATE).edit().clear().apply();
-                    readSharedPreferences();
-                    Toast.makeText(MainActivity.this, "Cleared Shared Preferences", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, SettingsActivity.class);
+                    startActivityForResult(intent, 1);
                     break;
             }
 
@@ -126,20 +141,20 @@ public class MainActivity extends AppCompatActivity
         // Update activity info everytime shared preferences is changed
         // getPreferences only olds a weak reference to the listener, so we need to have a strong reference in order for it to not be garbadge collected
         listener = (sharedPreferences, key) -> readSharedPreferences();
-        getPreferences(Context.MODE_PRIVATE).registerOnSharedPreferenceChangeListener(listener);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(listener);
 
         // When de device is rotated, or the app is returned from the background, the activity gets destroyd and its redrawn
-        // When the previous state should maintain the same (the selected option from the drawer)
+        // When the previous state should maintain the same fragment
         if (savedInstanceState == null)
         {
-            readSharedPreferences();
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, new DashboardFragment())
+                    .commit();
 
             navigationView.setCheckedItem(R.id.nav_dashboard);
         }
-        else
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, Objects.requireNonNull(getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment"))).commit();
+
+        readSharedPreferences();
 
         // Initialize twitter api to get data for the news section
         TwitterConfig config = new TwitterConfig.Builder(this).logger(new DefaultLogger(Log.DEBUG)).twitterAuthConfig(new TwitterAuthConfig(getResources().getString(R.string.twitter_key), getResources().getString(R.string.twitter_secret))).debug(true).build();
@@ -163,25 +178,76 @@ public class MainActivity extends AppCompatActivity
             drawerLayout.closeDrawer(GravityCompat.START);
 
         else
+        {
             super.onBackPressed();
+
+            // Clear all fragments until the root fragment without the root fragment
+            // When back button takes to another navigation category, force the user to the root of that category
+            getSupportFragmentManager().popBackStackImmediate("root", 0);
+
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (fragment instanceof NewsFragment)
+                navigationView.setCheckedItem(R.id.nav_news);
+
+            else if (fragment instanceof TimetableFragment)
+                navigationView.setCheckedItem(R.id.nav_timetable);
+
+            else if (fragment instanceof LibraryFragment)
+                navigationView.setCheckedItem(R.id.nav_library);
+
+            else
+                navigationView.setCheckedItem(R.id.nav_dashboard);
+        }
     }
 
     /**
      * Update navigation drawer with user loaded info, from main activity
      */
-    public void updateDrawer()
+    public void updateDrawer(@Nullable String photo)
     {
-        NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         Menu menuView = navigationView.getMenu();
 
         ((TextView) headerView.findViewById(R.id.nav_user_name)).setText(name);
         ((TextView) headerView.findViewById(R.id.nav_user_email)).setText(email);
-        ((TextView) headerView.findViewById(R.id.nav_user_id)).setText(String.valueOf(userID));
+        ((TextView) headerView.findViewById(R.id.nav_user_id)).setText(userID != 0 ? String.valueOf(userID) : "");
 
         // Only show for logged in users
         menuView.findItem(R.id.nav_timetable).setEnabled(!username.equals(""));
         menuView.findItem(R.id.nav_library).setEnabled(!username.equals(""));
+
+        if (photo != null)
+        {
+            FileInputStream fInpStream = null;
+
+            try
+            {
+                fInpStream = openFileInput(photo);
+
+                ((ImageView) headerView.findViewById(R.id.nav_user_photo)).setImageBitmap(BitmapFactory.decodeStream(fInpStream));
+            }
+            catch (Exception e)
+            {
+                Log.e("updateDrawer", e.getMessage(), e);
+            }
+            finally
+            {
+                if (fInpStream != null)
+                {
+                    try
+                    {
+                        fInpStream.close();
+                    }
+                    catch (IOException e)
+                    {
+                        Log.e("updateDrawer", e.getMessage(), e);
+                    }
+                }
+            }
+        }
+        else
+            ((ImageView) headerView.findViewById(R.id.nav_user_photo)).setImageResource(R.drawable.ic_user_photo);
     }
 
     /**
@@ -190,7 +256,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void readSharedPreferences()
     {
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (Objects.equals(sharedPreferences.getString("status", null), "logged"))
         {
@@ -220,7 +286,40 @@ public class MainActivity extends AppCompatActivity
             status = UserStatus.NONE;
         }
 
-        updateDrawer();
+        updateDrawer(sharedPreferences.getString("photo", null));
+    }
+
+    /**
+     * Log out the user from the app
+     */
+    public void logOutUser()
+    {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply();
+
+        // Have to force reading, should be called by the shared preferences listener, but clear() doesn't notify the listener of the change
+        readSharedPreferences();
+
+        // Clear all fragments on back stack, app starts fresh
+        getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new DashboardFragment())
+                .addToBackStack("root")
+                .commit();
+
+        Toast.makeText(this, "Log out successful", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            if (data != null && data.getBooleanExtra("logout", false))
+                logOutUser();
+        }
     }
 
     /**

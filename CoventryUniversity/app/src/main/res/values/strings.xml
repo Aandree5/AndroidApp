@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Coventry University</string>
+    <string name="app_name" translatable="false">Coventry University</string>
 
-    <string name="twitter_key">wKryyRLBbfLsZg3a1NrPUiP2f</string>
-    <string name="twitter_secret">GmzxZSbQ9oMOnIsDs8l6AfVfL5BzXEqCeYPIzhqqOZ72tpBwqV</string>
+    <string name="twitter_key" translatable="false">wKryyRLBbfLsZg3a1NrPUiP2f</string>
+    <string name="twitter_secret" translatable="false">GmzxZSbQ9oMOnIsDs8l6AfVfL5BzXEqCeYPIzhqqOZ72tpBwqV</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,13 +33,56 @@
     <string name="dashboard_passwords_no_match">Passwords don\'t match, or empty</string>
 
     <string name="enrol_course">Course</string>
-    <string name="enrol_it">IT Services</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 
     <string name="infodialog_retry">Retry</string>
-    <string name="infodialog_cancel">Cancel</string>
     <string name="infodialog_ok">OK</string>
+
+    <string name="enrol_it">IT Services</string>
     <string name="enrolit_password">Password</string>
     <string name="enrolit_password_confirm">Confirm Password</string>
-    <string name="enrolit_confirm">Confirm</string>
-    <string name="enrolit_cancel">Cancel</string>
+
+    <string name="enrol_financial">Financial</string>
+    <string name="enrolfinancial_desc_slc">Only for undergraduates, fees paied by the students loan company, you will require you SLC reference number.</string>
+    <string name="enrolfinancial_desc_ddebit">Pay the fees before University starts.</string>
+    <string name="enrolfinancial_desc_recurrent">Pay the fees split into 8 instalments, with a recurrent bank account option.</string>
+    <string name="enrolfinancial_desc_ddintalments">Pay the fees split into 8 instalments, by direct debit.</string>
+    <string name="enrolfinancial_fees">Fees</string>
+    <string name="enrolfinancial_instalments">Instalments</string>
+    <string name="enrolfinancial_value">Value</string>
+    <string name="enrolfinancial_total">Total</string>
+    <string name="enrolfinancial_slc">Student Loan Company (SLC)</string>
+    <string name="enrolfinancial_ddebit">Direct Debit</string>
+    <string name="enrolfinancial_recurrent">Recurrent Instalments</string>
+    <string name="enrolfinancial_ddinstalments">Direct Debit Instalments</string>
+
+    <string name="enrol_modules">Modules</string>
+    <string name="enrol_emergencycontacts">Emergency Contacts</string>
+    <string name="enrolemergency_firstcontact">First Contact</string>
+    <string name="enrolemergency_name">Name</string>
+    <string name="enrolemergency_address">Address</string>
+    <string name="enrolemergency_postcode">Post Code</string>
+    <string name="enrolemergency_country">Country</string>
+    <string name="enrolemergency_code">Code</string>
+    <string name="enrolemergency_phonenumber">Phone Number</string>
+    <string name="enrolemergency_email">Email</string>
+    <string name="enrolemergency_secondcontact">Second Contact</string>
+
+    <string name="enrol_cardphoto">Card Photo</string>
+    <string name="enrolcardphoto_takepicture">Take picture</string>
+
+    <string name="enrol_disability">Disability</string>
+    <string name="enroldisability_handbook">To ensure relevant arrangements can be put in place for any assessment, please adhere to the deadlines detailed in your student handbook.</string>
+    <string name="enroldisability_disability_1">Disability 1</string>
+    <string name="enroldisability_disability_2">Disability 2</string>
+    <string name="enroldisability_disability_3">Disability 3</string>
+    <string name="enroldisability_disability_4">Disability 4</string>
+    <string name="enroldisability_comment">Relevant comments about your disability</string>
+    <string name="enroldisability_dsa">I am in receipt of Disabled Students\' Allowance (This is NOT the same as Disability Living Allowance (DLA)).</string>
+
+    <string name="enrol_address">Address</string>
+
+    <string name="settings">Settings</string>
 </resources>

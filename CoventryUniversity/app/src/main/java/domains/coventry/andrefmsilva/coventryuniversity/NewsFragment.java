@@ -2,6 +2,7 @@ package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -50,8 +52,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.utils.ZoomImageActivity;
-
 import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
 
 //TODO: Add scroll up to refresh news
@@ -69,6 +69,8 @@ public class NewsFragment extends Fragment
     {
 
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.nav_news, R.string.app_name);
 
         recyclerView = view.findViewById(R.id.news_recyclerview);
         progressBar = view.findViewById(R.id.news_progressbar);
@@ -196,13 +198,18 @@ public class NewsFragment extends Fragment
     {
         progressBar.setVisibility(View.VISIBLE);
 
-        // @covunieec - Faculty of Engenieering, Environment and Computing
+        // @covunieec - Faculty of Engineering, Environment and Computing
         // @CU_HLS - Health and Life Sciences
         // @CovUniFBL - Business and Law
         // @CoventryFAH - Faculty of Arts and Humanities
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext()));
+        String fac = sharedPreferences.getString((sharedPreferences.getBoolean("settingsFacultyAuto", false) ? "facultyTwitter" : "settingsFacultyTwitter"), "CoventryFAH");
+
+
+
         // Set the twitter user for faculty account
-        UserTimeline timeline = new UserTimeline.Builder().screenName("covunieec").build();
+        UserTimeline timeline = new UserTimeline.Builder().screenName(fac).build();
 
         attachTimeline(timeline);
     }
@@ -577,7 +584,7 @@ public class NewsFragment extends Fragment
                             try
                             {
                                 // Save image to file to be loaded on the next activity
-                                String fileName = "bitmap.png";
+                                String fileName = "tempPic.png";
                                 Bitmap bmp = ((BitmapDrawable) viewHolder.image.getDrawable()).getBitmap();
                                 fOutStream = Objects.requireNonNull(getContext(), "Context is null.").openFileOutput(fileName, Context.MODE_PRIVATE);
                                 bmp.compress(Bitmap.CompressFormat.PNG, 100, fOutStream);

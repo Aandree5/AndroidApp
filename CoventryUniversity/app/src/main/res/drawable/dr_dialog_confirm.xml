@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/dr_dialog_confirm_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/dr_dialog_confirm_focused" android:state_focused="true" />
+    <item android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <corners android:bottomRightRadius="10dp" />
+            <solid android:color="@color/colorAccent" />
+        </shape>
+    </item>
+
+    <item android:state_focused="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+            <corners android:bottomRightRadius="10dp" />
+            <solid android:color="@color/colorPrimaryDark" />
+        </shape>
+    </item>
 </selector>

@@ -3,6 +3,8 @@ package domains.coventry.andrefmsilva.utils;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +55,26 @@ public class Utils
                 setChildrenEnabled((ViewGroup) child, enabled);
             else
                 child.setEnabled(enabled);
+        }
+    }
+
+    /**
+     * Clear all the children views, clear edittext, uncheck checkbox
+     *
+     * @param layout Layout to clear the children text
+     */
+    public static void clearChildren(@NonNull ViewGroup layout)
+    {
+        for (int i = 0; i < layout.getChildCount(); i++)
+        {
+            View child = layout.getChildAt(i);
+
+            if (child instanceof ViewGroup)
+                clearChildren((ViewGroup) child);
+            else if (child instanceof EditText)
+                ((EditText) child).setText(null);
+            else if (child instanceof CheckBox)
+                ((CheckBox) child).setChecked(false);
         }
     }
 }
