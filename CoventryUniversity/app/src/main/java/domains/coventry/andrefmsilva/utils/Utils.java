@@ -14,6 +14,8 @@
 package domains.coventry.andrefmsilva.utils;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -23,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Utils
 {
@@ -88,6 +91,69 @@ public class Utils
                 ((EditText) child).setText(null);
             else if (child instanceof CheckBox)
                 ((CheckBox) child).setChecked(false);
+        }
+    }
+
+    /**
+     * Set toolbar title
+     *
+     * @param activity Activity from where to get the toolbar
+     * @param title    Title to set on the toolbar
+     */
+    public static void setToolbarText(@NonNull AppCompatActivity activity, String title)
+    {
+        Objects.requireNonNull(activity.getSupportActionBar()).setTitle(title);
+    }
+
+    /**
+     * Set toolbar title and subtitle
+     *
+     * @param activity Activity from where to get the toolbar
+     * @param title    Title to set on the toolbar
+     * @param subtitle Subtitle to set on the toolbar
+     */
+    public static void setToolbarText(@NonNull AppCompatActivity activity, String title, String subtitle)
+    {
+        Objects.requireNonNull(activity.getSupportActionBar()).setTitle(title);
+        Objects.requireNonNull(activity.getSupportActionBar()).setSubtitle(subtitle);
+    }
+
+    /**
+     * Set toolbar title
+     *
+     * @param activity Activity from where to get the toolbar
+     * @param title    Title to set on the toolbar
+     */
+    public static void setToolbarText(@NonNull AppCompatActivity activity, int title)
+    {
+        setToolbarText(activity, activity.getResources().getString(title));
+    }
+
+    /**
+     * Set toolbar title and subtitle
+     *
+     * @param activity Activity from where to get the toolbar
+     * @param title    Title to set on the toolbar
+     * @param subtitle Subtitle to set on the toolbar
+     */
+    public static void setToolbarText(@NonNull AppCompatActivity activity, int title, int subtitle)
+    {
+        setToolbarText(activity, activity.getResources().getString(title), activity.getResources().getString(subtitle));
+    }
+
+    /**
+     * Show back button on activity action bar
+     *
+     * @param activity Activity to show the back button
+     */
+    public static void showToolbarBack(@NonNull AppCompatActivity activity)
+    {
+        ActionBar actionBar = activity.getSupportActionBar();
+
+        if(actionBar != null)
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
     }
 }

@@ -51,7 +51,7 @@ import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 
 import static android.app.Activity.RESULT_OK;
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnector

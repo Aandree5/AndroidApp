@@ -65,7 +65,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 
 //TODO: Add scroll up to refresh news
 //TODO: Change loading state to a InfoDialog, with retry

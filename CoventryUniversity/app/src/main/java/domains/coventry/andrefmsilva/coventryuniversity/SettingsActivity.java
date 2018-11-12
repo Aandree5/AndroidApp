@@ -17,7 +17,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.showToolbarBack;
 
 public class SettingsActivity extends AppCompatActivity
 {
@@ -28,9 +29,16 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         setToolbarText(this, R.string.settings, R.string.app_name);
+        showToolbarBack(this);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.sttings_fragment_container, new SettingsFragment())
                 .commit();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

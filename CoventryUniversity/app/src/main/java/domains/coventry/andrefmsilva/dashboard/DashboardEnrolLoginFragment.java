@@ -42,7 +42,7 @@ import java.util.Objects;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.APP_DATE_FORMAT;
 import static domains.coventry.andrefmsilva.utils.Utils.SQL_DATE_FORMAT;
 import static domains.coventry.andrefmsilva.utils.Utils.formatDate;

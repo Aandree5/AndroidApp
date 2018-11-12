@@ -31,7 +31,7 @@ import domains.coventry.andrefmsilva.dashboard.DashboardEnrolLoginFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardLoginFragment;
 
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 
 public class DashboardFragment extends Fragment
 {

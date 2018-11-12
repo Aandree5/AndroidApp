@@ -34,7 +34,7 @@ import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
-import static domains.coventry.andrefmsilva.coventryuniversity.MainActivity.setToolbarText;
+import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
 public class DashboardEnrolFragment extends Fragment implements MySQLConnector

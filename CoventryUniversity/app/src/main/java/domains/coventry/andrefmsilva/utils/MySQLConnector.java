@@ -38,7 +38,7 @@ import domains.coventry.andrefmsilva.coventryuniversity.R;
 
 public interface MySQLConnector
 {
-    String link = "http://a202sgi-1819t1a.andrefmsilva.coventry.domains/";
+    String link = "https://a202sgi-1819t1a.andrefmsilva.coventry.domains/";
 
     String FILE_ENROL = "enrol";
     String FILE_LOGIN = "login";

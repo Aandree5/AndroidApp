@@ -41,8 +41,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="domains.coventry.andrefmsilva.coventryuniversity.SettingsActivity"
-            android:theme="@style/AppTheme">
+            android:name=".SettingsActivity">
         </activity>
 
         <provider

@@ -335,53 +335,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Set toolbar title
-     *
-     * @param activity Activity from where to get the toolbar
-     * @param title    Title to set on the toolbar
-     */
-    public static void setToolbarText(@NonNull AppCompatActivity activity, String title)
-    {
-        Objects.requireNonNull(activity.getSupportActionBar()).setTitle(title);
-    }
-
-    /**
-     * Set toolbar title and subtitle
-     *
-     * @param activity Activity from where to get the toolbar
-     * @param title    Title to set on the toolbar
-     * @param subtitle Subtitle to set on the toolbar
-     */
-    public static void setToolbarText(@NonNull AppCompatActivity activity, String title, String subtitle)
-    {
-        Objects.requireNonNull(activity.getSupportActionBar()).setTitle(title);
-        Objects.requireNonNull(activity.getSupportActionBar()).setSubtitle(subtitle);
-    }
-
-    /**
-     * Set toolbar title
-     *
-     * @param activity Activity from where to get the toolbar
-     * @param title    Title to set on the toolbar
-     */
-    public static void setToolbarText(@NonNull AppCompatActivity activity, int title)
-    {
-        setToolbarText(activity, activity.getResources().getString(title));
-    }
-
-    /**
-     * Set toolbar title and subtitle
-     *
-     * @param activity Activity from where to get the toolbar
-     * @param title    Title to set on the toolbar
-     * @param subtitle Subtitle to set on the toolbar
-     */
-    public static void setToolbarText(@NonNull AppCompatActivity activity, int title, int subtitle)
-    {
-        setToolbarText(activity, activity.getResources().getString(title), activity.getResources().getString(subtitle));
-    }
-
-    /**
      * Get the user status
      *
      * @return UserStatus of the current user status
