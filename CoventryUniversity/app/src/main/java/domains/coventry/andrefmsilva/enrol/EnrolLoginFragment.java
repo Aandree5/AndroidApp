@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import domains.coventry.andrefmsilva.coventryuniversity.EnrolFragment;
+import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 
@@ -134,7 +135,7 @@ public class EnrolLoginFragment extends Fragment implements MySQLConnector, Date
 
         Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.enrol_fragment_container, new EnrolFragment())
+                .replace(R.id.fragment_container, new DashboardInfoFragment())
                 .commit();
     }
 

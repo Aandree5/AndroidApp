@@ -173,15 +173,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-
-        //Save the fragment's instance
-        //getSupportFragmentManager().putFragment(outState, "currentFragment", Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment_container)));
-    }
-
-    @Override
     public void onBackPressed()
     {
         // If drawer is open then closes it, otherwise fallback to the back button action

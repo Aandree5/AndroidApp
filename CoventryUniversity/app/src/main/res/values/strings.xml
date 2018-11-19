@@ -57,6 +57,7 @@
 
     <string name="info_check_enrolment">Check Enrolment Status</string>
     <string name="info_reset_enrolment">Reset Enrolment</string>
+    <string name="info_not_enroled_yet">Not enroled yet.</string>
 
     <string name="enrol_course">Course</string>
     <string name="enrol_it">IT Services</string>

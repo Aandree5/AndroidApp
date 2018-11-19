@@ -41,6 +41,7 @@ import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;
 
+import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 
 public class DashboardInfoFragment extends Fragment implements MySQLConnector
@@ -75,11 +76,26 @@ public class DashboardInfoFragment extends Fragment implements MySQLConnector
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPreferences != null)
         {
-            ((TitledTextView) view.findViewById(R.id.info_year)).setText(sharedPreferences.getString("year", null));
-            ((TitledTextView) view.findViewById(R.id.info_course)).setText(String.format("%s %s (%s)",
-                    sharedPreferences.getString("courseType", null),
-                    sharedPreferences.getString("courseName", null),
-                    sharedPreferences.getString("courseCode", null)));
+            String year = sharedPreferences.getString("year", null);
+            String courseType = sharedPreferences.getString("courseType", null);
+            String courseName = sharedPreferences.getString("courseName", null);
+            String courseCode = sharedPreferences.getString("courseCode", null);
+
+            if (year != null) {
+                setChildrenEnabled(view.findViewById(R.id.info_year), true);
+                ((TitledTextView) view.findViewById(R.id.info_year)).setText(sharedPreferences.getString("year", null));
+            } else {
+                setChildrenEnabled(view.findViewById(R.id.info_year), false);
+                ((TitledTextView) view.findViewById(R.id.info_year)).setText(R.string.info_not_enroled_yet);
+            }
+
+            if (courseType != null && courseName != null && courseCode != null) {
+                setChildrenEnabled(view.findViewById(R.id.info_course), true);
+                ((TitledTextView) view.findViewById(R.id.info_course)).setText(String.format("%s %s (%s)", courseType, courseName, courseCode));
+            } else {
+                setChildrenEnabled(view.findViewById(R.id.info_course), false);
+                ((TitledTextView) view.findViewById(R.id.info_course)).setText(R.string.info_not_enroled_yet);
+            }
 
             String photo = sharedPreferences.getString("photo", null);
             if (photo != null)
