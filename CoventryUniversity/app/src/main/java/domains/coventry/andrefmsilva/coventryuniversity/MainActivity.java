@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "currentFragment", Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment_container)));
+        //getSupportFragmentManager().putFragment(outState, "currentFragment", Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.fragment_container)));
     }
 
     @Override

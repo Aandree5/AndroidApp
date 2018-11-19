@@ -11,7 +11,7 @@
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.enrol;
+package domains.coventry.andrefmsilva.coventryuniversity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +29,13 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
+import domains.coventry.andrefmsilva.enrol.EnrolAddressFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolCrouseFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolDisabilityFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolEmergencyContacts;
+import domains.coventry.andrefmsilva.enrol.EnrolFinancialFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolItFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolPhotoFragment;
 import domains.coventry.andrefmsilva.views.EnrolButton;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.utils.MySQLConnector;

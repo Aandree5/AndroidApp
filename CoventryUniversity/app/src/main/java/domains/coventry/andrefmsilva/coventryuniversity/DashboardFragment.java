@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.enrol.EnrolFragment;
 import domains.coventry.andrefmsilva.enrol.EnrolLoginFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardLoginFragment;
@@ -93,19 +92,10 @@ public class DashboardFragment extends Fragment
             switch (MainActivity.getStatus())
             {
                 case LOGGED:
-                    fragmentManager
-                            .beginTransaction()
-                            .replace(R.id.dashboard_framelayout, new DashboardInfoFragment())
-                            .commit();
-
-                    tablayout.setVisibility(View.GONE);
-                    break;
-
                 case ENROLMENT:
                     fragmentManager
                             .beginTransaction()
-                            .replace(R.id.dashboard_framelayout, new EnrolFragment())
-                            .addToBackStack("root")
+                            .replace(R.id.dashboard_framelayout, new DashboardInfoFragment())
                             .commit();
 
                     tablayout.setVisibility(View.GONE);
@@ -120,8 +110,16 @@ public class DashboardFragment extends Fragment
                     tablayout.setVisibility(View.VISIBLE);
                     break;
             }
-        }
+        } else
+            tablayout.setVisibility(savedInstanceState.getInt("tabLayoutVisibility"));
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("tabLayoutVisibility", tablayout.getVisibility());
     }
 }
