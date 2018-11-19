@@ -39,7 +39,7 @@
     <string name="dashboard_tab_enrol">Enrol</string>
     <string name="dashboard_username">Username</string>
     <string name="dashboard_password">Password</string>
-    <string name="dashboard_enrolement">Enrolement</string>
+    <string name="enrolement">Enrolement</string>
     <string name="dashboard_login_successful">Login Successful</string>
     <string name="dashboard_incorrect_user_pass">Username or password are incorrect</string>
     <string name="dashboard_incorrect_id_date">StudentID or date of birth are incorrect</string>
@@ -104,7 +104,7 @@
     <string name="enrolemergency_email">Email</string>
     <string name="enrolemergency_secondcontact">Second Contact</string>
 
-    <string name="enrolcardphoto_takepicture">Take picture</string>
+    <string name="enrolcardphoto_takepicture">Take new picture</string>
 
     <string name="enroldisability_handbook">To ensure relevant arrangements can be put in place for any assessment, please adhere to the deadlines detailed in your student handbook.</string>
     <string name="enroldisability_disability_1">Disability 1</string>

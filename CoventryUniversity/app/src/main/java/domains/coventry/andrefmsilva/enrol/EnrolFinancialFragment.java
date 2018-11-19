@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolFinancialFragment                  :
+ : EnrolFinancialFragment                  :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,8 +38,7 @@ import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolFinancialFragment extends Fragment implements MySQLConnector
-{
+public class EnrolFinancialFragment extends Fragment implements MySQLConnector {
     ViewGroup enrolFinancialLayout;
     TitledTextView ttvFees;
     TitledTextView ttvInstalments;
@@ -53,11 +52,10 @@ public class DashboardEnrolFinancialFragment extends Fragment implements MySQLCo
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrolfinancial, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrolfinancial, container, false);
 
-        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_financial, R.string.dashboard_enrolement);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_financial, R.string.enrolement);
 
         fees = 0.f;
 
@@ -75,8 +73,7 @@ public class DashboardEnrolFinancialFragment extends Fragment implements MySQLCo
 
         rGrpChoices.setOnCheckedChangeListener((group, checkedId) ->
         {
-            switch (checkedId)
-            {
+            switch (checkedId) {
                 case R.id.enrolfinancial_slc:
                     txtViewDescription.setText(R.string.enrolfinancial_desc_slc);
                     ttvInstalments.setText("0");
@@ -111,38 +108,32 @@ public class DashboardEnrolFinancialFragment extends Fragment implements MySQLCo
         {
             HashMap<String, String> requestInfo = new HashMap<>();
             requestInfo.put("type", "confirm_financial_registration");
-            requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+            requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
 
             new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Confirm Financial", false).execute();
         });
-
-        view.findViewById(R.id.enrolfinancial_cancel).setOnClickListener(v -> getActivity().onBackPressed());
 
         return view;
     }
 
     @Override
-    public void connectWithRetry()
-    {
+    public void connectWithRetry() {
         HashMap<String, String> requestInfo = new HashMap<>();
         requestInfo.put("type", "get_financial_registration");
-        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+        requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
 
         new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Financial Registration").execute();
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         setChildrenEnabled(enrolFinancialLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         // If not empty, it's because was trying to get info from teh database
-        if (results.size() > 0)
-        {
+        if (results.size() > 0) {
             fees = Float.valueOf(Objects.requireNonNull(results.get("fees_uk")));
 
             ttvFees.setText(String.format("£%s", fees));
@@ -158,9 +149,7 @@ public class DashboardEnrolFinancialFragment extends Fragment implements MySQLCo
                 rBtnSLC.setEnabled(false);
             else
                 rBtnSLC.setEnabled(true);
-        }
-        else
-        {
+        } else {
             Toast.makeText(getContext(), "Financial registration successful", Toast.LENGTH_SHORT).show();
             Objects.requireNonNull(getActivity()).onBackPressed();
         }
@@ -168,10 +157,8 @@ public class DashboardEnrolFinancialFragment extends Fragment implements MySQLCo
 
     @Override
 
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
-        if (!canRetry)
-        {
+    public void connectionUnsuccessful(Boolean canRetry) {
+        if (!canRetry) {
             Toast.makeText(getContext(), "Couldn't get data", Toast.LENGTH_SHORT).show();
 
             // Enable all layout children

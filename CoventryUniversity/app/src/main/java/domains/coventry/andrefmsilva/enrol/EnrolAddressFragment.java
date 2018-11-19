@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolAddressFragment                    :
+ : EnrolAddressFragment                    :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,8 +39,7 @@ import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.clearChildren;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolAddressFragment extends Fragment implements MySQLConnector
-{
+public class EnrolAddressFragment extends Fragment implements MySQLConnector {
     LinearLayout enrolAddressLayout;
     LinearLayout sameOptionsLayout;
     LinearLayout formLayout;
@@ -57,16 +56,14 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
     EditText editTxtPhone;
     EditText editTxtMobile;
 
-    public DashboardEnrolAddressFragment()
-    {
+    public EnrolAddressFragment() {
         address = new HashMap<>();
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enroladdress, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enroladdress, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_address, R.string.app_name);
 
@@ -87,14 +84,11 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
         editTxtPhone = view.findViewById(R.id.enroladdress_phone);
         editTxtMobile = view.findViewById(R.id.enroladdress_mobile);
 
-        tabLayoutOptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-        {
+        tabLayoutOptions.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab)
-            {
+            public void onTabSelected(TabLayout.Tab tab) {
                 // Disable unwanted options, all are enabled on unselect tab
-                switch (tab.getPosition())
-                {
+                switch (tab.getPosition()) {
                     case 0: // Home
                         setChildrenEnabled(sameOptionsLayout, false);
                         break;
@@ -107,13 +101,11 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
                 String selectedTab = Objects.requireNonNull(tab.getText()).toString();
 
                 // Check if is to be copied from other option, and set checkbox
-                if (address.containsKey(String.format("%s%s", selectedTab, "Copy")))
-                {
+                if (address.containsKey(String.format("%s%s", selectedTab, "Copy"))) {
                     selectedTab = address.get(String.format("%s%s", selectedTab, "Copy"));
                     setChildrenEnabled(formLayout, false);
 
-                    switch (Objects.requireNonNull(selectedTab))
-                    {
+                    switch (Objects.requireNonNull(selectedTab)) {
                         case "Home":
                             chckBxSameHome.setChecked(true);
                             break;
@@ -127,8 +119,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab)
-            {
+            public void onTabUnselected(TabLayout.Tab tab) {
                 saveAddressMap(Objects.requireNonNull(tab.getText()).toString());
 
                 setChildrenEnabled(sameOptionsLayout, true);
@@ -138,8 +129,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab)
-            {
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
@@ -150,8 +140,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
 
             String selectedTab = Objects.requireNonNull(Objects.requireNonNull(tabLayoutOptions.getTabAt(tabLayoutOptions.getSelectedTabPosition())).getText()).toString();
 
-            if (chkBox.isChecked())
-            {
+            if (chkBox.isChecked()) {
                 clearChildren(formLayout);
                 (chkBox.getId() == R.id.enroladdress_same_home ? chckBxSameTerm : chckBxSameHome).setChecked(false);
 
@@ -173,9 +162,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
                 address.put(String.format("%s%s", selectedTab, "Copy"), copyFrom);
 
                 readAddressMap(copyFrom);
-            }
-            else
-            {
+            } else {
                 clearChildren(formLayout);
                 setChildrenEnabled(formLayout, true);
                 address.remove(String.format("%s%s", selectedTab, "Copy"));
@@ -189,27 +176,24 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
         {
             saveAddressMap(Objects.requireNonNull(Objects.requireNonNull(tabLayoutOptions.getTabAt(tabLayoutOptions.getSelectedTabPosition())).getText()).toString());
 
-            if (!isAddressSet("Home"))
-            {
+            if (!isAddressSet("Home")) {
                 Toast.makeText(getContext(), "Home address details missing", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            if (!isAddressSet("Term"))
-            {
+            if (!isAddressSet("Term")) {
                 Toast.makeText(getContext(), "Term address details missing", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            if (!isAddressSet("Contact"))
-            {
+            if (!isAddressSet("Contact")) {
                 Toast.makeText(getContext(), "Contact address details missing", Toast.LENGTH_LONG).show();
                 return;
             }
 
             HashMap<String, String> requestInfo = new HashMap<>();
             requestInfo.put("type", "confirm_address_registration");
-            requestInfo.put("id", String.valueOf(((MainActivity) getActivity()).getUserID()));
+            requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
             requestInfo.put("home_flat", address.get("HomeFlat"));
             requestInfo.put("home_house", address.get("HomeHouse"));
             requestInfo.put("home_street", address.get("HomeStreet"));
@@ -222,8 +206,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
 
             if (address.containsKey("TermCopy"))
                 requestInfo.put("term_copy", address.get("TermCopy"));
-            else
-            {
+            else {
                 requestInfo.put("term_flat", address.get("TermFlat"));
                 requestInfo.put("term_house", address.get("TermHouse"));
                 requestInfo.put("term_street", address.get("TermStreet"));
@@ -237,8 +220,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
 
             if (address.containsKey("ContactCopy"))
                 requestInfo.put("contact_copy", address.get("ContactCopy"));
-            else
-            {
+            else {
                 requestInfo.put("contact_flat", address.get("ContactFlat"));
                 requestInfo.put("contact_house", address.get("ContactHouse"));
                 requestInfo.put("contact_street", address.get("ContactStreet"));
@@ -253,8 +235,6 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
             new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Registering Address", false).execute();
         });
 
-        view.findViewById(R.id.enroladdress_cancel).setOnClickListener(v -> getActivity().onBackPressed());
-
         return view;
     }
 
@@ -263,8 +243,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
      *
      * @param name Address name to look for the data
      */
-    void readAddressMap(String name)
-    {
+    void readAddressMap(String name) {
         if (address.containsKey(String.format("%s%s", name, "Copy")))
             name = address.get(String.format("%s%s", name, "Copy"));
 
@@ -285,11 +264,9 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
      *
      * @param name Address name to store the data
      */
-    void saveAddressMap(String name)
-    {
+    void saveAddressMap(String name) {
         // If not copying, save the written data
-        if (!address.containsKey(String.format("%s%s", name, "Copy")))
-        {
+        if (!address.containsKey(String.format("%s%s", name, "Copy"))) {
             address.put(String.format("%s%s", name, "Flat"), editTxtFlat.getText().toString());
             address.put(String.format("%s%s", name, "House"), editTxtHouse.getText().toString());
             address.put(String.format("%s%s", name, "Street"), editTxtStreet.getText().toString());
@@ -308,8 +285,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
      * @param name Address name to check for the details
      * @return True if all details are set, false otherwise
      */
-    Boolean isAddressSet(String name)
-    {
+    Boolean isAddressSet(String name) {
         if (address.containsKey(String.format("%s%s", name, "Copy")))
             return true;
 
@@ -328,8 +304,7 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         setChildrenEnabled(enrolAddressLayout, false);
 
         // Select Home to be easier to enable everything if connection fails
@@ -337,15 +312,13 @@ public class DashboardEnrolAddressFragment extends Fragment implements MySQLConn
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         Toast.makeText(getContext(), "Addresses registered", Toast.LENGTH_LONG).show();
         Objects.requireNonNull(getActivity()).onBackPressed();
     }
 
     @Override
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
+    public void connectionUnsuccessful(Boolean canRetry) {
         Toast.makeText(getContext(), "Connection failed", Toast.LENGTH_LONG).show();
 
         setChildrenEnabled(enrolAddressLayout, true);

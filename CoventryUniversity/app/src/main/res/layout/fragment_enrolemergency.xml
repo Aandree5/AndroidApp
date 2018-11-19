@@ -7,16 +7,15 @@
   : https://github.coventry.ac.uk/mateussa          :
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
-  : dashboard_fragment_enrolemergency.xml           :
+  : fragment_enrolemergency     :
   : Last modified 10 Nov 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enrolemergency_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/enrolemergency_layout"
     android:layoutAnimation="@anim/layout_slide_bottom">
 
     <LinearLayout
@@ -40,9 +39,9 @@
             android:id="@+id/enrolemergency_name1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="Name"
             android:hint="@string/enrolemergency_name"
             android:inputType="textPersonName"
-            android:autofillHints="Name"
             tools:ignore="UnusedAttribute" />
 
         <EditText
@@ -50,9 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:autofillHints="Address"
             android:hint="@string/enrolemergency_address"
             android:inputType="textAutoComplete"
-            android:autofillHints="Address"
             tools:ignore="UnusedAttribute" />
 
         <LinearLayout
@@ -65,10 +64,10 @@
                 android:id="@+id/enrolemergency_postcode1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enrolemergency_postcode"
-                android:inputType="textPostalAddress"
                 android:layout_weight="1"
                 android:autofillHints="Post Code"
+                android:hint="@string/enrolemergency_postcode"
+                android:inputType="textPostalAddress"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -76,10 +75,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="@string/enrolemergency_country"
-                android:inputType="textAutoComplete"
                 android:layout_weight="1"
                 android:autofillHints="Country"
+                android:hint="@string/enrolemergency_country"
+                android:inputType="textAutoComplete"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -94,10 +93,10 @@
                 android:id="@+id/enrolemergency_code1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enrolemergency_code"
-                android:inputType="phone"
                 android:layout_weight=".2"
                 android:autofillHints="Code"
+                android:hint="@string/enrolemergency_code"
+                android:inputType="phone"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -105,10 +104,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="@string/enrolemergency_phonenumber"
-                android:inputType="phone"
                 android:layout_weight=".8"
                 android:autofillHints="Phone Number"
+                android:hint="@string/enrolemergency_phonenumber"
+                android:inputType="phone"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -118,16 +117,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/enrolemergency_email"
             android:autofillHints="Email"
+            android:hint="@string/enrolemergency_email"
+            android:inputType="textEmailAddress"
             tools:ignore="UnusedAttribute" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enrolemergency_secondcontact"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:text="@string/enrolemergency_secondcontact" />
 
         <View
             android:layout_width="match_parent"
@@ -139,9 +138,9 @@
             android:id="@+id/enrolemergency_name2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="Name"
             android:hint="@string/enrolemergency_name"
             android:inputType="textPersonName"
-            android:autofillHints="Name"
             tools:ignore="UnusedAttribute" />
 
         <EditText
@@ -149,9 +148,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:autofillHints="Address"
             android:hint="@string/enrolemergency_address"
             android:inputType="textAutoComplete"
-            android:autofillHints="Address"
             tools:ignore="UnusedAttribute" />
 
         <LinearLayout
@@ -164,10 +163,10 @@
                 android:id="@+id/enrolemergency_postcode2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enrolemergency_postcode"
-                android:inputType="textPostalAddress"
                 android:layout_weight="1"
                 android:autofillHints="Post Code"
+                android:hint="@string/enrolemergency_postcode"
+                android:inputType="textPostalAddress"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -175,10 +174,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="@string/enrolemergency_country"
-                android:inputType="textAutoComplete"
                 android:layout_weight="1"
                 android:autofillHints="Country"
+                android:hint="@string/enrolemergency_country"
+                android:inputType="textAutoComplete"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -193,10 +192,10 @@
                 android:id="@+id/enrolemergency_code2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enrolemergency_code"
-                android:inputType="phone"
                 android:layout_weight=".2"
                 android:autofillHints="Code"
+                android:hint="@string/enrolemergency_code"
+                android:inputType="phone"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -204,10 +203,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="@string/enrolemergency_phonenumber"
-                android:inputType="phone"
                 android:layout_weight=".8"
                 android:autofillHints="Phone Number"
+                android:hint="@string/enrolemergency_phonenumber"
+                android:inputType="phone"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -217,35 +216,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/enrolemergency_email"
             android:autofillHints="Email"
+            android:hint="@string/enrolemergency_email"
+            android:inputType="textEmailAddress"
             tools:ignore="UnusedAttribute" />
 
-        <android.support.constraint.ConstraintLayout
+        <Button
+            android:id="@+id/enrolemergency_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/confirm" />
 
-            <Button
-                android:id="@+id/enrolemergency_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/confirm"
-                android:layout_marginTop="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/enrolemergency_cancel" />
-
-            <Button
-                android:id="@+id/enrolemergency_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:layout_marginTop="20dp"
-                app:layout_constraintBottom_toBottomOf="@id/enrolemergency_confirm"
-                app:layout_constraintStart_toEndOf="@id/enrolemergency_confirm"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </ScrollView>

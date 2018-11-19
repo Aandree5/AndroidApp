@@ -26,8 +26,8 @@ import android.view.ViewGroup;
 
 import java.util.Objects;
 
-import domains.coventry.andrefmsilva.dashboard.DashboardEnrolFragment;
-import domains.coventry.andrefmsilva.dashboard.DashboardEnrolLoginFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolFragment;
+import domains.coventry.andrefmsilva.enrol.EnrolLoginFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardInfoFragment;
 import domains.coventry.andrefmsilva.dashboard.DashboardLoginFragment;
 
@@ -66,7 +66,7 @@ public class DashboardFragment extends Fragment
                     case 1:
                         fragmentManager
                                 .beginTransaction()
-                                .replace(R.id.dashboard_framelayout, new DashboardEnrolLoginFragment())
+                                .replace(R.id.dashboard_framelayout, new EnrolLoginFragment())
                                 .commit();
                         break;
                 }
@@ -90,7 +90,7 @@ public class DashboardFragment extends Fragment
         {
             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
 
-            switch (((MainActivity) getActivity()).getStatus())
+            switch (MainActivity.getStatus())
             {
                 case LOGGED:
                     fragmentManager
@@ -104,7 +104,7 @@ public class DashboardFragment extends Fragment
                 case ENROLMENT:
                     fragmentManager
                             .beginTransaction()
-                            .replace(R.id.dashboard_framelayout, new DashboardEnrolFragment())
+                            .replace(R.id.dashboard_framelayout, new EnrolFragment())
                             .addToBackStack("root")
                             .commit();
 

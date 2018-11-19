@@ -16,7 +16,6 @@ package domains.coventry.andrefmsilva.coventryuniversity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity
 {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private UserStatus status;
-    private int userID;
-    private String name;
-    private String username;
-    private String email;
+    private static UserStatus status;
+    private static int userID;
+    private static String name;
+    private static String username;
+    private static String email;
 
     // Variable can't be local, so it doesn't get garbadge collected
     @SuppressWarnings("FieldCanBeLocal")
@@ -95,17 +94,13 @@ public class MainActivity extends AppCompatActivity
                 toolbar.setSubtitle(R.string.app_name);
             }
 
-            // Clear all fragments until the root fragment without the root fragment
-            // When back button takes to another navigation category, force the user to the root of that category
-            getSupportFragmentManager().popBackStackImmediate("root", 0);
-
             switch (menuItem.getItemId())
             {
                 case R.id.nav_news:
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new NewsFragment())
-                            .addToBackStack("root")
+                            .addToBackStack(null)
                             .commit();
 
                     // Update subtitle info
@@ -115,6 +110,7 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new DashboardFragment())
+                            .addToBackStack(null)
                             .commit();
                     break;
 
@@ -122,7 +118,7 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new TimetableFragment())
-                            .addToBackStack("root")
+                            .addToBackStack(null)
                             .commit();
                     break;
 
@@ -130,13 +126,14 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new LibraryFragment())
-                            .addToBackStack("root")
+                            .addToBackStack(null)
                             .commit();
                     break;
 
                 case R.id.nav_settings:
                     Intent intent = new Intent(this, SettingsActivity.class);
-                    startActivityForResult(intent, 1);
+                    if (intent.resolveActivity(getPackageManager()) != null)
+                        startActivityForResult(intent, 1);
                     break;
             }
 
@@ -162,7 +159,7 @@ public class MainActivity extends AppCompatActivity
         {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, new DashboardFragment())
-                    .addToBackStack("root")
+                    .addToBackStack(null)
                     .commit();
 
             navigationView.setCheckedItem(R.id.nav_dashboard);
@@ -197,9 +194,7 @@ public class MainActivity extends AppCompatActivity
 
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-            if (fragment == null)
-                finish();
-            else if (fragment instanceof NewsFragment)
+            if (fragment instanceof NewsFragment)
                 navigationView.setCheckedItem(R.id.nav_news);
 
             else if (fragment instanceof TimetableFragment)
@@ -316,7 +311,7 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new DashboardFragment())
-                .addToBackStack("root")
+                .addToBackStack(null)
                 .commit();
 
         Toast.makeText(this, "Log out successful", Toast.LENGTH_LONG).show();
@@ -339,7 +334,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @return UserStatus of the current user status
      */
-    public UserStatus getStatus()
+    public static UserStatus getStatus()
     {
         return status;
     }
@@ -349,7 +344,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @return The user ID
      */
-    public int getUserID()
+    public static int getUserID()
     {
         return userID;
     }
@@ -359,7 +354,7 @@ public class MainActivity extends AppCompatActivity
      *
      * @return The user name
      */
-    public String getName()
+    public static String getName()
     {
         return name;
     }

@@ -14,8 +14,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/zoomImageViewBackground"
-    android:layoutAnimation="@anim/layout_slide_bottom">
+    android:layoutAnimation="@anim/layout_slide_bottom"
+    tools:context=".ZoomImageActivity">
 
     <domains.coventry.andrefmsilva.views.ZoomImageView
         android:id="@+id/zoom_imageview"

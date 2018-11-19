@@ -7,12 +7,11 @@
   : https://github.coventry.ac.uk/mateussa          :
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
-  : dashboard_fragment_enroldisability.xml          :
+  : fragment_enroldisability    :
   : Last modified 10 Nov 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -115,31 +114,14 @@
             android:text="@string/enroldisability_dsa"
             android:textSize="13sp" />
 
-        <android.support.constraint.ConstraintLayout
+        <Button
+            android:id="@+id/enroldisability_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/confirm" />
 
-            <Button
-                android:id="@+id/enroldisability_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/confirm"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/enroldisability_cancel"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/enroldisability_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/cancel"
-                app:layout_constraintBottom_toBottomOf="@id/enroldisability_confirm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/enroldisability_confirm" />
-
-        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </ScrollView>

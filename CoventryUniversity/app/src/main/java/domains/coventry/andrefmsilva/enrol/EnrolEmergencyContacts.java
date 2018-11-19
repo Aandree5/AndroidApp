@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolEmergencyContacts                  :
+ : EnrolEmergencyContacts                  :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,15 +35,13 @@ import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolEmergencyContacts extends Fragment implements MySQLConnector
-{
+public class EnrolEmergencyContacts extends Fragment implements MySQLConnector {
     ViewGroup enrolemergencyLayout;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrolemergency, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrolemergency, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_emergencycontacts, R.string.app_name);
 
@@ -69,12 +67,11 @@ public class DashboardEnrolEmergencyContacts extends Fragment implements MySQLCo
                     !editTxtPhone1.getText().toString().isEmpty() && !editTxtEmail1.getText().toString().isEmpty() &&
                     !editTxtName2.getText().toString().isEmpty() && !editTxtAddress2.getText().toString().isEmpty() &&
                     !editTxtPostCode2.getText().toString().isEmpty() && !editTxtCode2.getText().toString().isEmpty() &&
-                    !editTxtPhone2.getText().toString().isEmpty() && !editTxtEmail2.getText().toString().isEmpty())
-            {
+                    !editTxtPhone2.getText().toString().isEmpty() && !editTxtEmail2.getText().toString().isEmpty()) {
 
                 HashMap<String, String> requestInfo = new HashMap<>();
                 requestInfo.put("type", "register_emergency_contacts");
-                requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+                requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
                 requestInfo.put("ec_name1", editTxtName1.getText().toString());
                 requestInfo.put("ec_address1", editTxtAddress1.getText().toString());
                 requestInfo.put("ec_postcode1", editTxtPostCode1.getText().toString());
@@ -87,35 +84,28 @@ public class DashboardEnrolEmergencyContacts extends Fragment implements MySQLCo
                 requestInfo.put("ec_email2", editTxtEmail2.getText().toString());
 
                 new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Emergency Contacts", false).execute();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), "All field must be filled", Toast.LENGTH_SHORT).show();
             }
         });
-
-        view.findViewById(R.id.enrolemergency_cancel).setOnClickListener(v -> getActivity().onBackPressed());
 
         return view;
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         // Disable all layout children
         setChildrenEnabled(enrolemergencyLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         Toast.makeText(getContext(), "Emergency contacts registered", Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).onBackPressed();
     }
 
     @Override
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
+    public void connectionUnsuccessful(Boolean canRetry) {
         Toast.makeText(getContext(), "Couldn't get data", Toast.LENGTH_SHORT).show();
 
         // Enable all layout children

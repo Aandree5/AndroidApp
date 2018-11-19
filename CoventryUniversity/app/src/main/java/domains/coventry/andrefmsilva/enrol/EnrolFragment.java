@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolFragment                           :
+ : EnrolFragment                           :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -37,8 +37,7 @@ import domains.coventry.andrefmsilva.coventryuniversity.R;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolFragment extends Fragment implements MySQLConnector
-{
+public class EnrolFragment extends Fragment implements MySQLConnector {
     ScrollView enrolLayout;
     EnrolButton enrolCourseRegistration;
     EnrolButton enrolItRegistration;
@@ -50,11 +49,10 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrol, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrol, container, false);
 
-        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.dashboard_enrolement, R.string.app_name);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrolement, R.string.app_name);
 
         enrolLayout = view.findViewById(R.id.enrol_layout);
         enrolCourseRegistration = view.findViewById(R.id.enrol_course_registration);
@@ -67,43 +65,43 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
 
         enrolCourseRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolCrouseFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolCrouseFragment())
                 .addToBackStack(null)
                 .commit());
 
         enrolItRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolItFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolItFragment())
                 .addToBackStack(null)
                 .commit());
 
         enrolFinancialRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolFinancialFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolFinancialFragment())
                 .addToBackStack(null)
                 .commit());
 
         enrolEmergencyContactsRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolEmergencyContacts())
+                .replace(R.id.enrol_fragment_container, new EnrolEmergencyContacts())
                 .addToBackStack(null)
                 .commit());
 
         enrolIdCardPhoto.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolPhotoFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolPhotoFragment())
                 .addToBackStack(null)
                 .commit());
 
         enrolDisabilityRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolDisabilityFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolDisabilityFragment())
                 .addToBackStack(null)
                 .commit());
 
         enrolAddressRegistration.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolAddressFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolAddressFragment())
                 .addToBackStack(null)
                 .commit());
 
@@ -132,25 +130,22 @@ public class DashboardEnrolFragment extends Fragment implements MySQLConnector
     }
 
     @Override
-    public void connectWithRetry()
-    {
+    public void connectWithRetry() {
         HashMap<String, String> requestInfo = new HashMap<>();
         requestInfo.put("type", "getState");
-        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+        requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
 
         new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Enrolment Status").execute();
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         // Disable all layout children
         setChildrenEnabled(enrolLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         // Enable all layout children
         setChildrenEnabled(enrolLayout, true);
 

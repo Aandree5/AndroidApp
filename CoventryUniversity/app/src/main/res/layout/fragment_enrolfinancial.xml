@@ -7,7 +7,7 @@
   : https://github.coventry.ac.uk/mateussa          :
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
-  : dashboard_fragment_enrolfinancial.xml           :
+  : fragment_enrolfinancial     :
   : Last modified 10 Nov 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
@@ -126,23 +126,15 @@
 
         <Button
             android:id="@+id/enrolfinancial_confirm"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:text="@string/confirm"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/enrolfinancial_cancel"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/enrolfinancial_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/cancel"
-            app:layout_constraintBottom_toBottomOf="@id/enrolfinancial_confirm"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/enrolfinancial_confirm" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

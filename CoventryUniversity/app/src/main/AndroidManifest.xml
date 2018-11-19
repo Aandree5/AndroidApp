@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
+<?xml version="1.0" encoding="utf-8"?><!--
+:::::::::::::::::::::::::::::::::::::::::::::::::
   : Copyright 2018 Andre Silva. All rights reserved.:
   :                                                 :
   : Contact: mateussa@uni.coventry.ac.uk            :
@@ -9,8 +10,8 @@
   :                                                 :
   : AndroidManifest.xml                             :
   : Last modified 10 Nov 2018                       :
-  :::::::::::::::::::::::::::::::::::::::::::::::::-->
-
+  :::::::::::::::::::::::::::::::::::::::::::::::::
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="domains.coventry.andrefmsilva.coventryuniversity">
@@ -40,9 +41,9 @@
             android:name=".ZoomImageActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".SettingsActivity">
-        </activity>
+
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".EnrolActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -53,7 +54,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

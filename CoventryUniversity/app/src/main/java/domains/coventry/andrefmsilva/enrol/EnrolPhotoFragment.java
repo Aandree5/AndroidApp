@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolPhotoFragment                      :
+ : EnrolPhotoFragment                      :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.content.Context;
 import android.content.Intent;
@@ -54,8 +54,7 @@ import static android.app.Activity.RESULT_OK;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnector
-{
+public class EnrolPhotoFragment extends Fragment implements MySQLConnector {
     ViewGroup enrolcardphotoLayout;
     ZoomImageView imgViewPhoto;
     Button btnCoonfirm;
@@ -65,9 +64,8 @@ public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnec
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrolcardphoto, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrolcardphoto, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_cardphoto, R.string.app_name);
 
@@ -94,30 +92,26 @@ public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnec
 
             HashMap<String, String> requestInfo = new HashMap<>();
             requestInfo.put("type", "register_card_photo");
-            requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+            requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
             requestInfo.put("photo", Base64.encodeToString(imageBytes, Base64.DEFAULT));
 
             new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Sending Card Photo", false).execute();
         });
 
-        view.findViewById(R.id.enrolcardphoto_takepicture).setOnClickListener(v -> startTakePicktureActivity());
-        view.findViewById(R.id.enrolcardphoto_cancel).setOnClickListener(v -> getActivity().onBackPressed());
+        view.findViewById(R.id.enrolcardphoto_takepicture).setOnClickListener(v -> startTakePictureActivity());
 
-        startTakePicktureActivity();
+        startTakePictureActivity();
 
         return view;
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == 1 && resultCode == RESULT_OK)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
 
             imgViewPhoto.setImageBitmap(bitmap);
-        }
-        else
+        } else
             super.onActivityResult(requestCode, resultCode, data);
 
         if (imgViewPhoto.getDrawable() == null)
@@ -128,37 +122,26 @@ public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnec
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         setChildrenEnabled(enrolcardphotoLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         Toast.makeText(getContext(), "Photo registered successfuly", Toast.LENGTH_SHORT).show();
 
         FileOutputStream fOutStream = null;
-        try
-        {
+        try {
             fOutStream = Objects.requireNonNull(getContext()).openFileOutput("photo.jpg", Context.MODE_PRIVATE);
 
             loadedImage.compress(Bitmap.CompressFormat.JPEG, 100, fOutStream);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e("DashboardLoginFragment", e.getMessage(), e);
-        }
-        finally
-        {
-            if (fOutStream != null)
-            {
-                try
-                {
+        } finally {
+            if (fOutStream != null) {
+                try {
                     fOutStream.close();
-                }
-                catch (IOException e)
-                {
+                } catch (IOException e) {
                     Log.e("DashboardLoginFragment", e.getMessage(), e);
                 }
             }
@@ -172,36 +155,32 @@ public class DashboardEnrolPhotoFragment extends Fragment implements MySQLConnec
     }
 
     @Override
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
+    public void connectionUnsuccessful(Boolean canRetry) {
         Toast.makeText(getContext(), "Couldn't get data", Toast.LENGTH_SHORT).show();
 
         // Enable all layout children
         setChildrenEnabled(enrolcardphotoLayout, true);
     }
 
-    private void startTakePicktureActivity()
-    {
+    /**
+     * Starts the activity to get a pricture from the camera
+     */
+    private void startTakePictureActivity() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null)
-        {
+        if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
             File photoFile = null;
-            try
-            {
+            try {
                 File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                 photoFile = File.createTempFile("photo", ".jpg", storageDir);
 
                 // Save the file path for use with ACTION_VIEW intents
                 photoPath = photoFile.getAbsolutePath();
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.e("takePicture", e.getMessage(), e);
             }
 
-            if (photoFile != null)
-            {
+            if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(Objects.requireNonNull(getContext()), "com.example.android.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 

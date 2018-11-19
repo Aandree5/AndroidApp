@@ -13,6 +13,7 @@
 
 package domains.coventry.andrefmsilva.dashboard;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Objects;
 
+import domains.coventry.andrefmsilva.coventryuniversity.EnrolActivity;
 import domains.coventry.andrefmsilva.views.TitledTextView;
 import domains.coventry.andrefmsilva.coventryuniversity.MainActivity;
 import domains.coventry.andrefmsilva.coventryuniversity.R;
@@ -47,26 +49,28 @@ public class DashboardInfoFragment extends Fragment implements MySQLConnector
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.dashboard_fragment_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_info, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.nav_dashboard, R.string.app_name);
 
         // Test
-        view.findViewById(R.id.dashboard_enrolment).setOnClickListener(v -> Objects.requireNonNull(getFragmentManager()).beginTransaction().replace(R.id.fragment_container, new DashboardEnrolFragment()).addToBackStack(null).commit());
+        view.findViewById(R.id.dashboard_enrolment).setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getContext(), EnrolActivity.class);
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null)
+                startActivity(intent);
+        });
+
         view.findViewById(R.id.dashboard_enrolment_reset).setOnClickListener(v ->
         {
             HashMap<String, String> requestInfo = new HashMap<>();
-            requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+            requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
 
             new MySQLConnector.connectMySQL(new WeakReference<>(this), FILE_RESETENROL, requestInfo, "Reseting...", false).execute();
         });
 
-        MainActivity activity = (MainActivity) getActivity();
-        if (activity != null)
-        {
-            ((TitledTextView) view.findViewById(R.id.info_name)).setText(activity.getName());
-            ((TitledTextView) view.findViewById(R.id.info_id)).setText(String.valueOf(activity.getUserID()));
-        }
+        ((TitledTextView) view.findViewById(R.id.info_name)).setText(MainActivity.getName());
+        ((TitledTextView) view.findViewById(R.id.info_id)).setText(String.valueOf(MainActivity.getUserID()));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (sharedPreferences != null)

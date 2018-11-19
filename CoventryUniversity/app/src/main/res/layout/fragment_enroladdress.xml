@@ -7,7 +7,7 @@
   : https://github.coventry.ac.uk/mateussa          :
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
-  : dashboard_fragment_enroladdress.xml             :
+  : fragment_enroladdress       :
   : Last modified 10 Nov 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
@@ -262,32 +262,16 @@
 
             </LinearLayout>
 
-
-            <android.support.constraint.ConstraintLayout
+            <Button
+                android:id="@+id/enroladdress_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:text="@string/confirm"
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp" />
 
-                <Button
-                    android:id="@+id/enroladdress_confirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/confirm"
-                    app:layout_constraintEnd_toStartOf="@id/enroladdress_cancel"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <Button
-                    android:id="@+id/enroladdress_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/cancel"
-                    app:layout_constraintBottom_toBottomOf="@id/enroladdress_confirm"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/enroladdress_confirm" />
-
-            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

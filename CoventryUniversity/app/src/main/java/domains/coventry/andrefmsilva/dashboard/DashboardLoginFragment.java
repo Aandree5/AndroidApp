@@ -57,7 +57,7 @@ public class DashboardLoginFragment extends Fragment implements MySQLConnector
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.dashboard_fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.dashboard_tab_login, R.string.app_name);
 

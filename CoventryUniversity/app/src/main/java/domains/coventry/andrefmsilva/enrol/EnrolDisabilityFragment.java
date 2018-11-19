@@ -7,11 +7,11 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolDisabilityFragment                 :
+ : EnrolDisabilityFragment                 :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,15 +42,13 @@ import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLConnector
-{
+public class EnrolDisabilityFragment extends Fragment implements MySQLConnector {
     LinearLayout enrolDisabilityLayout;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enroldisability, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enroldisability, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_disability, R.string.app_name);
 
@@ -87,11 +85,9 @@ public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLC
         disabilitiesList.add("Wheelchair User");
 
         // Used to set spinner options and the first option be a disabled color
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, disabilitiesList)
-        {
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, disabilitiesList) {
             @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-            {
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
 
                 return (position == 0) ? setTextDisabled((TextView) view) : view;
@@ -99,8 +95,7 @@ public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLC
 
             @NonNull
             @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
-            {
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
 
                 return (position == 0) ? setTextDisabled((TextView) view) : view;
@@ -112,8 +107,7 @@ public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLC
              * @param textView TextView to change the text color
              * @return Input textview with the text color changed
              */
-            View setTextDisabled(@NonNull TextView textView)
-            {
+            View setTextDisabled(@NonNull TextView textView) {
                 textView.setTextColor(getResources().getColor(R.color.textDisabled, getActivity().getTheme()));
 
                 return textView;
@@ -129,7 +123,7 @@ public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLC
         {
             HashMap<String, String> requestInfo = new HashMap<>();
             requestInfo.put("type", "confirm_disability_registration");
-            requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+            requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
             requestInfo.put("disability_1", ((TextView) spinner1.getSelectedView()).getText().toString());
             requestInfo.put("disability_2", ((TextView) spinner2.getSelectedView()).getText().toString());
             requestInfo.put("disability_3", ((TextView) spinner3.getSelectedView()).getText().toString());
@@ -137,31 +131,26 @@ public class DashboardEnrolDisabilityFragment extends Fragment implements MySQLC
             requestInfo.put("disability_comment", ((EditText) view.findViewById(R.id.enroldisability_comment)).getText().toString());
             requestInfo.put("disability_dsa", ((CheckBox) view.findViewById(R.id.enroldisability_dsa)).isChecked() ? "1" : "0");
 
-            new connectMySQL(new WeakReference<>(DashboardEnrolDisabilityFragment.this), FILE_ENROL, requestInfo, "Disability Registration", false).execute();
+            new connectMySQL(new WeakReference<>(EnrolDisabilityFragment.this), FILE_ENROL, requestInfo, "Disability Registration", false).execute();
         });
-
-        view.findViewById(R.id.enroldisability_cancel).setOnClickListener(v -> getActivity().onBackPressed());
 
         return view;
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         setChildrenEnabled(enrolDisabilityLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
+    public void connectionSuccessful(HashMap<String, String> results) {
         Toast.makeText(getContext(), "Disability registered", Toast.LENGTH_LONG).show();
 
         Objects.requireNonNull(getActivity()).onBackPressed();
     }
 
     @Override
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
+    public void connectionUnsuccessful(Boolean canRetry) {
         setChildrenEnabled(enrolDisabilityLayout, true);
         Toast.makeText(getContext(), "Couldn't save data", Toast.LENGTH_LONG).show();
     }

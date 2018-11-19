@@ -7,21 +7,21 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolLoginFragment                      :
+ : EnrolLoginFragment                      :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +48,7 @@ import static domains.coventry.andrefmsilva.utils.Utils.SQL_DATE_FORMAT;
 import static domains.coventry.andrefmsilva.utils.Utils.formatDate;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnector, DatePickerDialog.OnDateSetListener
-{
+public class EnrolLoginFragment extends Fragment implements MySQLConnector, DatePickerDialog.OnDateSetListener {
     ViewGroup layoutEnrolLogin;
     EditText editTxtStudentId;
     EditText editTxtBirthDate;
@@ -57,9 +56,8 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrollogin, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrollogin, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.dashboard_tab_enrol, R.string.app_name);
 
@@ -72,29 +70,23 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
 
         editTxtBirthDate.setOnFocusChangeListener((v, hasFocus) ->
         {
-            if (hasFocus)
-            {
+            if (hasFocus) {
                 Calendar c = Calendar.getInstance();
 
-                if (!editTxtBirthDate.getText().toString().equals(""))
-                {
+                if (!editTxtBirthDate.getText().toString().equals("")) {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(APP_DATE_FORMAT, Locale.UK);
 
-                    try
-                    {
+                    try {
                         c.setTime(simpleDateFormat.parse(editTxtBirthDate.getText().toString()));
-                    }
-                    catch (ParseException e)
-                    {
+                    } catch (ParseException e) {
                         Log.e("editTxtBirthDate.setOnFocusChangeListener", e.getMessage(), e);
                     }
 
-                }
-                else
+                } else
                     c.set(Calendar.YEAR, c.get(Calendar.YEAR) - 18); // If no date was set on the editbox, start 18 years earlier, usually is when people start university
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), DashboardEnrolLoginFragment.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Objects.requireNonNull(getContext()), EnrolLoginFragment.this,
                         c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 
                 datePickerDialog.setOnCancelListener(dialog -> editTxtBirthDate.clearFocus());
@@ -111,32 +103,27 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
             resquestInfo.put("type", "login");
             resquestInfo.put("id", editTxtStudentId.getText().toString());
 
-            try
-            {
+            try {
                 resquestInfo.put("birth_date", formatDate(editTxtBirthDate.getText().toString(), APP_DATE_FORMAT, SQL_DATE_FORMAT));
-            }
-            catch (ParseException e)
-            {
+            } catch (ParseException e) {
                 Log.e("btnEnrol.setOnClickListener", e.getMessage(), e);
             }
 
-            new connectMySQL(new WeakReference<>(DashboardEnrolLoginFragment.this), FILE_ENROL, resquestInfo, "Login Details", false).execute();
+            new connectMySQL(new WeakReference<>(EnrolLoginFragment.this), FILE_ENROL, resquestInfo, "Login Details", false).execute();
         });
 
         return view;
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         // Disable all layout children
         setChildrenEnabled(layoutEnrolLogin, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
-        SharedPreferences.Editor sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE).edit();
+    public void connectionSuccessful(HashMap<String, String> results) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext())).edit();
         sharedPreferences.putString("status", "enrolment");
         sharedPreferences.putInt("id", Integer.valueOf(Objects.requireNonNull(results.get("id"))));
         sharedPreferences.putString("name", String.format("%s, %s", results.get("last_name"), results.get("first_name")));
@@ -146,13 +133,12 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
 
         Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new DashboardEnrolFragment())
+                .replace(R.id.enrol_fragment_container, new EnrolFragment())
                 .commit();
     }
 
     @Override
-    public void connectionUnsuccessful(Boolean canRetry)
-    {
+    public void connectionUnsuccessful(Boolean canRetry) {
         Toast.makeText(getContext(), R.string.dashboard_incorrect_id_date, Toast.LENGTH_LONG).show();
 
         // Enable layout children
@@ -160,8 +146,7 @@ public class DashboardEnrolLoginFragment extends Fragment implements MySQLConnec
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-    {
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(APP_DATE_FORMAT, Locale.UK);
 

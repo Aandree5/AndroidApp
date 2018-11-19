@@ -7,19 +7,19 @@
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : DashboardEnrolItFragment                         :
+ : EnrolItFragment                         :
  : Last modified 10 Nov 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
-package domains.coventry.andrefmsilva.dashboard;
+package domains.coventry.andrefmsilva.enrol;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +41,7 @@ import domains.coventry.andrefmsilva.utils.MySQLConnector;
 import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 import static domains.coventry.andrefmsilva.utils.Utils.setChildrenEnabled;
 
-public class DashboardEnrolItFragment extends Fragment implements MySQLConnector
-{
+public class EnrolItFragment extends Fragment implements MySQLConnector {
     ViewGroup enrolItLayout;
     TitledTextView ttvUsername;
     TitledTextView ttvEmail;
@@ -52,11 +51,10 @@ public class DashboardEnrolItFragment extends Fragment implements MySQLConnector
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View view = inflater.inflate(R.layout.dashboard_fragment_enrolit, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_enrolit, container, false);
 
-        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_it, R.string.dashboard_enrolement);
+        setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.enrol_it, R.string.enrolement);
 
         enrolItLayout = view.findViewById(R.id.enrolit_layout);
 
@@ -71,22 +69,17 @@ public class DashboardEnrolItFragment extends Fragment implements MySQLConnector
         btnConfirm.setOnClickListener(v ->
         {
             if (!editTPassword.getText().toString().equals("") && !editTPasswordConfirm.getText().toString().equals("") &&
-                    editTPassword.getText().toString().equals(editTPasswordConfirm.getText().toString()) && !ttvUsername.isTextEmpty() && !ttvEmail.isTextEmpty())
-            {
+                    editTPassword.getText().toString().equals(editTPasswordConfirm.getText().toString()) && !ttvUsername.isTextEmpty() && !ttvEmail.isTextEmpty()) {
                 HashMap<String, String> requestInfo = new HashMap<>();
                 requestInfo.put("type", "confirm_it_registration");
-                requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+                requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
                 requestInfo.put("password", editTPassword.getText().toString());
 
                 new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "IT Services Status", false).execute();
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getContext(), R.string.dashboard_passwords_no_match, Toast.LENGTH_LONG).show();
             }
         });
-
-        view.findViewById(R.id.enrolit_cancel).setOnClickListener(v -> Objects.requireNonNull(getActivity()).onBackPressed());
 
         editTPasswordConfirm.setOnEditorActionListener((v, actionId, event) ->
         {
@@ -101,36 +94,30 @@ public class DashboardEnrolItFragment extends Fragment implements MySQLConnector
     }
 
     @Override
-    public void connectWithRetry()
-    {
+    public void connectWithRetry() {
         HashMap<String, String> requestInfo = new HashMap<>();
         requestInfo.put("type", "get_it_registration");
-        requestInfo.put("id", String.valueOf(((MainActivity) Objects.requireNonNull(getActivity())).getUserID()));
+        requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
 
         new connectMySQL(new WeakReference<>(this), FILE_ENROL, requestInfo, "Checking IT Status").execute();
     }
 
     @Override
-    public void connectionStarted()
-    {
+    public void connectionStarted() {
         // Disable all layout children
         setChildrenEnabled(enrolItLayout, false);
     }
 
     @Override
-    public void connectionSuccessful(HashMap<String, String> results)
-    {
-        if (results.size() > 0)
-        {
+    public void connectionSuccessful(HashMap<String, String> results) {
+        if (results.size() > 0) {
             ttvUsername.setText(results.get("username"));
             ttvEmail.setText(results.get("email"));
 
             // Enable all layout children
             setChildrenEnabled(enrolItLayout, true);
-        }
-        else
-        {
-            SharedPreferences.Editor sharedPreferences = Objects.requireNonNull(getActivity()).getPreferences(Context.MODE_PRIVATE).edit();
+        } else {
+            SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext())).edit();
             sharedPreferences.putString("status", "logged");
             sharedPreferences.putString("username", ttvUsername.getText());
             sharedPreferences.putString("email", ttvEmail.getText());
