@@ -163,7 +163,7 @@ public class EnrolPhotoFragment extends Fragment implements MySQLConnector {
     }
 
     /**
-     * Starts the activity to get a pricture from the camera
+     * Starts the activity to get a picture from the camera
      */
     private void startTakePictureActivity() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

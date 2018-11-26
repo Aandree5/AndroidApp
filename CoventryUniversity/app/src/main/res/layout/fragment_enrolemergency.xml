@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:autofillHints="Name"
             android:hint="@string/enrolemergency_name"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textPersonName"
+            android:nextFocusForward="@id/enrolemergency_address1"
             tools:ignore="UnusedAttribute" />
 
         <EditText
@@ -51,7 +53,9 @@
             android:layout_marginTop="10dp"
             android:autofillHints="Address"
             android:hint="@string/enrolemergency_address"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textAutoComplete"
+            android:nextFocusForward="@id/enrolemergency_postcode1"
             tools:ignore="UnusedAttribute" />
 
         <LinearLayout
@@ -67,7 +71,9 @@
                 android:layout_weight="1"
                 android:autofillHints="Post Code"
                 android:hint="@string/enrolemergency_postcode"
-                android:inputType="textPostalAddress"
+                android:imeOptions="flagNavigateNext"
+                android:inputType="textCapCharacters"
+                android:nextFocusForward="@id/enrolemergency_country1"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -78,7 +84,9 @@
                 android:layout_weight="1"
                 android:autofillHints="Country"
                 android:hint="@string/enrolemergency_country"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="textAutoComplete"
+                android:nextFocusForward="@id/enrolemergency_code1"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -96,7 +104,9 @@
                 android:layout_weight=".2"
                 android:autofillHints="Code"
                 android:hint="@string/enrolemergency_code"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="phone"
+                android:nextFocusForward="@id/enrolemergency_phone1"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -107,7 +117,9 @@
                 android:layout_weight=".8"
                 android:autofillHints="Phone Number"
                 android:hint="@string/enrolemergency_phonenumber"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="phone"
+                android:nextFocusForward="@id/enrolemergency_email1"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -119,7 +131,9 @@
             android:layout_marginTop="10dp"
             android:autofillHints="Email"
             android:hint="@string/enrolemergency_email"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textEmailAddress"
+            android:nextFocusForward="@id/enrolemergency_name2"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -140,7 +154,9 @@
             android:layout_height="wrap_content"
             android:autofillHints="Name"
             android:hint="@string/enrolemergency_name"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textPersonName"
+            android:nextFocusForward="@id/enrolemergency_address2"
             tools:ignore="UnusedAttribute" />
 
         <EditText
@@ -150,7 +166,9 @@
             android:layout_marginTop="10dp"
             android:autofillHints="Address"
             android:hint="@string/enrolemergency_address"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textAutoComplete"
+            android:nextFocusForward="@id/enrolemergency_postcode2"
             tools:ignore="UnusedAttribute" />
 
         <LinearLayout
@@ -166,7 +184,9 @@
                 android:layout_weight="1"
                 android:autofillHints="Post Code"
                 android:hint="@string/enrolemergency_postcode"
-                android:inputType="textPostalAddress"
+                android:imeOptions="flagNavigateNext"
+                android:inputType="textCapCharacters"
+                android:nextFocusForward="@id/enrolemergency_country2"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -177,7 +197,9 @@
                 android:layout_weight="1"
                 android:autofillHints="Country"
                 android:hint="@string/enrolemergency_country"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="textAutoComplete"
+                android:nextFocusForward="@id/enrolemergency_code2"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -195,7 +217,9 @@
                 android:layout_weight=".2"
                 android:autofillHints="Code"
                 android:hint="@string/enrolemergency_code"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="phone"
+                android:nextFocusForward="@id/enrolemergency_phone2"
                 tools:ignore="UnusedAttribute" />
 
             <EditText
@@ -206,7 +230,9 @@
                 android:layout_weight=".8"
                 android:autofillHints="Phone Number"
                 android:hint="@string/enrolemergency_phonenumber"
+                android:imeOptions="flagNavigateNext"
                 android:inputType="phone"
+                android:nextFocusForward="@id/enrolemergency_email2"
                 tools:ignore="UnusedAttribute" />
 
         </LinearLayout>
@@ -218,7 +244,9 @@
             android:layout_marginTop="10dp"
             android:autofillHints="Email"
             android:hint="@string/enrolemergency_email"
+            android:imeOptions="flagNavigateNext"
             android:inputType="textEmailAddress"
+            android:nextFocusForward="@id/enrolemergency_confirm"
             tools:ignore="UnusedAttribute" />
 
         <Button

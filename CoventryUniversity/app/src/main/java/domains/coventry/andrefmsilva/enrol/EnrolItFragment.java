@@ -125,7 +125,7 @@ public class EnrolItFragment extends Fragment implements MySQLConnector {
 
             Toast.makeText(getContext(), "IT registered successfully.", Toast.LENGTH_SHORT).show();
 
-            InfoDialog.newIntance(InfoDialog.Type.OK, "Logged In", "You have been logged, next time to check your enrolment status go your profile. \nLeft Menu -> Profile -> Enrolment")
+            InfoDialog.newIntance(InfoDialog.Type.OK, getString(R.string.enrolit_loggedin), getString(R.string.enrolit_you_have_been_logged))
                     .showNow(Objects.requireNonNull(getFragmentManager()), null);
 
             Objects.requireNonNull(getActivity()).onBackPressed();

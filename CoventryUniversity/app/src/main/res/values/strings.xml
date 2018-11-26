@@ -137,4 +137,6 @@
     <string name="enrollogin_student_id">StudentID</string>
     <string name="enrollogin_birth_date">Date of Birth</string>
     <string name="enrollogin_enrol">Enrol</string>
+    <string name="enrolit_loggedin">Logged In</string>
+    <string name="enrolit_you_have_been_logged">You have been logged in within the app.</string>
 </resources>

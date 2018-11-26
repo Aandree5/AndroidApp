@@ -86,11 +86,18 @@ public class EnrolDisabilityFragment extends Fragment implements MySQLConnector 
 
         // Used to set spinner options and the first option be a disabled color
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, disabilitiesList) {
-            @Override
-            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
 
-                return (position == 0) ? setTextDisabled((TextView) view) : view;
+//            @Override
+//            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//                View view = super.getDropDownView(position, convertView, parent);
+//
+//                return (position == 0) ? setTextDisabled((TextView) view) : view;
+//            }
+
+
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;
             }
 
             @NonNull
@@ -99,6 +106,16 @@ public class EnrolDisabilityFragment extends Fragment implements MySQLConnector 
                 View view = super.getView(position, convertView, parent);
 
                 return (position == 0) ? setTextDisabled((TextView) view) : view;
+            }
+
+            @Override
+            public int getPosition(@Nullable CharSequence item) {
+                return disabilitiesList.indexOf(item);
+            }
+
+            @Override
+            public int getCount() {
+                return disabilitiesList.size();
             }
 
             /**

@@ -18,7 +18,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v14.preference.SwitchPreference;
 import android.support.v7.preference.ListPreference;
+import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
+import android.widget.Button;
 
 import java.util.Objects;
 
@@ -45,7 +48,11 @@ public class SettingsFragment extends PreferenceFragmentCompat
             return true;
         });
 
-        findPreference("btn_log_out").setOnPreferenceClickListener(preference ->
+        Preference btn_log_out = findPreference("btn_log_out");
+
+        btn_log_out.setEnabled(MainActivity.getStatus() == MainActivity.UserStatus.LOGGED);
+
+        btn_log_out.setOnPreferenceClickListener(preference ->
         {
             Intent intent = Objects.requireNonNull(getActivity()).getIntent();
             intent.putExtra("logout", true);

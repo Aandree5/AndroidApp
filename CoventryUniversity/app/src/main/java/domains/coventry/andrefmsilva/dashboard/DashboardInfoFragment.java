@@ -46,10 +46,13 @@ import static domains.coventry.andrefmsilva.utils.Utils.setToolbarText;
 
 public class DashboardInfoFragment extends Fragment implements MySQLConnector
 {
+    ImageView imgUserPhoto;
+    TitledTextView ttl_year;
+    TitledTextView ttl_course;
+
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
 
         setToolbarText((AppCompatActivity) Objects.requireNonNull(getActivity()), R.string.nav_dashboard, R.string.app_name);
@@ -73,65 +76,70 @@ public class DashboardInfoFragment extends Fragment implements MySQLConnector
         ((TitledTextView) view.findViewById(R.id.info_name)).setText(MainActivity.getName());
         ((TitledTextView) view.findViewById(R.id.info_id)).setText(String.valueOf(MainActivity.getUserID()));
 
+        ttl_year = view.findViewById(R.id.info_year);
+        ttl_course = view.findViewById(R.id.info_course);
+        imgUserPhoto = view.findViewById(R.id.info_photo);
+
+        loadUserData();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserData();
+    }
+
+    /**
+     * Load the user photo from the file, if doesn't exist load default image
+     */
+    public void loadUserData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        if (sharedPreferences != null)
-        {
+
+        if (sharedPreferences != null) {
             String year = sharedPreferences.getString("year", null);
             String courseType = sharedPreferences.getString("courseType", null);
             String courseName = sharedPreferences.getString("courseName", null);
             String courseCode = sharedPreferences.getString("courseCode", null);
 
             if (year != null) {
-                setChildrenEnabled(view.findViewById(R.id.info_year), true);
-                ((TitledTextView) view.findViewById(R.id.info_year)).setText(sharedPreferences.getString("year", null));
+                setChildrenEnabled(ttl_year, true);
+                ttl_year.setText(sharedPreferences.getString("year", null));
             } else {
-                setChildrenEnabled(view.findViewById(R.id.info_year), false);
-                ((TitledTextView) view.findViewById(R.id.info_year)).setText(R.string.info_not_enroled_yet);
+                setChildrenEnabled(ttl_year, false);
+                ttl_year.setText(R.string.info_not_enroled_yet);
             }
 
             if (courseType != null && courseName != null && courseCode != null) {
-                setChildrenEnabled(view.findViewById(R.id.info_course), true);
-                ((TitledTextView) view.findViewById(R.id.info_course)).setText(String.format("%s %s (%s)", courseType, courseName, courseCode));
+                setChildrenEnabled(ttl_course, true);
+                ttl_course.setText(String.format("%s %s (%s)", courseType, courseName, courseCode));
             } else {
-                setChildrenEnabled(view.findViewById(R.id.info_course), false);
-                ((TitledTextView) view.findViewById(R.id.info_course)).setText(R.string.info_not_enroled_yet);
+                setChildrenEnabled(ttl_course, false);
+                ttl_course.setText(R.string.info_not_enroled_yet);
             }
-
             String photo = sharedPreferences.getString("photo", null);
-            if (photo != null)
-            {
+            if (photo != null) {
                 FileInputStream fInpStream = null;
 
-                try
-                {
+                try {
                     fInpStream = Objects.requireNonNull(getContext()).openFileInput(photo);
 
-                    ((ImageView) view.findViewById(R.id.info_photo)).setImageBitmap(BitmapFactory.decodeStream(fInpStream));
-                }
-                catch (Exception e)
-                {
+                    imgUserPhoto.setImageBitmap(BitmapFactory.decodeStream(fInpStream));
+                } catch (Exception e) {
                     Log.e("infoLoadingPhoto", e.getMessage(), e);
-                }
-                finally
-                {
-                    if (fInpStream != null)
-                    {
-                        try
-                        {
+                } finally {
+                    if (fInpStream != null) {
+                        try {
                             fInpStream.close();
-                        }
-                        catch (IOException e)
-                        {
+                        } catch (IOException e) {
                             Log.e("infoLoadingPhoto", e.getMessage(), e);
                         }
                     }
                 }
-            }
-            else
-                ((ImageView) view.findViewById(R.id.info_photo)).setImageResource(R.drawable.ic_user_photo);
+            } else
+                imgUserPhoto.setImageResource(R.drawable.ic_user_photo);
         }
-
-        return view;
     }
 
     @Override

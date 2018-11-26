@@ -13,7 +13,9 @@
 
 package domains.coventry.andrefmsilva.enrol;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -122,6 +124,13 @@ public class EnrolCrouseFragment extends Fragment implements MySQLConnector {
             // Enable all layout children
             setChildrenEnabled(enrolcourseLayout, true);
         } else {
+            SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+            sharedPreferences.putString("year", ttlTxtYear.getText());
+            sharedPreferences.putString("courseType", ttlTxtType.getText());
+            sharedPreferences.putString("courseName", ttlTxtName.getText());
+            sharedPreferences.putString("courseCode", ttlTxtCode.getText());
+            sharedPreferences.apply();
+
             Toast.makeText(getContext(), "Course registered successfully.", Toast.LENGTH_SHORT).show();
             Objects.requireNonNull(getActivity()).onBackPressed();
         }

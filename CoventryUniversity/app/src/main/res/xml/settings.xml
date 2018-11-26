@@ -40,7 +40,8 @@
             android:key="btn_log_out"
             android:persistent="false"
             android:title="Log Out"
-            android:icon="@drawable/ic_log_out" />
+            android:icon="@drawable/dr_log_out"
+            android:enabled="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
