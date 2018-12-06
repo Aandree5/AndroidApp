@@ -99,7 +99,7 @@
 
     <style name="SpinnerItemStyle">
         <item name="android:padding">10dp</item>
-        <item name="android:textColor">@color/co_button_text</item>
+        <item name="android:textColor">@color/co_spinner_text</item>
     </style>
 
 </resources>

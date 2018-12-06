@@ -87,25 +87,29 @@ public class EnrolDisabilityFragment extends Fragment implements MySQLConnector 
         // Used to set spinner options and the first option be a disabled color
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, disabilitiesList) {
 
-//            @Override
-//            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//                View view = super.getDropDownView(position, convertView, parent);
-//
-//                return (position == 0) ? setTextDisabled((TextView) view) : view;
-//            }
-
-
             @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+
+                view.setEnabled(isEnabled(position));
+
+                return (position == 0) ? setTextDisabled(view) : resetTextStyle(view);
             }
 
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
+                TextView view = (TextView) super.getDropDownView(position, convertView, parent);
 
-                return (position == 0) ? setTextDisabled((TextView) view) : view;
+                return (position == 0) ? setTextDisabled(view) : resetTextStyle(view);
+            }
+
+            @Override
+            public boolean isEnabled(int position) {
+                String value = disabilitiesList.get(position).toString();
+
+                return position == 0 || !value.equals(spinner1.getSelectedItem().toString()) && !value.equals(spinner2.getSelectedItem().toString()) &&
+                        !value.equals(spinner3.getSelectedItem().toString()) && !value.equals(spinner4.getSelectedItem().toString());
             }
 
             @Override
@@ -129,6 +133,18 @@ public class EnrolDisabilityFragment extends Fragment implements MySQLConnector 
 
                 return textView;
             }
+
+            /**
+             * Reset the textbox back to normal, because it's reused in the recycler view
+             *
+             * @param textView TextView to change the text color
+             * @return Input textview with the text color changed
+             */
+            View resetTextStyle(@NonNull TextView textView) {
+                textView.setTextColor(getResources().getColorStateList(R.color.co_spinner_text, getActivity().getTheme()));
+
+                return textView;
+            }
         };
 
         spinner1.setAdapter(adapter);
@@ -136,8 +152,7 @@ public class EnrolDisabilityFragment extends Fragment implements MySQLConnector 
         spinner3.setAdapter(adapter);
         spinner4.setAdapter(adapter);
 
-        view.findViewById(R.id.enroldisability_confirm).setOnClickListener(v ->
-        {
+        view.findViewById(R.id.enroldisability_confirm).setOnClickListener(v -> {
             HashMap<String, String> requestInfo = new HashMap<>();
             requestInfo.put("type", "confirm_disability_registration");
             requestInfo.put("id", String.valueOf(MainActivity.getUserID()));
