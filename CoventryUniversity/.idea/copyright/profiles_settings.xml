@@ -1,0 +1,15 @@
+<component name="CopyrightManager">
+  <settings default="Andre Silva">
+    <module2copyright>
+      <element module="All" copyright="Andre Silva" />
+    </module2copyright>
+    <LanguageOptions name="__TEMPLATE__">
+      <option name="separateBefore" value="true" />
+      <option name="separateAfter" value="true" />
+      <option name="lenBefore" value="54" />
+      <option name="lenAfter" value="54" />
+      <option name="box" value="true" />
+      <option name="filler" value=":" />
+    </LanguageOptions>
+  </settings>
+</component>

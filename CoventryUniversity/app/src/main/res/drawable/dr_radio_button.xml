@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
   : Copyright 2018 Andre Silva. All rights reserved.:
-  :                                                 :
   : Contact: mateussa@uni.coventry.ac.uk            :
   :                                                 :
   : Check my work at,                               :
@@ -8,7 +7,7 @@
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
   : dr_radio_button.xml                             :
-  : Last modified 10 Nov 2018                       :
+  : Last modified 06 Dec 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"

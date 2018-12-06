@@ -1,14 +1,13 @@
 /*:::::::::::::::::::::::::::::::::::::::::::::::::::
  : Copyright 2018 Andre Silva. All rights reserved. :
- :                                                  :
  : Contact: mateussa@uni.coventry.ac.uk             :
  :                                                  :
  : Check my work at,                                :
  : https://github.coventry.ac.uk/mateussa           :
  : https://andrefmsilva.coventry.domains            :
  :                                                  :
- : EnrolAddressFragment                    :
- : Last modified 10 Nov 2018                        :
+ : EnrolAddressFragment.java                        :
+ : Last modified 06 Dec 2018                        :
  :::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 package domains.coventry.andrefmsilva.enrol;
@@ -286,21 +285,16 @@ public class EnrolAddressFragment extends Fragment implements MySQLConnector {
      * @return True if all details are set, false otherwise
      */
     Boolean isAddressSet(String name) {
-        if (address.containsKey(String.format("%s%s", name, "Copy")))
-            return true;
-
-        if (address.containsKey(String.format("%s%s", name, "Flat")) && address.containsKey(String.format("%s%s", name, "House")) &&
-                address.containsKey(String.format("%s%s", name, "Street")) && address.containsKey(String.format("%s%s", name, "City")) &&
-                address.containsKey(String.format("%s%s", name, "Region")) && address.containsKey(String.format("%s%s", name, "PostCode")) &&
-                address.containsKey(String.format("%s%s", name, "Country")) && address.containsKey(String.format("%s%s", name, "Phone")) &&
-                address.containsKey(String.format("%s%s", name, "Mobile")))
-            return (!Objects.equals(address.get(String.format("%s%s", name, "Flat")), "") && !Objects.equals(address.get(String.format("%s%s", name, "House")), "") &&
-                    !Objects.equals(address.get(String.format("%s%s", name, "Street")), "") && !Objects.equals(address.get(String.format("%s%s", name, "City")), "") &&
-                    !Objects.equals(address.get(String.format("%s%s", name, "Region")), "") && !Objects.equals(address.get(String.format("%s%s", name, "PostCode")), "") &&
-                    !Objects.equals(address.get(String.format("%s%s", name, "Country")), "") && !Objects.equals(address.get(String.format("%s%s", name, "Phone")), "") &&
-                    !Objects.equals(address.get(String.format("%s%s", name, "Mobile")), ""));
-
-        return false;
+        return address.containsKey(String.format("%s%s", name, "Copy")) ||
+                address.containsKey(String.format("%s%s", name, "Flat")) && address.containsKey(String.format("%s%s", name, "House")) &&
+                        address.containsKey(String.format("%s%s", name, "Street")) && address.containsKey(String.format("%s%s", name, "City")) &&
+                        address.containsKey(String.format("%s%s", name, "Region")) && address.containsKey(String.format("%s%s", name, "PostCode")) &&
+                        address.containsKey(String.format("%s%s", name, "Country")) && address.containsKey(String.format("%s%s", name, "Phone")) &&
+                        address.containsKey(String.format("%s%s", name, "Mobile")) && (!Objects.equals(address.get(String.format("%s%s", name, "Flat")), "") &&
+                        !Objects.equals(address.get(String.format("%s%s", name, "House")), "") && !Objects.equals(address.get(String.format("%s%s", name, "Street")), "") &&
+                        !Objects.equals(address.get(String.format("%s%s", name, "City")), "") && !Objects.equals(address.get(String.format("%s%s", name, "Region")), "") &&
+                        !Objects.equals(address.get(String.format("%s%s", name, "PostCode")), "") && !Objects.equals(address.get(String.format("%s%s", name, "Country")), "") &&
+                        !Objects.equals(address.get(String.format("%s%s", name, "Phone")), "") && !Objects.equals(address.get(String.format("%s%s", name, "Mobile")), ""));
     }
 
     @Override

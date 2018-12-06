@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?><!--:::::::::::::::::::::::::::::::::::::::::::::::::
   : Copyright 2018 Andre Silva. All rights reserved.:
-  :                                                 :
   : Contact: mateussa@uni.coventry.ac.uk            :
   :                                                 :
   : Check my work at,                               :
   : https://github.coventry.ac.uk/mateussa          :
   : https://andrefmsilva.coventry.domains           :
   :                                                 :
-  : fragment_info.xml           :
-  : Last modified 10 Nov 2018                       :
+  : fragment_info.xml                               :
+  : Last modified 06 Dec 2018                       :
   :::::::::::::::::::::::::::::::::::::::::::::::::-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
