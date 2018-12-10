@@ -138,14 +138,17 @@ public interface MySQLConnector
                 for (String rI : requestInfo.keySet())
                     data.append(URLEncoder.encode(rI, "UTF-8")).append("=").append(URLEncoder.encode(requestInfo.get(rI), "UTF-8")).append("&");
 
+                // Open connection to webservices
                 URL url = new URL(mySQLLink);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
 
+                // Send data through connection
                 OutputStreamWriter outStreamWriter = new OutputStreamWriter(conn.getOutputStream());
                 outStreamWriter.write(data.toString());
                 outStreamWriter.flush();
 
+                // Receive and read data into a HashMaps
                 BufferedReader buffReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
                 StringBuilder response = new StringBuilder();

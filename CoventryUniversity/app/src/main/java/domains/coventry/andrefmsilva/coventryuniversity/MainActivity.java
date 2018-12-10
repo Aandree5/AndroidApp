@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         // Update activity info everytime shared preferences is changed
-        // getPreferences only olds a weak reference to the listener, so we need to have a strong reference in order for it to not be garbadge collected
+        // getPreferences only holds a weak reference to the listener, so we need to have a strong reference in order for it to not be garbadge collected
         listener = (sharedPreferences, key) -> readSharedPreferences();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(listener);
 
