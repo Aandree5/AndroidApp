@@ -99,7 +99,7 @@ public class ZoomImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     //TODO: Add double click to zoom in and out
-    // Visual impared own be using the part of the app, since its just scaling and moving an image to see it better
+    // Visual impaired own be using the part of the app, since its just scaling and moving an image to see it better
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event)
